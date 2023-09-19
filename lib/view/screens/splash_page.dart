@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:event_app/view/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +9,7 @@ import '../../util/fonts.dart';
 import '../../util/ui.dart';
 import '../widgets/app_bg.dart';
 import '../widgets/stroke_text.dart';
+import 'main_page.dart';
 
 class SplashPage extends StatefulWidget {
   static String route = '/';
@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
   // Timer to move away from the splash page
   Future<Timer> initialize() async => Timer(
         const Duration(seconds: 3),
-        () => Navigator.of(context).pushReplacementNamed(SignUpPage.route),
+        () => Navigator.of(context).pushReplacementNamed(MainPage.route),
       );
 
   @override
