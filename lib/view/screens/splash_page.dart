@@ -32,6 +32,7 @@ class _SplashPageState extends State<SplashPage> {
   // Timer to move away from the splash page
   Future<Timer> initialize() async => Timer(
         const Duration(seconds: 3),
+        // Change this to 'SignupPage.route'
         () => Navigator.of(context).pushReplacementNamed(MainPage.route),
       );
 

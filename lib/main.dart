@@ -30,6 +30,9 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       initialRoute: SplashPage.route,
       routes: {
+        // Add other pages here.....
+        // Be sure to declare the route name as static String variable.
+        // For readability sake.
         SplashPage.route: (context) => const SplashPage(),
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
