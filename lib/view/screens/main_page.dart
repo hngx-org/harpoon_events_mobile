@@ -46,28 +46,6 @@ class MainPage extends ConsumerWidget {
                                 : const SizedBox(),
           ),
 
-          // Floating Action Button
-          Positioned(
-            top: UI.height(context, 741),
-            left: UI.width(context, 344),
-            child: currentTab != TabState.createEvent
-                ? CustomContainer(
-                    fillColor: ColorLib.green,
-                    width: UI.width(context, 56),
-                    height: UI.height(context, 56),
-                    child: InkWell(
-                      onTap: () => ref.read(tabProvider.notifier).state =
-                          TabState.createEvent,
-                      child: const Icon(
-                        Icons.add,
-                        size: 24,
-                        color: ColorLib.white,
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
-          ),
-
           // Tab Bar
           Positioned(
             top: UI.height(context, 822),
