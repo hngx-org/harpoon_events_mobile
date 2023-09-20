@@ -16,4 +16,5 @@ class ColorLib {
   static const Color grey = Color(0xff7D7995);
   static const Color green = Color(0xff00973F);
   static const Color lightGreen = Color(0xffC0F3B4);
+  static const Color darkBlue = Color(0xff493767);
 }
