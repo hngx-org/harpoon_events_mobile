@@ -13,29 +13,99 @@ class CreateEventPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () =>
-              ref.read(tabProvider.notifier).state = TabState.timeline,
-          icon: SvgPicture.asset('assets/SVGs/back-button.svg'),
-        ),
-      ),
-      backgroundColor: ColorLib.transparent,
-      body: Center(
-        child: StrokeText(
-          text: 'Create Event Page',
-          textStyle: Fonts.tropiline(
-            color: ColorLib.orange,
-            fontSize: 40,
-            fontWeight: FontWeight.w800,
-            height: 0.02,
-            letterSpacing: 0.56,
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Create Event'),
+          leading: IconButton(
+            onPressed: () =>
+                ref.read(tabProvider.notifier).state = TabState.timeline,
+            icon: SvgPicture.asset('assets/SVGs/back-button.svg'),
           ),
-          strokeColor: ColorLib.black,
-          strokeWidth: 6,
         ),
-      ),
-    );
+        backgroundColor: ColorLib.transparent,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Event Name',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontFamily: 'Tropiline',
+                    fontWeight: FontWeight.w600,
+                    height: 0.09,
+                    letterSpacing: 0.16,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  width: 380,
+                  height: 63,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFF5FAFF),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        width: 2,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: TextFormField(
+                    autocorrect: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter text here',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  'Event Description',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontFamily: 'Tropiline',
+                    fontWeight: FontWeight.w600,
+                    height: 0.09,
+                    letterSpacing: 0.16,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  width: 380,
+                  height: 173,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFF5FAFF),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        width: 2,
+                        strokeAlign: BorderSide.strokeAlignCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'Enter text here',
+                      border: InputBorder.none,
+                    ),
+                    autocorrect: true,
+                    maxLines: 5,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
