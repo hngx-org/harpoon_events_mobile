@@ -182,7 +182,12 @@ class CreateEventPage extends ConsumerWidget {
                       clipBehavior: Clip.antiAlias,
                       decoration: const BoxDecoration(),
                       child: const Stack(children: [
-                        
+                        Icon(
+                          Icons.location_on,
+                          size: 20.0,
+                          color:
+                              Color.fromRGBO(195, 155, 233, 1), // Set the color
+                        ),
                       ]),
                     ),
                     const SizedBox(width: 8),
