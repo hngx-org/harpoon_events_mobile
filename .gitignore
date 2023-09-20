@@ -42,3 +42,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Avoiding merge issues
+ios/Runner.xcodeproj/project.pbxproj
+ios/Podfile.lock
