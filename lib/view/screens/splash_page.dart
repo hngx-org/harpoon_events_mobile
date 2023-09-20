@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
   Future<Timer> initialize() async => Timer(
         const Duration(seconds: 3),
         // Change this to 'SignupPage.route'
-        () => Navigator.of(context).pushReplacementNamed(SignUpPage.route),
+        () => Navigator.of(context).pushReplacementNamed(MainPage.route),
       );
 
   @override
