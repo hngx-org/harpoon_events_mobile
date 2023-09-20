@@ -39,7 +39,7 @@ flutter:
       fonts:
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Thin.ttf
           weight: 100
-        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-ExtraLight.ttf
+        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Extralight.ttf
           weight: 200
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Light.ttf
           weight: 300
@@ -49,7 +49,7 @@ flutter:
           weight: 500
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Bold.ttf
           weight: 700
-        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-ExtraBold.ttf
+        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Extrabold.ttf
           weight: 800
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Black.ttf
           weight: 900
