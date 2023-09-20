@@ -10,7 +10,8 @@ import '../widgets/app_bg.dart';
 import '../widgets/custom_container.dart';
 import 'calendar_page.dart';
 import 'create_event_page.dart';
-import 'my_people_page.dart';
+// import 'my_people_page.dart';
+import 'my_people_page/mypeople_screen.dart';
 import 'settings_page.dart';
 import 'timeline_page.dart';
 
@@ -36,7 +37,7 @@ class MainPage extends ConsumerWidget {
             child: currentTab == TabState.timeline
                 ? const TimelinePage()
                 : currentTab == TabState.myPeople
-                    ? const MyPeoplePage()
+                    ? const MyPeople()
                     : currentTab == TabState.calendar
                         ? const CalendarPage()
                         : currentTab == TabState.settings
