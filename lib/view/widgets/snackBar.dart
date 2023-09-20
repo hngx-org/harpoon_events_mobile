@@ -7,6 +7,15 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar({
 }) {
   final snackbar = SnackBar(
     backgroundColor: backgroundColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    behavior: SnackBarBehavior.floating,
+    margin: EdgeInsets.only(
+      bottom: MediaQuery.of(context).size.height - 100,
+      right: 20,
+      left: 20,
+    ),
     content: Text(
       content!,
       textAlign: TextAlign.center,
