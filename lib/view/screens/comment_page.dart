@@ -37,7 +37,9 @@ class _CommentsPageState extends State<CommentsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SvgPicture.asset('assets/SVGs/back-button.svg'),
+                  GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: SvgPicture.asset('assets/SVGs/back-button.svg')),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

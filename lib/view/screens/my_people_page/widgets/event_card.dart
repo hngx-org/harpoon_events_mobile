@@ -44,7 +44,7 @@ class EventCard extends StatelessWidget {
         ),
         SizedBox(height: size.height * 0.025),
         StrokeText(
-          text: 'YBNL Mafia🎶',
+          text: 'YBNL Mafia 🎶',
           textStyle: Fonts.tropiline(
             color: ColorLib.orange,
             // fontSize: 48,
