@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CommentsPage extends StatefulWidget {
+  static String route = '/comment';
+
   const CommentsPage({super.key});
 
   @override
@@ -23,7 +25,7 @@ class _CommentsPageState extends State<CommentsPage> {
       body: Padding(
         padding:
             EdgeInsets.only(top: UI.height(context, 49), left: 12, right: 12),
-            //Column for the layout of the entire screen
+        //Column for the layout of the entire screen
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,8 +34,7 @@ class _CommentsPageState extends State<CommentsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
-                  SvgPicture.asset('assets/SVGs/back-button.svg'),
+                SvgPicture.asset('assets/SVGs/back-button.svg'),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -54,7 +55,7 @@ class _CommentsPageState extends State<CommentsPage> {
                       style: Fonts.nunito(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
-                        color:const Color(0xFF000000).withOpacity(0.5),
+                        color: const Color(0xFF000000).withOpacity(0.5),
                       ),
                     ),
                   ],
@@ -76,15 +77,15 @@ class _CommentsPageState extends State<CommentsPage> {
               borderRadius: 20,
               shadowOffset: 2.0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                 child: Center(
                   child: Text(
                     "Today, 20th May, 2023",
                     style: Fonts.nunito(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                      color: ColorLib.black
-                    ),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                        color: ColorLib.black),
                   ),
                 ),
               ),
@@ -109,7 +110,8 @@ class _CommentsPageState extends State<CommentsPage> {
                           children: [
                             Row(
                               children: [
-                                Image.asset("assets/images/smiley-face.png", height: 32, width: 32),
+                                Image.asset("assets/images/smiley-face.png",
+                                    height: 32, width: 32),
                                 const SizedBox(
                                   width: 4,
                                 ),
@@ -129,14 +131,12 @@ class _CommentsPageState extends State<CommentsPage> {
                                 SvgPicture.asset(
                                     "assets/SVGs/location-icon.svg"),
                                 const SizedBox(width: 4),
-                                
                                 Text(
                                   "Teslim Balogun Stadium",
                                   style: Fonts.nunito(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorLib.black
-                                  ),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: ColorLib.black),
                                 )
                               ],
                             ),
@@ -155,10 +155,9 @@ class _CommentsPageState extends State<CommentsPage> {
                                   child: Text(
                                 "Share",
                                 style: Fonts.cabinetGrotesk(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                  color: ColorLib.black
-                                ),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    color: ColorLib.black),
                               ))),
                         ),
                       ],
@@ -167,11 +166,13 @@ class _CommentsPageState extends State<CommentsPage> {
                       children: [
                         SvgPicture.asset("assets/SVGs/clock-icon.svg"),
                         const SizedBox(width: 4),
-                        Text("Friday, 16:00 - 18:00", style: Fonts.nunito(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorLib.black
-                                  ),)
+                        Text(
+                          "Friday, 16:00 - 18:00",
+                          style: Fonts.nunito(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: ColorLib.black),
+                        )
                       ],
                     ),
                     const SizedBox(height: 4),
@@ -190,11 +191,11 @@ class _CommentsPageState extends State<CommentsPage> {
                               width: 8,
                             ),
                             Text(
-                              "Check box to send invite to techie", style: Fonts.nunito(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                    color: ColorLib.black
-                                  ),
+                              "Check box to send invite to techie",
+                              style: Fonts.nunito(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  color: ColorLib.black),
                             )
                           ],
                         ),
@@ -249,6 +250,7 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 }
+
 //Custom container for the comments section
 class CommentContainer extends StatelessWidget {
   const CommentContainer(
@@ -277,11 +279,13 @@ class CommentContainer extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(comment, style: Fonts.nunito(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorLib.black
-                                  ),),
+            Text(
+              comment,
+              style: Fonts.nunito(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: ColorLib.black),
+            ),
             if (image != null) ...[
               const SizedBox(
                 height: 10,
@@ -307,6 +311,7 @@ class CommentContainer extends StatelessWidget {
     );
   }
 }
+
 //CustomCircleAvatar for user profile and each user comment picture
 class CustomCircleAvatar extends StatelessWidget {
   const CustomCircleAvatar(
@@ -326,6 +331,7 @@ class CustomCircleAvatar extends StatelessWidget {
     );
   }
 }
+
 //Custom bottom navigation bar
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});
@@ -341,14 +347,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return Container(
       width: UI.width(context, 428),
       height: UI.height(context, 115),
-      
       decoration: BoxDecoration(
-        
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: ColorLib.black, width: 2)),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         SvgPicture.asset('assets/SVGs/image-icon.svg'),
-         Container(
+        Container(
           color: ColorLib.lighterBlue,
           width: 300,
           height: 52,

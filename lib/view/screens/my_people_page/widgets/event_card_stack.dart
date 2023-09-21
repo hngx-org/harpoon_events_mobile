@@ -44,45 +44,46 @@ class EventCardStack extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                  bottom: 10,
-                  right: 10,
-                  child: Container(
-                    width: 75,
-                    height: 27,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFDEEDF7),
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0xFF000000),
-                          blurRadius: 0,
-                          offset: Offset(2, 2),
-                          spreadRadius: 0,
-                        )
-                      ],
+                bottom: 10,
+                right: 10,
+                child: Container(
+                  width: 75,
+                  height: 27,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFDEEDF7),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(width: 1),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '2 events',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.w700,
-                          ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0xFF000000),
+                        blurRadius: 0,
+                        offset: Offset(2, 2),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '2 events',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

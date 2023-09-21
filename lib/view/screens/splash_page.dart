@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:event_app/view/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,7 +31,7 @@ class _SplashPageState extends State<SplashPage> {
 
   // Timer to move away from the splash page
   Future<Timer> initialize() async => Timer(
-        const Duration(seconds: 3),
+        const Duration(seconds: 5),
         // Change this to 'SignupPage.route'
         () => Navigator.of(context).pushReplacementNamed(MainPage.route),
       );

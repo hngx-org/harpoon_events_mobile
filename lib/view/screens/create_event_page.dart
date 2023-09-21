@@ -1,6 +1,4 @@
-import 'package:event_app/controller/tab_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +16,7 @@ class CreateEventPage extends StatefulWidget {
 class _CreateEventPageState extends State<CreateEventPage> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
-  DateTime endTime = DateTime.now(); 
+  DateTime endTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +118,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     onDateChanged: (date) => setState(() => startDate = date),
                   ),
                   const SizedBox(width: 24),
-                  //                  TimePickerWidget(), // TODO: Add time picker widget here!
                   DropdownCell(
                     selectedTime: endTime,
                     onTimeChanged: (time) => setState(() => endTime = time),
