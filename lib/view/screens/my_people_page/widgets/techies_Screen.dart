@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:harpoon_events_app/view/screens/comment_page.dart';
+// import 'package:harpoon_events_app/view/screens/post_comments/post_comments.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
@@ -83,7 +85,7 @@ class TechiesScreen extends StatelessWidget {
                 eventName: 'Football Game',
                 address: 'Teslim Balogun Stadium',
                 date: 'Friday, 16:00-18:00',
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, CommentsPage.route),
                 customWidget: [
                   const SizedBox(
                     width: 14,
@@ -145,7 +147,7 @@ class TechiesScreen extends StatelessWidget {
                     size: 40,
                   ),
                 ],
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, CommentsPage.route),
               )
             ],
           ),
@@ -159,7 +161,7 @@ class TechiesScreen extends StatelessWidget {
 
 class Inkwell extends StatelessWidget {
   final List<Widget> customWidget;
-  final Function onTap;
+  final VoidCallback onTap;
   final String eventName;
   final String address;
   final String date;
@@ -177,6 +179,7 @@ class Inkwell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onTap,
       child: CustomContainer(
         fillColor: fillColor,
         width: double.infinity,
