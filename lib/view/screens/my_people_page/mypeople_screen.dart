@@ -1,6 +1,6 @@
-import 'package:event_app/util/color_lib.dart';
-import 'package:event_app/util/fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:harpoon_events_app/util/color_lib.dart';
+import 'package:harpoon_events_app/util/fonts.dart';
 
 import 'widgets/event_card.dart';
 import 'widgets/event_card_stack.dart';

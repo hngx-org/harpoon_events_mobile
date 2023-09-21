@@ -9,9 +9,7 @@ import '../../util/fonts.dart';
 import '../../util/ui.dart';
 import '../widgets/app_bg.dart';
 import '../widgets/stroke_text.dart';
-//import 'main_page.dart';
-// import '../screens/post_comments.dart';
-import '../../view/screens/post_comments/post_comments.dart';
+import 'signup_page.dart';
 
 class SplashPage extends StatefulWidget {
   static String route = '/';
@@ -35,7 +33,7 @@ class _SplashPageState extends State<SplashPage> {
   Future<Timer> initialize() async => Timer(
         const Duration(seconds: 5),
         // Change this to 'SignupPage.route'
-        () => Navigator.of(context).pushReplacementNamed(PostComments.route),
+        () => Navigator.of(context).pushReplacementNamed(SignUpPage.route),
       );
 
   @override

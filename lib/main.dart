@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,9 +8,9 @@ import 'view/screens/post_comments/post_comments.dart';
 import 'view/screens/signup_page.dart';
 import 'view/screens/splash_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: CommentsPage.route,
+      initialRoute: SplashPage.route,
       routes: {
         // Add other pages here.....
         // Be sure to declare the route name as static String variable.

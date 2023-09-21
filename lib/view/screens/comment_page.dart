@@ -1,10 +1,10 @@
-import 'package:event_app/util/color_lib.dart';
-import 'package:event_app/util/fonts.dart';
-import 'package:event_app/util/ui.dart';
-import 'package:event_app/view/widgets/custom_container.dart';
-import 'package:event_app/view/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harpoon_events_app/util/color_lib.dart';
+import 'package:harpoon_events_app/util/fonts.dart';
+import 'package:harpoon_events_app/util/ui.dart';
+import 'package:harpoon_events_app/view/widgets/custom_container.dart';
+import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
 import '../widgets/app_bg.dart';
 
