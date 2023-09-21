@@ -1,12 +1,16 @@
-import 'package:event_app/util/color_lib.dart';
-import 'package:event_app/util/fonts.dart';
-import 'package:event_app/util/ui.dart';
-import 'package:event_app/view/widgets/custom_container.dart';
-import 'package:event_app/view/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harpoon_events_app/util/color_lib.dart';
+import 'package:harpoon_events_app/util/fonts.dart';
+import 'package:harpoon_events_app/util/ui.dart';
+import 'package:harpoon_events_app/view/widgets/custom_container.dart';
+import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
+
+import '../widgets/app_bg.dart';
 
 class CommentsPage extends StatefulWidget {
+  static String route = '/comment';
+
   const CommentsPage({super.key});
 
   @override
@@ -16,239 +20,244 @@ class CommentsPage extends StatefulWidget {
 class _CommentsPageState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorLib.white,
-      //Added the CustomNavigationBar
-      bottomNavigationBar: const CustomBottomNavigationBar(),
-      body: Padding(
-        padding:
-            EdgeInsets.only(top: UI.height(context, 49), left: 12, right: 12),
-            //Column for the layout of the entire screen
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //Row for the layout of the Techies, backbutton and user profile circle avatar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                
+    return AppBg(
+      child: Scaffold(
+        backgroundColor: ColorLib.white,
+        //Added the CustomNavigationBar
+        bottomNavigationBar: const CustomBottomNavigationBar(),
+        body: Padding(
+          padding:
+              EdgeInsets.only(top: UI.height(context, 49), left: 12, right: 12),
+          //Column for the layout of the entire screen
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //Row for the layout of the Techies, backbutton and user profile circle avatar
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   SvgPicture.asset('assets/SVGs/back-button.svg'),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      "Techies💻",
-                      style: Fonts.tropiline(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        letterSpacing: 0.01,
-                        color: ColorLib.deepPurple,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "Techies💻",
+                        style: Fonts.tropiline(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                          letterSpacing: 0.01,
+                          color: ColorLib.deepPurple,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "12 members",
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "12 members",
+                        style: Fonts.nunito(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          color: const Color(0xFF000000).withOpacity(0.5),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const CustomCircleAvatar(
+                    radius: 22,
+                    imageLocation: "assets/images/profile-picture.png",
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              //Customcontainer to for the event details
+              CustomContainer(
+                fillColor: ColorLib.lightBlue,
+                width: 177,
+                height: 27,
+                borderRadius: 20,
+                shadowOffset: 2.0,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                  child: Center(
+                    child: Text(
+                      "Today, 20th May, 2023",
                       style: Fonts.nunito(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color:const Color(0xFF000000).withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-                const CustomCircleAvatar(
-                  radius: 22,
-                  imageLocation: "assets/images/profile-picture.png",
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            //Customcontainer to for the event details
-            CustomContainer(
-              fillColor: ColorLib.lightBlue,
-              width: 177,
-              height: 27,
-              borderRadius: 20,
-              shadowOffset: 2.0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                child: Center(
-                  child: Text(
-                    "Today, 20th May, 2023",
-                    style: Fonts.nunito(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                      color: ColorLib.black
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color: ColorLib.black),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 14),
-            //Userprofile, Circular
-            CustomContainer(
-              fillColor: ColorLib.blue,
-              width: 375,
-              height: 198,
-              borderRadius: 12,
-              child: Padding(
-                padding: const EdgeInsets.all(18),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset("assets/images/smiley-face.png", height: 32, width: 32),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                const StrokeText(
-                                  text: "Football Game",
-                                  textStyle: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                    "assets/SVGs/location-icon.svg"),
-                                const SizedBox(width: 4),
-                                
-                                Text(
-                                  "Teslim Balogun Stadium",
-                                  style: Fonts.nunito(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorLib.black
+              const SizedBox(height: 14),
+              //Userprofile, Circular
+              CustomContainer(
+                fillColor: ColorLib.blue,
+                width: 375,
+                height: 198,
+                borderRadius: 12,
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset("assets/images/smiley-face.png",
+                                      height: 32, width: 32),
+                                  const SizedBox(
+                                    width: 4,
                                   ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        //Customcontainer for the share button
-                        CustomContainer(
-                          fillColor: ColorLib.lightBlue,
-                          width: UI.width(context, 109),
-                          height: UI.width(context, 44),
-                          borderRadius: 8,
-                          child: Padding(
+                                  const StrokeText(
+                                    text: "Football Game",
+                                    textStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      "assets/SVGs/location-icon.svg"),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "Teslim Balogun Stadium",
+                                    style: Fonts.nunito(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        color: ColorLib.black),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          //Customcontainer for the share button
+                          CustomContainer(
+                            fillColor: ColorLib.lightBlue,
+                            width: UI.width(context, 109),
+                            height: UI.width(context, 44),
+                            borderRadius: 8,
+                            child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 16),
                               child: Center(
-                                  child: Text(
-                                "Share",
-                                style: Fonts.cabinetGrotesk(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                  color: ColorLib.black
+                                child: Text(
+                                  "Share",
+                                  style: Fonts.cabinetGrotesk(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                      color: ColorLib.black),
                                 ),
-                              ))),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/SVGs/clock-icon.svg"),
-                        const SizedBox(width: 4),
-                        Text("Friday, 16:00 - 18:00", style: Fonts.nunito(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorLib.black
-                                  ),)
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Divider(
-                      color: Colors.black.withOpacity(0.1),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/SVGs/check-box.svg'),
-                            const SizedBox(
-                              width: 8,
+                              ),
                             ),
-                            Text(
-                              "Check box to send invite to techie", style: Fonts.nunito(
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset("assets/SVGs/clock-icon.svg"),
+                          const SizedBox(width: 4),
+                          Text(
+                            "Friday, 16:00 - 18:00",
+                            style: Fonts.nunito(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: ColorLib.black),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Divider(
+                        color: Colors.black.withOpacity(0.1),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/SVGs/check-box.svg'),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                "Check box to send invite to techie",
+                                style: Fonts.nunito(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
-                                    color: ColorLib.black
-                                  ),
-                            )
-                          ],
-                        ),
-                        RotatedBox(
-                          quarterTurns: 2,
-                          child:
-                              SvgPicture.asset('assets/SVGs/back-button.svg'),
-                        ),
+                                    color: ColorLib.black),
+                              )
+                            ],
+                          ),
+                          RotatedBox(
+                            quarterTurns: 2,
+                            child:
+                                SvgPicture.asset('assets/SVGs/back-button.svg'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+
+              //The comments section/view
+              Expanded(
+                child: ListView(
+                  children: const [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomCircleAvatar(
+                            radius: 20,
+                            imageLocation: 'assets/images/comment_image.png'),
+                        SizedBox(width: 10),
+                        CommentContainer(
+                          userName: "Johnnex",
+                          comment: "I will be there, no matter what",
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomCircleAvatar(
+                            radius: 20,
+                            imageLocation: 'assets/images/comment_image.png'),
+                        SizedBox(width: 10),
+                        CommentContainer(
+                            userName: "Johnnex",
+                            comment: "I defo won't miss this",
+                            image: "assets/images/running-image.png")
                       ],
                     )
                   ],
                 ),
-              ),
-            ),
-            //The comments section/view
-            Expanded(
-              child: ListView(
-                children: const [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCircleAvatar(
-                          radius: 20,
-                          imageLocation: 'assets/images/comment_image.png'),
-                      SizedBox(width: 10),
-                      CommentContainer(
-                        userName: "Johnnex",
-                        comment: "I will be there, no matter what",
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCircleAvatar(
-                          radius: 20,
-                          imageLocation: 'assets/images/comment_image.png'),
-                      SizedBox(width: 10),
-                      CommentContainer(
-                          userName: "Johnnex",
-                          comment: "I defo won't miss this",
-                          image: "assets/images/running-image.png")
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
 //Custom container for the comments section
 class CommentContainer extends StatelessWidget {
   const CommentContainer(
@@ -277,11 +286,13 @@ class CommentContainer extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(comment, style: Fonts.nunito(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorLib.black
-                                  ),),
+            Text(
+              comment,
+              style: Fonts.nunito(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: ColorLib.black),
+            ),
             if (image != null) ...[
               const SizedBox(
                 height: 10,
@@ -307,6 +318,7 @@ class CommentContainer extends StatelessWidget {
     );
   }
 }
+
 //CustomCircleAvatar for user profile and each user comment picture
 class CustomCircleAvatar extends StatelessWidget {
   const CustomCircleAvatar(
@@ -326,6 +338,7 @@ class CustomCircleAvatar extends StatelessWidget {
     );
   }
 }
+
 //Custom bottom navigation bar
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});
@@ -341,14 +354,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return Container(
       width: UI.width(context, 428),
       height: UI.height(context, 115),
-      
       decoration: BoxDecoration(
-        
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: ColorLib.black, width: 2)),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         SvgPicture.asset('assets/SVGs/image-icon.svg'),
-         Container(
+        Container(
           color: ColorLib.lighterBlue,
           width: 300,
           height: 52,

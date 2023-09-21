@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "task3.hngix" "\0"
-            VALUE "FileDescription", "event_app" "\0"
+            VALUE "CompanyName", "harpoon.events.app" "\0"
+            VALUE "FileDescription", "harpoon_events_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "event_app" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 task3.hngix. All rights reserved." "\0"
-            VALUE "OriginalFilename", "event_app.exe" "\0"
-            VALUE "ProductName", "event_app" "\0"
+            VALUE "InternalName", "harpoon_events_app" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 harpoon.events.app. All rights reserved." "\0"
+            VALUE "OriginalFilename", "harpoon_events_app.exe" "\0"
+            VALUE "ProductName", "harpoon_events_app" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

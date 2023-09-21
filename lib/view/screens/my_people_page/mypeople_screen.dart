@@ -1,6 +1,6 @@
-import 'package:event_app/util/color_lib.dart';
-import 'package:event_app/util/fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:harpoon_events_app/util/color_lib.dart';
+import 'package:harpoon_events_app/util/fonts.dart';
 
 import 'widgets/event_card.dart';
 import 'widgets/event_card_stack.dart';
@@ -17,20 +17,19 @@ class _MyPeopleState extends State<MyPeople> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: ColorLib.transparent,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0.0,
         backgroundColor: ColorLib.transparent,
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0.0,
-          forceMaterialTransparency: true,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              'My People',
-              style: Fonts.tropiline(
-                color: ColorLib.grey,
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-              ),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            'My People',
+            style: Fonts.tropiline(
+              color: ColorLib.grey,
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
