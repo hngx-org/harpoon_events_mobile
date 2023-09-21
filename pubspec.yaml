@@ -35,9 +35,10 @@ flutter:
   assets:
     - assets/images/
     - assets/SVGs/
+    - assets/icons/
 
   fonts:
-    - family: Cabinet Grotesk
+    - family: CabinetGrotesk
       fonts:
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Thin.ttf
           weight: 100

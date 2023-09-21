@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'view/screens/comment_page.dart';
 import 'view/screens/main_page.dart';
+import 'view/screens/post_comments/post_comments.dart';
 import 'view/screens/signup_page.dart';
 import 'view/screens/splash_page.dart';
 
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: SignUpPage.route,
+      initialRoute: CommentsPage.route,
       routes: {
         // Add other pages here.....
         // Be sure to declare the route name as static String variable.
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),
+        PostComments.route: (context) => const PostComments(),
       },
     );
   }
