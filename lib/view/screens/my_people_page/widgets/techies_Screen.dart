@@ -1,11 +1,9 @@
-
-import 'package:event_app/view/widgets/custom_container.dart';
-import 'package:event_app/view/widgets/stroke_text.dart';
 import 'package:flutter/material.dart';
+import 'package:harpoon_events_app/view/widgets/custom_container.dart';
+import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
-
 
 class TechiesScreen extends StatelessWidget {
   const TechiesScreen({super.key});
