@@ -133,6 +133,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               ),
               const SizedBox(height: 20),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DropdownCell(
                     selectedDate: endDate,
@@ -292,65 +293,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
   }
 }
 
-// class DropdownCell extends StatefulWidget {
-//   final DateTime selectedDate;
-//   final ValueChanged<DateTime> onDateChanged;
-
-//   const DropdownCell({
-//     super.key,
-//     required this.selectedDate,
-//     required this.onDateChanged,
-//   });
-
-//   @override
-//   State<DropdownCell> createState() => _DropdownCellState();
-// }
-
-// class _DropdownCellState extends State<DropdownCell> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       child: Container(
-//         width: 178,
-//         height: 63,
-//         decoration: ShapeDecoration(
-//           color: const Color(0xFFF5FAFF),
-//           shape: RoundedRectangleBorder(
-//             side: const BorderSide(
-//               width: 2,
-//               strokeAlign: BorderSide.strokeAlignCenter,
-//             ),
-//             borderRadius: BorderRadius.circular(8),
-//           ),
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Text(
-//                 DateFormat('MM/dd/yyyy').format(widget.selectedDate),
-//               ),
-//               IconButton(
-//                 icon: const Icon(Icons.arrow_drop_down),
-//                 onPressed: _showDatePicker,
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   _showDatePicker() async {
-//     final DateTime? date = await showDatePicker(
-//       context: context,
-//       initialDate: widget.selectedDate,
-//       firstDate: DateTime(2000),
-//       lastDate: DateTime(2025),
-//     );
-
-//     if (date != null) {
 //       widget.onDateChanged(date);
 //     }
 //   }
@@ -376,39 +318,41 @@ class DropdownCell extends StatefulWidget {
 class _DropdownCellState extends State<DropdownCell> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 178,
-      height: 63,
-      decoration: ShapeDecoration(
-        color: const Color(0xFFF5FAFF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+        height: 63,
+        decoration: ShapeDecoration(
+          color: const Color(0xFFF5FAFF),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (widget.selectedDate != null)
-            Text(DateFormat('MM/dd/yyyy').format(widget.selectedDate!)),
-          if (widget.selectedTime != null)
-            Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
-          IconButton(
-            icon: const Icon(Icons.arrow_drop_down),
-            onPressed: () {
-              if (widget.onTimeChanged != null) {
-                _showTimePicker();
-              }
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_drop_down),
-            onPressed: () {
-              if (widget.onDateChanged != null) {
-                _showDatePicker();
-              }
-            },
-          ),
-        ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (widget.selectedDate != null)
+              Text(DateFormat('MM/dd/yyyy').format(widget.selectedDate!)),
+            if (widget.selectedTime != null)
+              Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
+            IconButton(
+              icon: const Icon(Icons.arrow_drop_down),
+              onPressed: () {
+                if (widget.onTimeChanged != null) {
+                  _showTimePicker();
+                }
+              },
+            ),
+            // IconButton(
+            //   icon: const Icon(Icons.arrow_drop_down),
+            //   onPressed: () {
+            //     if (widget.onDateChanged != null) {
+            //       _showDatePicker();
+            //     }
+            //   },
+            // ),
+          ],
+        ),
       ),
     );
   }
