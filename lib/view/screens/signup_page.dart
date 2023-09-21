@@ -1,3 +1,4 @@
+import 'package:event_app/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../util/color_lib.dart';
@@ -123,7 +124,9 @@ class BottomCard extends StatelessWidget {
 
           // Continue with Google button
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              GoogleAuth().signInWithGoogle();
+            },
             child: CustomContainer(
               fillColor: ColorLib.lightBlue,
               width: UI.width(context, 375),
