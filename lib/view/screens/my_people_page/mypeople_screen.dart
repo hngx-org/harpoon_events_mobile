@@ -21,7 +21,8 @@ class _MyPeopleState extends State<MyPeople> {
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.0,
-          backgroundColor: ColorLib.transparent,
+          forceMaterialTransparency: true,
+          backgroundColor: ColorLib.transparent
           title: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
@@ -38,21 +39,21 @@ class _MyPeopleState extends State<MyPeople> {
             child: SizedBox(
                 height: size.height,
                 width: size.width,
+                // decoration: const BoxDecoration(color: Color(0xFFF5FAFF)),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: size.height * 0.025,
+                      height: size.height * 0.04,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: size.width * 0.05),
-                      child: Opacity(
-                        opacity: 0.5,
+                    Opacity(
+                      opacity: 0.50,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: size.width * 0.05),
                         child: Text(
                           'Keep track of events your connections are attending or hosting.',
                           softWrap: true,
                           style: Fonts.nunito(
-                            color: Colors.black,
+                            color: ColorLib.grey,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
