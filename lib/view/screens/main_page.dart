@@ -10,7 +10,6 @@ import '../widgets/app_bg.dart';
 import '../widgets/custom_container.dart';
 import 'calendar_page.dart';
 import 'create_event_page.dart';
-// import 'my_people_page.dart';
 import 'my_people_page/mypeople_screen.dart';
 import 'settings_page.dart';
 import 'timeline_page.dart';
@@ -24,7 +23,7 @@ class MainPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = ref.watch(tabProvider);
 
-    return AppBg(
+    return MainBg(
       child: Stack(
         fit: StackFit.loose,
         children: [
@@ -83,7 +82,29 @@ class MainPage extends ConsumerWidget {
                 ],
               ),
             ),
-          )
+          ),
+
+          // Floating Action Button
+          Positioned(
+            top: UI.height(context, 741),
+            left: UI.width(context, 345),
+            child: currentTab == TabState.timeline
+                ? CustomContainer(
+                    fillColor: ColorLib.green,
+                    width: UI.width(context, 56),
+                    height: UI.height(context, 56),
+                    child: InkWell(
+                      onTap: () => ref.read(tabProvider.notifier).state =
+                          TabState.createEvent,
+                      child: const Icon(
+                        Icons.add,
+                        size: 24,
+                        color: ColorLib.white,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
         ],
       ),
     );

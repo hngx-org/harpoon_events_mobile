@@ -1,6 +1,6 @@
-import 'package:event_app/util/color_lib.dart';
-import 'package:event_app/util/fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:harpoon_events_app/util/color_lib.dart';
+import 'package:harpoon_events_app/util/fonts.dart';
 
 import 'widgets/event_card.dart';
 import 'widgets/event_card_stack.dart';
@@ -35,27 +35,23 @@ class _MyPeopleState extends State<MyPeople> {
           ),
         ),
         body: SingleChildScrollView(
-            child: SizedBox(
+            child: Container(
                 height: size.height,
                 width: size.width,
+                // decoration: const BoxDecoration(color: Color(0xFFF5FAFF)),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: size.height * 0.025,
+                      height: size.height * 0.04,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: size.width * 0.05),
-                      child: Opacity(
-                        opacity: 0.5,
+                    const Opacity(
+                      opacity: 0.50,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           'Keep track of events your connections are attending or hosting.',
                           softWrap: true,
-                          style: Fonts.nunito(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TextStyle(color: Colors.black, fontSize: 17),
                         ),
                       ),
                     ),
