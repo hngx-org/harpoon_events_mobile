@@ -43,7 +43,7 @@ class _MyPeopleState extends State<MyPeople> {
             const Opacity(
               opacity: 0.50,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: Text(
                   'Keep track of events your connections are attending or hosting.',
                   softWrap: true,
