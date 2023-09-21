@@ -17,19 +17,20 @@ class _MyPeopleState extends State<MyPeople> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: ColorLib.transparent,
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0.0,
         backgroundColor: ColorLib.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            'My People',
-            style: Fonts.tropiline(
-              color: ColorLib.grey,
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0.0,
+          backgroundColor: ColorLib.transparent,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              'My People',
+              style: Fonts.tropiline(
+                color: ColorLib.grey,
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
         ),
