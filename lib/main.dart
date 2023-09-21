@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: SplashPage.route,
+      initialRoute: PostComments.route,
       routes: {
         // Add other pages here.....
         // Be sure to declare the route name as static String variable.
