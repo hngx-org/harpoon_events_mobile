@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = event_app
+PRODUCT_NAME = harpoon_events_app
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = task3.hngix.eventApp
+PRODUCT_BUNDLE_IDENTIFIER = harpoon.events.app.harpoonEventsApp
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 task3.hngix. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 harpoon.events.app. All rights reserved.

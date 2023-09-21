@@ -1,18 +1,17 @@
-import 'package:event_app/controller/auth_controller.dart';
-import 'package:event_app/services/twitterLoginServices.dart';
-import 'package:event_app/view/widgets/circularProgressIndicator.dart';
-import 'package:event_app/view/widgets/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:twitter_login/twitter_login.dart';
 
+import '../../services/twitter_login_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../../util/ui.dart';
 import '../widgets/app_bg.dart';
 import '../widgets/custom_container.dart';
+import '../widgets/snackBar.dart';
 import '../widgets/stroke_text.dart';
-import 'package:flutter_svg/svg.dart';
+import 'main_page.dart';
 
 final twitterLoading = StateProvider.autoDispose<bool>((ref) => false);
 
@@ -71,7 +70,11 @@ class BottomCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: const EdgeInsets.only(right: 25, left: 25, top: 35),
+      padding: const EdgeInsets.only(
+        right: 25,
+        left: 25,
+        top: 35,
+      ),
       height: UI.height(context, 399),
       width: UI.width(context, 428),
       color: ColorLib.purple,
@@ -95,13 +98,18 @@ class BottomCard extends ConsumerWidget {
           // SubheadLine
           Text(
             'Discover, Create, and Share Memorable Moments with a Thriving Community of Event Lovers.',
-            style: Fonts.nunito(color: Colors.black54, fontSize: 17, fontWeight: FontWeight.w500, letterSpacing: 0.3),
+            style: Fonts.nunito(
+                color: Colors.black54,
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.3),
           ),
           const SizedBox(height: 20),
 
           // Continue with twitter button
           Consumer(builder: (context, ref, child) {
             final loadingState = ref.watch(twitterLoading);
+
             ref.listen(loginTwitterResponse, (previous, next) {
               if (next!.status == TwitterLoginStatus.loggedIn) {
                 ref.read(twitterLoading.notifier).state = false;
@@ -126,6 +134,7 @@ class BottomCard extends ConsumerWidget {
                 );
               }
             });
+
             return GestureDetector(
               onTap: loadingState
                   ? () {}
@@ -160,7 +169,8 @@ class BottomCard extends ConsumerWidget {
           // Continue with Google button
           GestureDetector(
             onTap: () {
-              GoogleAuth().signInWithGoogle();
+              // GoogleAuth().signInWithGoogle();
+              Navigator.of(context).pushReplacementNamed(MainPage.route);
             },
             child: CustomContainer(
               fillColor: ColorLib.lightBlue,
