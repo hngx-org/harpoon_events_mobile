@@ -18,12 +18,11 @@ class _MyPeopleState extends State<MyPeople> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: ColorLib.transparent,
-
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.0,
           forceMaterialTransparency: true,
-          backgroundColor: ColorLib.transparent
+          backgroundColor: ColorLib.transparent,
           title: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
