@@ -31,7 +31,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   DateTime endTime = DateTime.now();
-  DateTime endTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +38,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Create Event'),
-        // leading: IconButton(
-        //   onPressed: () => Navigator.pop(context),
-        //   // ref.read(tabProvider.notifier).state = TabState.timeline,
-        //   icon: SvgPicture.asset('assets/SVGs/back-button.svg'),
-        // ),
+        leading: const BackButton(),
+        forceMaterialTransparency: true,
       ),
       backgroundColor: ColorLib.transparent,
       body: SingleChildScrollView(
@@ -145,7 +141,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
               ),
               const SizedBox(height: 20),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DropdownCell(
                     selectedDate: endDate,
@@ -305,6 +300,65 @@ class _CreateEventPageState extends State<CreateEventPage> {
   }
 }
 
+// class DropdownCell extends StatefulWidget {
+//   final DateTime selectedDate;
+//   final ValueChanged<DateTime> onDateChanged;
+
+//   const DropdownCell({
+//     super.key,
+//     required this.selectedDate,
+//     required this.onDateChanged,
+//   });
+
+//   @override
+//   State<DropdownCell> createState() => _DropdownCellState();
+// }
+
+// class _DropdownCellState extends State<DropdownCell> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//       child: Container(
+//         width: 178,
+//         height: 63,
+//         decoration: ShapeDecoration(
+//           color: const Color(0xFFF5FAFF),
+// shape: RoundedRectangleBorder(
+// side: const BorderSide(
+//   width: 2,
+//   strokeAlign: BorderSide.strokeAlignCenter,
+// ),
+//             borderRadius: BorderRadius.circular(8),
+//           ),
+//         ),
+//         child: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 DateFormat('MM/dd/yyyy').format(widget.selectedDate),
+//               ),
+//               IconButton(
+//                 icon: const Icon(Icons.arrow_drop_down),
+//                 onPressed: _showDatePicker,
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   _showDatePicker() async {
+//     final DateTime? date = await showDatePicker(
+//       context: context,
+//       initialDate: widget.selectedDate,
+//       firstDate: DateTime(2000),
+//       lastDate: DateTime(2025),
+//     );
+
+//     if (date != null) {
 //       widget.onDateChanged(date);
 //     }
 //   }
@@ -330,39 +384,52 @@ class DropdownCell extends StatefulWidget {
 class _DropdownCellState extends State<DropdownCell> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        width: double.infinity,
-        height: 63,
-        decoration: ShapeDecoration(
-          color: const Color(0xFFF5FAFF),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+    return Container(
+      width: 140,
+      height: 63,
+      decoration: ShapeDecoration(
+        color: const Color(0xFFF5FAFF),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(
+            width: 2,
+            strokeAlign: BorderSide.strokeAlignCenter,
           ),
+          borderRadius: BorderRadius.circular(8),
         ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             if (widget.selectedDate != null)
-              Text(DateFormat('MM/dd/yyyy').format(widget.selectedDate!)),
+              Row(
+                children: [
+                  Text(DateFormat('MM/dd/yyyy').format(widget.selectedDate!)),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_down),
+                    onPressed: () {
+                      if (widget.onDateChanged != null) {
+                        _showDatePicker();
+                      }
+                    },
+                  ),
+                ],
+              ),
             if (widget.selectedTime != null)
-              Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
-            IconButton(
-              icon: const Icon(Icons.arrow_drop_down),
-              onPressed: () {
-                if (widget.onTimeChanged != null) {
-                  _showTimePicker();
-                }
-              },
-            ),
-            // IconButton(
-            //   icon: const Icon(Icons.arrow_drop_down),
-            //   onPressed: () {
-            //     if (widget.onDateChanged != null) {
-            //       _showDatePicker();
-            //     }
-            //   },
-            // ),
+              Row(
+                children: [
+                  Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_down),
+                    onPressed: () {
+                      if (widget.onTimeChanged != null) {
+                        _showTimePicker();
+                      }
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ),
