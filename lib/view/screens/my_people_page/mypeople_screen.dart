@@ -18,6 +18,7 @@ class _MyPeopleState extends State<MyPeople> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: ColorLib.transparent,
+
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.0,
