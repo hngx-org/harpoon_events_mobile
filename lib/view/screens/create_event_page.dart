@@ -18,7 +18,7 @@ class CreateEventPage extends StatefulWidget {
 class _CreateEventPageState extends State<CreateEventPage> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
-  DateTime endTime = DateTime.now(); 
+  DateTime endTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Create Event'),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          // ref.read(tabProvider.notifier).state = TabState.timeline,
-          icon: SvgPicture.asset('assets/SVGs/back-button.svg'),
-        ),
+        // leading: IconButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   // ref.read(tabProvider.notifier).state = TabState.timeline,
+        //   icon: SvgPicture.asset('assets/SVGs/back-button.svg'),
+        // ),
       ),
       backgroundColor: ColorLib.transparent,
       body: SingleChildScrollView(
