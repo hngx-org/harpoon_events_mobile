@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class AppImages {
   static const about = "assets/SVGs/about.svg";
   static const logOut = "assets/SVGs/log_out.svg";
@@ -17,4 +19,9 @@ class AppStrings {
   static const about = "About";
   static const logOut = "Log Out";
   static const profilePicture = "https://media.licdn.com/dms/image/C5603AQG1WQks9w8tXQ/profile-displayphoto-shrink_800_800/0/1578820176517?e=2147483647&v=beta&t=VixwFAeZ8Szb9I9KT42Ns1RLkzNZay1cFi2Gsd0qD94";
+}
+
+class TwitterKeys{
+  static const API_KEY="h6cjOjheh32Qnoa0QQGZEz8LX";
+  static const API_SECRET_KEY="omwtqvxxhCNF3Kk3TzlphDK5nvo8inKYxx4QhDbWGLalCFLRpT";
 }
