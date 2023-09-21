@@ -22,6 +22,7 @@ class _MyPeopleState extends State<MyPeople> {
           centerTitle: true,
           elevation: 0.0,
           forceMaterialTransparency: true,
+          backgroundColor: ColorLib.transparent
           title: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
