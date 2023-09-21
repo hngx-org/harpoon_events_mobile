@@ -1,12 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'view/screens/main_page.dart';
 import 'view/screens/signup_page.dart';
 import 'view/screens/splash_page.dart';
+import 'view/screens/post_comments/post_comments.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: SplashPage.route,
+      initialRoute: SignUpPage.route,
       routes: {
         // Add other pages here.....
         // Be sure to declare the route name as static String variable.
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
         SplashPage.route: (context) => const SplashPage(),
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
+        PostComments.route: (context) => const PostComments(),
       },
     );
   }

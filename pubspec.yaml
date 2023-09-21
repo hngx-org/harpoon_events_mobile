@@ -18,7 +18,12 @@ dependencies:
   calendar_date_picker2: ^0.5.3
   omni_datetime_picker: ^1.0.9
   file_picker: ^5.5.0
+  twitter_login: ^4.4.2
   flutter_svg: ^2.0.7
+  intl: ^0.18.1
+  firebase_core:
+  firebase_auth:
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:
@@ -33,13 +38,14 @@ flutter:
   assets:
     - assets/images/
     - assets/SVGs/
+    - assets/icons/
 
   fonts:
-    - family: Cabinet Grotesk
+    - family: CabinetGrotesk
       fonts:
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Thin.ttf
           weight: 100
-        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-ExtraLight.ttf
+        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Extralight.ttf
           weight: 200
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Light.ttf
           weight: 300
@@ -49,7 +55,7 @@ flutter:
           weight: 500
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Bold.ttf
           weight: 700
-        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-ExtraBold.ttf
+        - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Extrabold.ttf
           weight: 800
         - asset: assets/fonts/CabinetGrotesk/CabinetGrotesk-Black.ttf
           weight: 900

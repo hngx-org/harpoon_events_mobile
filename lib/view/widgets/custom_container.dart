@@ -22,6 +22,9 @@ class CustomContainer extends StatelessWidget {
   // Padding to apply to the children
   final EdgeInsets? padding;
 
+  // Border Width
+  final double borderWidth;
+
   const CustomContainer({
     super.key,
     required this.fillColor,
@@ -33,6 +36,7 @@ class CustomContainer extends StatelessWidget {
     this.useShadow = true,
     this.child,
     this.padding,
+    this.borderWidth = 2,
   });
 
   @override
@@ -45,7 +49,7 @@ class CustomContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: borderColor,
-          width: 2,
+          width: borderWidth,
         ),
         color: fillColor,
         boxShadow: useShadow
