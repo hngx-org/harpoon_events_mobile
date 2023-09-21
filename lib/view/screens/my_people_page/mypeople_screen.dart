@@ -33,43 +33,47 @@ class _MyPeopleState extends State<MyPeople> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-            child: SizedBox(
-                height: size.height,
-                width: size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: size.height * 0.025,
+      ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: size.height * 0.025,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: size.width * 0.05),
+                child: Opacity(
+                  opacity: 0.5,
+                  child: Text(
+                    'Keep track of events your connections are attending or hosting.',
+                    softWrap: true,
+                    style: Fonts.nunito(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: size.width * 0.05),
-                      child: Opacity(
-                        opacity: 0.5,
-                        child: Text(
-                          'Keep track of events your connections are attending or hosting.',
-                          softWrap: true,
-                          style: Fonts.nunito(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(width: size.width * 0.05),
-                        EventCard(size: size),
-                        SizedBox(width: size.width * 0.05),
-                        EventCardStack(size: size)
-                      ],
-                    ),
-                  ],
-                ))));
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Row(
+                children: [
+                  SizedBox(width: size.width * 0.05),
+                  EventCard(size: size),
+                  SizedBox(width: size.width * 0.05),
+                  EventCardStack(size: size)
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
