@@ -5,10 +5,12 @@ class ColorLib {
   static const Color black = Color(0xFF000000);
   static const Color orange = Color(0xFFF8D3A2);
   static const Color purple = Color(0xFFC39BE9);
+  static const Color deepPurple = Color(0xFF493767);
   static const Color pink = Color(0xffFFA6ED);
   static const Color yellow = Color(0xffF0D53D);
   static const Color blue = Color(0xffB8CEFB);
   static const Color lightBlue = Color(0xffDEEDF7);
+  static const Color lighterBlue = Color(0xffE5F2FF);
   static const Color blueTabColor = Color(0xffB4D5EC);
   static const Color lightBrown = Color(0xffEF8F76);
   static const Color calendarBgColor = Color(0xffFCEEDE);
@@ -18,3 +20,4 @@ class ColorLib {
   static const Color lightGreen = Color(0xffC0F3B4);
   static const Color darkBlue = Color(0xff493767);
 }
+ 

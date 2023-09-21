@@ -23,13 +23,28 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color.fromRGBO(245, 250, 255, 1),
+        appBarTheme: const AppBarTheme(
+          color: Colors.transparent,
+          titleTextStyle: TextStyle(
+            color: Color(0xFF493767),
+            fontSize: 24,
+            fontFamily: 'Tropiline',
+            fontWeight: FontWeight.w700,
+            height: 0.07,
+            letterSpacing: 0.24,
+          ),
+          centerTitle: true
+        ),
+        highlightColor: Color(0xFF493767).withOpacity(0.2),
+        splashColor: Color(0xFF493767).withOpacity(0.2),
       ),
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: SplashPage.route,
+      initialRoute: SignUpPage.route,
       routes: {
         // Add other pages here.....
         // Be sure to declare the route name as static String variable.
