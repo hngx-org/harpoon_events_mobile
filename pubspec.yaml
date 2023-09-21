@@ -33,6 +33,7 @@ flutter:
   assets:
     - assets/images/
     - assets/SVGs/
+    - assets/icons/
 
   fonts:
     - family: Cabinet Grotesk
