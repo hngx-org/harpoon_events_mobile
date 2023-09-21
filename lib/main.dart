@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'view/screens/main_page.dart';
 import 'view/screens/signup_page.dart';
 import 'view/screens/splash_page.dart';
+import 'view/screens/post_comments/post_comments.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         SplashPage.route: (context) => const SplashPage(),
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
+        PostComments.route: (context) => const PostComments(),
       },
     );
   }
