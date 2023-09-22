@@ -1,16 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter_login/twitter_login.dart';
 
-import '../../constants.dart';
 import '../../controller/services/auth_services.dart';
-import '../../controller/tab_provider.dart';
-import '../../model/user_model.dart';
 import '../../services/twitter_login_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
@@ -77,6 +74,25 @@ class BottomCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(loginResponseProvider, (previous, next) {
+      if (next!.status == "success") {
+        ref.read(twitterLoading.notifier).state = false;
+        snackBar(
+          content: "Success",
+          context: context,
+          backgroundColor: ColorLib.green,
+        );
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushReplacementNamed(MainPage.route);
+      } else {
+        ref.read(twitterLoading.notifier).state = false;
+        snackBar(
+          content: next.errMessage ?? "",
+          context: context,
+          backgroundColor: Colors.red,
+        );
+      }
+    });
     return Container(
       padding: const EdgeInsets.only(
         right: 25,
@@ -117,37 +133,28 @@ class BottomCard extends ConsumerWidget {
           // Continue with twitter button
           Consumer(builder: (context, ref, child) {
             final loadingState = ref.watch(twitterLoading);
+
             ref.listen(loginTwitterResponse, (previous, next) async {
               if (next!.status == TwitterLoginStatus.loggedIn) {
                 final result = next;
                 snackBar(
-                  content: "Loggin in as ${next.user!.name}",
+                  content: "Logging in as ${next.user!.name}, Please wait...",
                   context: context,
                   backgroundColor: ColorLib.green,
                 );
 
                 log("In twitter responses");
                 String name = result.user!.name;
+                log(result.user!.id.toString());
+                log(result.user!.email.toString());
+
                 // Use their unique ID as their email as not all user have email
-                String email = '${result.user!.id}';
+                String email = '${result.user!.id}@gmail.com';
                 String avatar = result.user!.thumbnailImage;
                 String source = 'twitter';
-                UserModel userData = await ref
-                    .watch(authProvider)
-                    .authorizeUser(name, email, avatar, source);
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                ref.read(tokenProvider.notifier).state =
-                    prefs.getString(AppStrings.tokenKey);
-                ref.read(userDataProvider.notifier).state = userData;
-                if (kDebugMode) {
-                  print(
-                      "${userData.name}, ${userData.email}, ${userData.avatar}");
-                }
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pushReplacementNamed(MainPage.route);
-
-                ref.read(twitterLoading.notifier).state = false;
+                final data = LoginDataModel(
+                    name: name, email: email, avatar: avatar, source: source);
+                ref.read(loginProvider(data));
               } else if (next.status == TwitterLoginStatus.cancelledByUser) {
                 ref.read(twitterLoading.notifier).state = false;
                 snackBar(
@@ -164,6 +171,7 @@ class BottomCard extends ConsumerWidget {
                 );
               }
             });
+
             return GestureDetector(
               onTap: loadingState
                   ? () {}
@@ -203,22 +211,14 @@ class BottomCard extends ConsumerWidget {
               String email = 'faroukbello@gmail.com';
               String source = 'google';
 
-              UserModel userData = await ref
-                  .watch(authProvider)
-                  .authorizeUser(name, email, null, source);
+              final data = LoginDataModel(
+                name: name,
+                email: email,
+                avatar: null,
+                source: source,
+              );
+              ref.read(loginProvider(data));
 
-              final SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
-              ref.read(tokenProvider.notifier).state =
-                  prefs.getString(AppStrings.tokenKey);
-
-              ref.read(userDataProvider.notifier).state = userData;
-              if (kDebugMode) {
-                print(
-                    "${userData.name}, ${userData.email}, ${userData.avatar}");
-              }
-
-              ref.read(tabProvider.notifier).state = TabState.timeline;
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushReplacementNamed(MainPage.route);
             },
