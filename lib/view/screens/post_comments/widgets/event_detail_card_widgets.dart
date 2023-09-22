@@ -109,7 +109,7 @@ class EventDetaileCard extends StatelessWidget {
 
                 // Share button
                 CustomContainer(
-                  fillColor: ColorLib.blueTabColor,
+                  fillColor: ColorLib.lighterBlue,
                   width: UI.width(context, 109),
                   height: UI.height(context, 44),
                   child: Center(

@@ -63,6 +63,38 @@ class PostComments extends StatelessWidget {
             ),
           ]),
       backgroundColor: ColorLib.white,
+      bottomNavigationBar: BottomAppBar(
+        surfaceTintColor: ColorLib.white,
+        color: ColorLib.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.image_outlined),
+              onPressed: () {},
+            ),
+            const Expanded(
+              child: CustomContainer(
+                fillColor: ColorLib.lighterBlue,
+                width: double.infinity,
+                height: 60,
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Type a message',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10)),
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.mic,
+                color: ColorLib.black,
+              ),
+            )
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: SingleChildScrollView(
@@ -77,7 +109,7 @@ class PostComments extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomContainer(
-                    fillColor: ColorLib.blueTabColor,
+                    fillColor: ColorLib.lighterBlue,
                     width: UI.width(context, 200),
                     height: UI.height(context, 28),
                     borderRadius: 12,
@@ -135,7 +167,25 @@ class PostComments extends StatelessWidget {
                     CommentsSectionContainer(
                       commenterAvatarURL:
                           'assets/images/avatar_post_comments.png',
-                      commenterUsername: 'Jannex',
+                      commenterUsername: 'Jannex  Doe',
+                      commentPost: ' no matter what.',
+                    ),
+                    CommentsSectionContainer(
+                      commenterAvatarURL:
+                          'assets/images/avatar_post_comments.png',
+                      commenterUsername: 'Jannex  Doe',
+                      commentPost: ' no matter what.',
+                    ),
+                    CommentsSectionContainer(
+                      commenterAvatarURL:
+                          'assets/images/avatar_post_comments.png',
+                      commenterUsername: 'Jannex  Doe',
+                      commentPost: ' no matter what.',
+                    ),
+                    CommentsSectionContainer(
+                      commenterAvatarURL:
+                          'assets/images/avatar_post_comments.png',
+                      commenterUsername: 'Jannex  Doe',
                       commentPost: ' no matter what.',
                     ),
                   ],
