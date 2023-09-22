@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),
         PostComments.route: (context) => const PostComments(),
+        Loading.route: (context) => const Loading()
       },
     );
   }
