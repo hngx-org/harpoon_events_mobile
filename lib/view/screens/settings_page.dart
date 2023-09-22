@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harpoon_events_app/constants.dart';
-
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../widgets/custom_container.dart';

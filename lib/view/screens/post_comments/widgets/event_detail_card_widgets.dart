@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../util/ui.dart';
 import '../../../widgets/custom_container.dart';
 import '../../../widgets/stroke_text.dart';
 import '../../../../util/color_lib.dart';
@@ -13,15 +14,15 @@ class EventDetaileCard extends StatelessWidget {
     return CustomContainer(
       fillColor: ColorLib.blue,
       width: double.infinity,
-      height: 198,
+      height: UI.height(context, 230),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 24,
+            SizedBox(
+              height: UI.height(context, 10),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,8 +37,8 @@ class EventDetaileCard extends StatelessWidget {
                       children: [
                         //Icon
                         Image.asset('assets/icons/emoji_icon.png'),
-                        const SizedBox(
-                          width: 10,
+                        SizedBox(
+                          width: UI.width(context, 10),
                         ),
                         StrokeText(
                           text: 'Football Game',
@@ -52,8 +53,8 @@ class EventDetaileCard extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(
-                      height: 4,
+                    SizedBox(
+                      height: UI.height(context, 4),
                     ),
                     // Event Location
 
@@ -78,8 +79,8 @@ class EventDetaileCard extends StatelessWidget {
                           ],
                         ),
 
-                        const SizedBox(
-                          height: 8,
+                        SizedBox(
+                          height: UI.height(context, 8),
                         ),
                         // Event Date and Time
                         Row(
@@ -108,9 +109,9 @@ class EventDetaileCard extends StatelessWidget {
 
                 // Share button
                 CustomContainer(
-                  fillColor: ColorLib.blueTabColor,
-                  width: 109,
-                  height: 44,
+                  fillColor: ColorLib.lighterBlue,
+                  width: UI.width(context, 109),
+                  height: UI.height(context, 44),
                   child: Center(
                     child: Text(
                       'Share',
@@ -139,18 +140,23 @@ class EventDetaileCard extends StatelessWidget {
                 ),
 
                 //Text: Checkbox to send invite
-                Text(
-                  'Check box to send invite to techies',
-                  style: Fonts.nunito(
-                    fontSize: 14,
-                    color: ColorLib.black,
-                    fontWeight: FontWeight.w700,
+                Expanded(
+                  child: Text(
+                    'Check box to send invite to techies',
+                    style: Fonts.nunito(
+                      fontSize: 14,
+                      color: ColorLib.black,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 // Back icon button
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: ColorLib.darkBlue,
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: ColorLib.darkBlue,
+                  ),
                 ),
               ],
             )

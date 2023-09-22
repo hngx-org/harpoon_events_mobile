@@ -323,11 +323,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
 //         height: 63,
 //         decoration: ShapeDecoration(
 //           color: const Color(0xFFF5FAFF),
-//           shape: RoundedRectangleBorder(
-//             side: const BorderSide(
-//               width: 2,
-//               strokeAlign: BorderSide.strokeAlignCenter,
-//             ),
+// shape: RoundedRectangleBorder(
+// side: const BorderSide(
+//   width: 2,
+//   strokeAlign: BorderSide.strokeAlignCenter,
+// ),
 //             borderRadius: BorderRadius.circular(8),
 //           ),
 //         ),
@@ -385,38 +385,53 @@ class _DropdownCellState extends State<DropdownCell> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 178,
+      width: 140,
       height: 63,
       decoration: ShapeDecoration(
         color: const Color(0xFFF5FAFF),
         shape: RoundedRectangleBorder(
+          side: const BorderSide(
+            width: 2,
+            strokeAlign: BorderSide.strokeAlignCenter,
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (widget.selectedDate != null)
-            Text(DateFormat('MM/dd/yyyy').format(widget.selectedDate!)),
-          if (widget.selectedTime != null)
-            Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
-          IconButton(
-            icon: const Icon(Icons.arrow_drop_down),
-            onPressed: () {
-              if (widget.onTimeChanged != null) {
-                _showTimePicker();
-              }
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_drop_down),
-            onPressed: () {
-              if (widget.onDateChanged != null) {
-                _showDatePicker();
-              }
-            },
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (widget.selectedDate != null)
+              Row(
+                children: [
+                  Text(DateFormat('MM/dd/yyyy').format(widget.selectedDate!)),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_down),
+                    onPressed: () {
+                      if (widget.onDateChanged != null) {
+                        _showDatePicker();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            if (widget.selectedTime != null)
+              Row(
+                children: [
+                  Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_down),
+                    onPressed: () {
+                      if (widget.onTimeChanged != null) {
+                        _showTimePicker();
+                      }
+                    },
+                  ),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }

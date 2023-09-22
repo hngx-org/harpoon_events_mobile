@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../util/color_lib.dart';
 import '../../../util/fonts.dart';
+import '../../../util/ui.dart';
 import '../../../view/widgets/custom_container.dart';
 import 'widgets/event_detail_card_widgets.dart';
 import 'widgets/comments_section_card.dart';
@@ -14,9 +15,14 @@ class PostComments extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: ColorLib.darkBlue,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: ColorLib.darkBlue,
+            ),
           ),
           centerTitle: true,
           // Event Title
@@ -48,12 +54,47 @@ class PostComments extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 24, vertical: 8.0),
-              child: Image.asset(
-                'assets/images/avatar_post_comments.png',
+              child: InkWell(
+                onTap: () {},
+                child: Image.asset(
+                  'assets/images/avatar_post_comments.png',
+                ),
               ),
             ),
           ]),
-      backgroundColor: ColorLib.transparent,
+      backgroundColor: ColorLib.white,
+      bottomNavigationBar: BottomAppBar(
+        surfaceTintColor: ColorLib.white,
+        color: ColorLib.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.image_outlined),
+              onPressed: () {},
+            ),
+            const Expanded(
+              child: CustomContainer(
+                fillColor: ColorLib.lighterBlue,
+                width: double.infinity,
+                height: 60,
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Type a message',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10)),
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.mic,
+                color: ColorLib.black,
+              ),
+            )
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: SingleChildScrollView(
@@ -68,9 +109,9 @@ class PostComments extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomContainer(
-                    fillColor: ColorLib.blueTabColor,
-                    width: 150,
-                    height: 24,
+                    fillColor: ColorLib.lighterBlue,
+                    width: UI.width(context, 200),
+                    height: UI.height(context, 28),
                     borderRadius: 12,
                     shadowOffset: 1,
                     borderWidth: 1.0,
@@ -126,7 +167,25 @@ class PostComments extends StatelessWidget {
                     CommentsSectionContainer(
                       commenterAvatarURL:
                           'assets/images/avatar_post_comments.png',
-                      commenterUsername: 'Jannex',
+                      commenterUsername: 'Jannex  Doe',
+                      commentPost: ' no matter what.',
+                    ),
+                    CommentsSectionContainer(
+                      commenterAvatarURL:
+                          'assets/images/avatar_post_comments.png',
+                      commenterUsername: 'Jannex  Doe',
+                      commentPost: ' no matter what.',
+                    ),
+                    CommentsSectionContainer(
+                      commenterAvatarURL:
+                          'assets/images/avatar_post_comments.png',
+                      commenterUsername: 'Jannex  Doe',
+                      commentPost: ' no matter what.',
+                    ),
+                    CommentsSectionContainer(
+                      commenterAvatarURL:
+                          'assets/images/avatar_post_comments.png',
+                      commenterUsername: 'Jannex  Doe',
                       commentPost: ' no matter what.',
                     ),
                   ],
