@@ -5,10 +5,11 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
+import '../../model/event_model.dart';
 import '../../model/user_model.dart';
 
 class EventServices {
-  String eventEndpoint = 'http://web-01.okoth.tech/api/v1/events';
+  String eventEndpoint = 'http://web-01.okoth.tech/api/v1/events/';
 
   Future<UserModel> createEvent(Map<String, dynamic> resData) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,7 +34,7 @@ class EventServices {
     }
   }
 
-  Future<UserModel> getEvents() async {
+  Future<List<EventModel>> getEvents() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(AppStrings.tokenKey);
 
@@ -46,10 +47,10 @@ class EventServices {
       },
     );
 
-    if (response.statusCode == 201) {
-      final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final List result = jsonDecode(response.body)['events'];
 
-      return UserModel.fromJson(result['dataValues']);
+      return result.map((data) => EventModel.fromJson(data)).toList();
     } else {
       throw Exception(response.reasonPhrase);
     }

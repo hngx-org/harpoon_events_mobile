@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../controller/event_provider.dart';
+import '../../model/event_model.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../../util/ui.dart';
@@ -21,6 +23,7 @@ class TimelinePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final friends = ref.watch(friendsProvider);
+    final events = ref.watch(eventsProvider);
 
     return Scaffold(
       backgroundColor: ColorLib.transparent,
@@ -235,78 +238,7 @@ class TimelinePage extends ConsumerWidget {
                     const SizedBox(
                       width: 20,
                     ),
-                    CustomContainer(
-                      height: UI.height(context, 130),
-                      width: UI.width(context, 297),
-                      fillColor: ColorLib.blue,
-                      borderRadius: 8,
-                      child: Center(
-                        child: SizedBox(
-                          width: UI.width(context, 259),
-                          height: UI.height(context, 70),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset(
-                                'assets/images/emoji-with-glasses.png',
-                                width: UI.width(context, 84),
-                                height: UI.height(context, 75),
-                              ),
-                              // SizedBox(
-                              //   width: UI.width(context, 16),
-                              // ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  StrokeText(
-                                    text: 'Summer Music Fest',
-                                    textStyle: Fonts.tropiline(
-                                      color: ColorLib.orange,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w800,
-                                      height: 0.07,
-                                      letterSpacing: 0.16,
-                                    ),
-                                    strokeColor: ColorLib.black,
-                                    strokeWidth: 2,
-                                  ),
-                                  Text(
-                                    'Central Park, Abuja',
-                                    style: Fonts.nunito(
-                                      color: ColorLib.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      height: 0.07,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Friday, 20th May, 2023',
-                                    style: Fonts.nunito(
-                                      color: ColorLib.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.07,
-                                    ),
-                                  ),
-                                  Text(
-                                    '16:00-18:00',
-                                    style: Fonts.nunito(
-                                      color: ColorLib.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.07,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    const LiveEvent(),
                   ],
                 ),
               ),
@@ -338,253 +270,226 @@ class TimelinePage extends ConsumerWidget {
                 ],
               ),
             ),
+
+            const SizedBox(height: 10),
+
             const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    CustomContainer(
-                      height: UI.height(context, 130),
-                      width: UI.width(context, 375),
-                      fillColor: ColorLib.pink,
-                      borderRadius: 8,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: UI.width(context, 20)),
-                        child: SizedBox(
-                          width: UI.width(context, 256),
-                          height: UI.height(context, 88),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/images/emoji-with-glasses.png',
-                                width: UI.width(context, 84),
-                                height: UI.height(context, 75),
-                              ),
-                              SizedBox(
-                                width: UI.width(context, 16),
-                              ),
-                              SizedBox(
-                                height: UI.height(context, 80),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    StrokeText(
-                                      text: 'Football Game',
-                                      textStyle: Fonts.tropiline(
-                                        color: ColorLib.orange,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        height: 0.07,
-                                        letterSpacing: 0.16,
-                                      ),
-                                      strokeColor: ColorLib.black,
-                                      strokeWidth: 2,
-                                    ),
-                                    Text(
-                                      'Teslim Balogun Stadium',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Friday, 20th May, 2023',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      '16:00-18:00',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                child: events.when(
+                  data: (data) {
+                    List<EventModel> eventsList = data.map((e) => e).toList();
+
+                    return Column(
+                      children: eventsList
+                          .map(
+                            (event) => EventView(
+                              title: event.title,
+                              location: event.location,
+                              startDate: event.startDate,
+                              endDate: event.endDate,
+                              startTime: event.startTime,
+                              endTime: event.endTime,
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                  error: (error, stackTrace) => Center(
+                    child: Text(
+                      error.toString(),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomContainer(
-                      height: UI.height(context, 130),
-                      width: UI.width(context, 375),
-                      fillColor: ColorLib.pink,
-                      borderRadius: 8,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: UI.width(context, 20)),
-                        child: SizedBox(
-                          width: UI.width(context, 256),
-                          height: UI.height(context, 88),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/images/emoji-with-glasses.png',
-                                width: UI.width(context, 84),
-                                height: UI.height(context, 75),
-                              ),
-                              SizedBox(
-                                width: UI.width(context, 16),
-                              ),
-                              SizedBox(
-                                height: UI.height(context, 80),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    StrokeText(
-                                      text: 'Football Game',
-                                      textStyle: Fonts.tropiline(
-                                        color: ColorLib.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        height: 0.07,
-                                        letterSpacing: 0.16,
-                                      ),
-                                      strokeColor: ColorLib.black,
-                                      strokeWidth: 2,
-                                    ),
-                                    Text(
-                                      'Teslim Balogun Stadium',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Friday, 20th May, 2023',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      '16:00-18:00',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomContainer(
-                      height: UI.height(context, 130),
-                      width: UI.width(context, 375),
-                      fillColor: ColorLib.pink,
-                      borderRadius: 8,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: UI.width(context, 20)),
-                        child: SizedBox(
-                          width: UI.width(context, 256),
-                          height: UI.height(context, 88),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/images/emoji-with-glasses.png',
-                                width: UI.width(context, 84),
-                                height: UI.height(context, 75),
-                              ),
-                              SizedBox(
-                                width: UI.width(context, 16),
-                              ),
-                              SizedBox(
-                                height: UI.height(context, 80),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    StrokeText(
-                                      text: 'Football Game',
-                                      textStyle: Fonts.tropiline(
-                                        color: ColorLib.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        height: 0.07,
-                                        letterSpacing: 0.16,
-                                      ),
-                                      strokeColor: ColorLib.black,
-                                      strokeWidth: 2,
-                                    ),
-                                    Text(
-                                      'Teslim Balogun Stadium',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Friday, 20th May, 2023',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      '16:00-18:00',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                  ),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class LiveEvent extends StatelessWidget {
+  const LiveEvent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomContainer(
+      height: UI.height(context, 130),
+      width: UI.width(context, 297),
+      fillColor: ColorLib.blue,
+      borderRadius: 8,
+      child: Center(
+        child: SizedBox(
+          width: UI.width(context, 259),
+          height: UI.height(context, 70),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                'assets/images/emoji-with-glasses.png',
+                width: UI.width(context, 84),
+                height: UI.height(context, 75),
+              ),
+              // SizedBox(
+              //   width: UI.width(context, 16),
+              // ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StrokeText(
+                    text: 'Summer Music Fest',
+                    textStyle: Fonts.tropiline(
+                      color: ColorLib.orange,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      height: 0.07,
+                      letterSpacing: 0.16,
+                    ),
+                    strokeColor: ColorLib.black,
+                    strokeWidth: 2,
+                  ),
+                  Text(
+                    'Central Park, Abuja',
+                    style: Fonts.nunito(
+                      color: ColorLib.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      height: 0.07,
+                    ),
+                  ),
+                  Text(
+                    'Friday, 20th May, 2023',
+                    style: Fonts.nunito(
+                      color: ColorLib.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 0.07,
+                    ),
+                  ),
+                  Text(
+                    '16:00-18:00',
+                    style: Fonts.nunito(
+                      color: ColorLib.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 0.07,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EventView extends StatelessWidget {
+  final String title;
+  final String location;
+  final String startDate;
+  final String endDate;
+  final String startTime;
+  final String endTime;
+
+  const EventView({
+    super.key,
+    required this.title,
+    required this.location,
+    required this.startDate,
+    required this.endDate,
+    required this.startTime,
+    required this.endTime,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: CustomContainer(
+        height: UI.height(context, 130),
+        width: UI.width(context, 375),
+        fillColor: ColorLib.pink,
+        borderRadius: 8,
+        child: Padding(
+          padding: EdgeInsets.only(left: UI.width(context, 20)),
+          child: SizedBox(
+            width: UI.width(context, 256),
+            height: UI.height(context, 88),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset(
+                  'assets/images/emoji-with-glasses.png',
+                  width: UI.width(context, 84),
+                  height: UI.height(context, 75),
+                ),
+                SizedBox(
+                  width: UI.width(context, 16),
+                ),
+                SizedBox(
+                  height: UI.height(context, 80),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      StrokeText(
+                        text: title,
+                        textStyle: Fonts.tropiline(
+                          color: ColorLib.orange,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          height: 0.07,
+                          letterSpacing: 0.16,
+                        ),
+                        strokeColor: ColorLib.black,
+                        strokeWidth: 2,
+                      ),
+                      Text(
+                        location,
+                        style: Fonts.nunito(
+                          color: ColorLib.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          height: 0.07,
+                        ),
+                      ),
+                      Text(
+                        startDate,
+                        style: Fonts.nunito(
+                          color: ColorLib.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 0.07,
+                        ),
+                      ),
+                      Text(
+                        '$startTime - $endTime',
+                        style: Fonts.nunito(
+                          color: ColorLib.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 0.07,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
