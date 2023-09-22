@@ -58,13 +58,13 @@ import 'package:harpoon_events_app/constants.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/user_model.dart';
+import '../../model/user_model.dart';
 
 class AuthServices {
   String userEndpoint = 'http://web-01.okoth.tech/api/v1/users';
 
   Future<UserModel> authorizeUser(
-      String name, String email, String source) async {
+      String name, String email, String? avatar, String source) async {
     Response response = await post(
       Uri.parse("$userEndpoint/$source"),
       headers: <String, String>{
@@ -74,7 +74,7 @@ class AuthServices {
       body: jsonEncode(<String, String>{
         "name": name,
         "email": email,
-        "image": AppStrings.profilePicture,
+        "avatar": avatar ?? AppStrings.profilePicture,
       }),
     );
 
@@ -84,6 +84,25 @@ class AuthServices {
       // Obtain shared preferences.
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(AppStrings.tokenKey, result['token']);
+
+      return UserModel.fromJson(result['dataValues']);
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
+
+  Future<UserModel> getUser(String userId, String token) async {
+    Response response = await get(
+      Uri.parse("$userEndpoint/$userId"),
+      headers: <String, String>{
+        "accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 201) {
+      final result = jsonDecode(response.body);
 
       return UserModel.fromJson(result['dataValues']);
     } else {

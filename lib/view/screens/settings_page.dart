@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:harpoon_events_app/constants.dart';
+import 'package:harpoon_events_app/controller/services/auth_services.dart';
+import 'package:harpoon_events_app/view/screens/signup_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants.dart';
 import '../widgets/custom_container.dart';
 import '../widgets/stroke_text.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
 
     List<SettingTabsModel> settings = [
@@ -28,8 +32,22 @@ class SettingsPage extends StatelessWidget {
       SettingTabsModel(
           name: AppStrings.about, svg: AppImages.about, onTap: () {}),
       SettingTabsModel(
-          name: AppStrings.logOut, svg: AppImages.logOut, onTap: () {}),
+          name: AppStrings.logOut,
+          svg: AppImages.logOut,
+          onTap: () async {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            prefs.remove(AppStrings.tokenKey);
+
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              SignUpPage.route,
+              ModalRoute.withName(SignUpPage.route),
+            );
+          }),
     ];
+
+    final userData = ref.watch(userDataProvider);
 
     return Scaffold(
       body: Center(
@@ -45,7 +63,7 @@ class SettingsPage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
-                      AppStrings.profilePicture,
+                      userData!.avatar,
                       height: 100,
                       width: 100,
                     ),
@@ -54,19 +72,21 @@ class SettingsPage extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-                const Expanded(
+                Expanded(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     StrokeText(
-                      text: 'Salome',
-                      textStyle:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                      text: userData.name,
+                      textStyle: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
-                    Text("salome357@gmail.com")
+                    Text(userData.email)
                   ],
                 )),
                 const SizedBox(
@@ -106,15 +126,16 @@ class SettingsPage extends StatelessWidget {
                                     child: SvgPicture.asset(settings[i].svg),
                                   ),
                                   Expanded(
-                                      child: Text(
-                                    settings[i].name,
-                                    style: const TextStyle(
-                                      color: Color(0xFF33313E),
-                                      fontSize: 18,
-                                      fontFamily: 'Nunito',
-                                      fontWeight: FontWeight.w500,
+                                    child: Text(
+                                      settings[i].name,
+                                      style: const TextStyle(
+                                        color: Color(0xFF33313E),
+                                        fontSize: 18,
+                                        fontFamily: 'Nunito',
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  )),
+                                  ),
                                   const Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16.0),
