@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:harpoon_events_app/util/color_lib.dart';
-import 'package:harpoon_events_app/util/fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'widgets/event_card.dart';
-import 'widgets/event_card_stack.dart';
+import '../../../controller/group_provider.dart';
+import '../../../model/group_model.dart';
+import '../../../util/color_lib.dart';
+import '../../../util/fonts.dart';
+import '../../../util/ui.dart';
+import 'widgets/group_view.dart';
 
-class MyPeople extends StatefulWidget {
+class MyPeople extends ConsumerWidget {
   const MyPeople({super.key});
 
   @override
-  State<MyPeople> createState() => _MyPeopleState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final allGroups = ref.watch(allGroupsProvider);
 
-class _MyPeopleState extends State<MyPeople> {
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: size.height * 0.04,
-            ),
             Opacity(
-              opacity: 0.50,
+              opacity: 0.80,
               child: Padding(
-                padding: EdgeInsets.only(left: size.width * 0.05),
+                padding:
+                    EdgeInsets.symmetric(horizontal: UI.width(context, 16)),
                 child: Text(
                   'Keep track of events your connections are attending or hosting.',
                   softWrap: true,
+                  textAlign: TextAlign.justify,
                   style: Fonts.nunito(
                     color: ColorLib.grey,
                     fontSize: 16,
@@ -38,16 +36,34 @@ class _MyPeopleState extends State<MyPeople> {
                 ),
               ),
             ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Row(
-              children: [
-                SizedBox(width: size.width * 0.05),
-                EventCard(size: size),
-                SizedBox(width: size.width * 0.05),
-                EventCardStack(size: size)
-              ],
+            SizedBox(height: UI.height(context, 10)),
+            allGroups.when(
+              data: (data) {
+                List<GroupModel> groupsList = data.map((e) => e).toList();
+
+                return Wrap(
+                  alignment: WrapAlignment.center,
+                  direction: Axis.horizontal,
+                  spacing: UI.width(context, 20),
+                  runSpacing: UI.width(context, 20),
+                  children: groupsList
+                      .map(
+                        (group) => GroupView(
+                          title: group.title,
+                        ),
+                      )
+                      .toList(),
+                );
+              },
+              error: (error, stackTrace) => Center(
+                child: Text(
+                  error.toString(),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           ],
         ),

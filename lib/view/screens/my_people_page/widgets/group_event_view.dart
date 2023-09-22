@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:harpoon_events_app/view/screens/comment_page.dart';
-// import 'package:harpoon_events_app/view/screens/post_comments/post_comments.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 
-class TechiesScreen extends StatelessWidget {
-  const TechiesScreen({super.key});
+class GroupEventPage extends StatelessWidget {
+  static String route = '/techies';
+
+  const GroupEventPage({super.key});
 
   @override
   Widget build(BuildContext context) {

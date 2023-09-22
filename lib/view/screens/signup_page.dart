@@ -125,7 +125,7 @@ class BottomCard extends ConsumerWidget {
                   context: context,
                   backgroundColor: ColorLib.green,
                 );
-                ref.read(twitterLoading.notifier).state = false;
+
                 log("In twitter responses");
                 String name = result.user!.name;
                 // Use their unique ID as their email as not all user have email
@@ -146,6 +146,8 @@ class BottomCard extends ConsumerWidget {
                 }
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pushReplacementNamed(MainPage.route);
+
+                ref.read(twitterLoading.notifier).state = false;
               } else if (next.status == TwitterLoginStatus.cancelledByUser) {
                 ref.read(twitterLoading.notifier).state = false;
                 snackBar(

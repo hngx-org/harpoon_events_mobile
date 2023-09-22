@@ -1,6 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/view/screens/my_people_page/widgets/group_event_view.dart';
 
 import 'view/screens/comment_page.dart';
 import 'view/screens/main_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),
         PostComments.route: (context) => const PostComments(),
+        GroupEventPage.route: (context) => const GroupEventPage(),
       },
     );
   }

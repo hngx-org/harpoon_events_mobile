@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:harpoon_events_app/util/color_lib.dart';
-import 'package:harpoon_events_app/util/fonts.dart';
-import 'package:harpoon_events_app/view/screens/my_people_page/widgets/techies_Screen.dart';
 
-import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
+import '../../../../util/color_lib.dart';
+import '../../../../util/fonts.dart';
+import '../../../../util/ui.dart';
+import '../../../widgets/stroke_text.dart';
+import 'group_event_view.dart';
 
-class EventCardStack extends StatelessWidget {
-  const EventCardStack({
+class GroupView extends StatelessWidget {
+  final String title;
+
+  const GroupView({
     super.key,
-    required this.size,
+    required this.title,
   });
-
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +20,10 @@ class EventCardStack extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const TechiesScreen())),
+          onTap: () => Navigator.of(context).pushNamed(GroupEventPage.route),
           child: Container(
-            width: 177,
-            height: 177,
+            width: UI.width(context, 177),
+            height: UI.height(context, 177),
             decoration: ShapeDecoration(
               color: const Color(0xFFEF8F76),
               image: const DecorationImage(
@@ -93,18 +93,22 @@ class EventCardStack extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: size.height * 0.025),
-        StrokeText(
-          text: 'Techies 💻',
-          textStyle: Fonts.tropiline(
-            color: ColorLib.orange,
-            // fontSize: 48,
-            fontWeight: FontWeight.w800,
-            // height: 0.02,
-            // letterSpacing: 0.56,
+        SizedBox(
+          height: UI.height(context, 20),
+        ),
+        SizedBox(
+          width: UI.width(context, 177),
+          child: StrokeText(
+            text: title,
+            softWrap: true,
+            textStyle: Fonts.tropiline(
+              color: ColorLib.orange,
+              fontSize: 12,
+              fontWeight: FontWeight.w800,
+            ),
+            strokeColor: ColorLib.black,
+            strokeWidth: 1.5,
           ),
-          strokeColor: ColorLib.black,
-          strokeWidth: 3,
         ),
       ],
     );
