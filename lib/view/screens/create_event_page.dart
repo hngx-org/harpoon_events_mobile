@@ -279,69 +279,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   }
 }
 
-// class DropdownCell extends StatefulWidget {
-//   final DateTime selectedDate;
-//   final ValueChanged<DateTime> onDateChanged;
 
-//   const DropdownCell({
-//     super.key,
-//     required this.selectedDate,
-//     required this.onDateChanged,
-//   });
-
-//   @override
-//   State<DropdownCell> createState() => _DropdownCellState();
-// }
-
-// class _DropdownCellState extends State<DropdownCell> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       child: Container(
-//         width: 178,
-//         height: 63,
-//         decoration: ShapeDecoration(
-//           color: const Color(0xFFF5FAFF),
-// shape: RoundedRectangleBorder(
-// side: const BorderSide(
-//   width: 2,
-//   strokeAlign: BorderSide.strokeAlignCenter,
-// ),
-//             borderRadius: BorderRadius.circular(8),
-//           ),
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Text(
-//                 DateFormat('MM/dd/yyyy').format(widget.selectedDate),
-//               ),
-//               IconButton(
-//                 icon: const Icon(Icons.arrow_drop_down),
-//                 onPressed: _showDatePicker,
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   _showDatePicker() async {
-//     final DateTime? date = await showDatePicker(
-//       context: context,
-//       initialDate: widget.selectedDate,
-//       firstDate: DateTime(2000),
-//       lastDate: DateTime(2025),
-//     );
-
-//     if (date != null) {
-//       widget.onDateChanged(date);
-//     }
-//   }
-// }
 class DropdownCell extends StatefulWidget {
   final DateTime? selectedDate;
   final DateTime? selectedTime;
@@ -361,6 +299,14 @@ class DropdownCell extends StatefulWidget {
 }
 
 class _DropdownCellState extends State<DropdownCell> {
+  DateTime? _selectedTime; // Maintain a separate time for each instance
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTime = widget.selectedTime; // Initialize with the provided time
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -395,10 +341,10 @@ class _DropdownCellState extends State<DropdownCell> {
                   ),
                 ],
               ),
-            if (widget.selectedTime != null)
+            if (_selectedTime != null)
               Row(
                 children: [
-                  Text(DateFormat('hh:mm a').format(widget.selectedTime!)),
+                  Text(DateFormat('hh:mm a').format(_selectedTime!)),
                   IconButton(
                     icon: const Icon(Icons.arrow_drop_down),
                     onPressed: () {
@@ -431,8 +377,7 @@ class _DropdownCellState extends State<DropdownCell> {
   _showTimePicker() async {
     final TimeOfDay? timeOfDay = await showTimePicker(
       context: context,
-      initialTime:
-          TimeOfDay.fromDateTime(widget.selectedTime ?? DateTime.now()),
+      initialTime: TimeOfDay.fromDateTime(_selectedTime ?? DateTime.now()),
     );
 
     if (timeOfDay != null && widget.onTimeChanged != null) {
@@ -443,10 +388,16 @@ class _DropdownCellState extends State<DropdownCell> {
         timeOfDay.hour,
         timeOfDay.minute,
       );
+
+      setState(() {
+        _selectedTime = selectedTime; // Update the selected time for this instance
+      });
+
       widget.onTimeChanged!(selectedTime);
     }
   }
 }
+
 
 class CustomText extends StatelessWidget {
   final String text;
