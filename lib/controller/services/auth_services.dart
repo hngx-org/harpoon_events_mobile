@@ -85,7 +85,7 @@ class AuthServices {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(AppStrings.tokenKey, result['token']);
 
-      return UserModel.fromJson(result['dataValues']);
+      return UserModel.fromJson(result['user']);
     } else {
       throw Exception(response.reasonPhrase);
     }
