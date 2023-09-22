@@ -128,7 +128,11 @@ class BottomCard extends ConsumerWidget {
           // SubheadLine
           Text(
             'Discover, Create, and Share Memorable Moments with a Thriving Community of Event Lovers.',
-            style: Fonts.nunito(color: Colors.black54, fontSize: 17, fontWeight: FontWeight.w500, letterSpacing: 0.3),
+            style: Fonts.nunito(
+                color: Colors.black54,
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.3),
           ),
           const SizedBox(height: 20),
 
@@ -156,6 +160,7 @@ class BottomCard extends ConsumerWidget {
                 String source = 'twitter';
                 final data = LoginDataModel(name: name, email: email, avatar: avatar, source: source);
                 ref.read(loginProvider(data));
+
               } else if (next.status == TwitterLoginStatus.cancelledByUser) {
                 ref.read(twitterLoading.notifier).state = false;
                 snackBar(
@@ -219,6 +224,7 @@ class BottomCard extends ConsumerWidget {
                 source: source,
               );
               ref.read(loginProvider(data));
+
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushReplacementNamed(MainPage.route);
             },
