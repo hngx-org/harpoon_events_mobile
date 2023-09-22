@@ -88,9 +88,26 @@ class AuthServices {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(AppStrings.tokenKey, result['token']);
 
-      return UserModel.fromJson(result['dataValues']);
-    } else {
-      throw Exception(response.reasonPhrase);
+        return LoginResponse(
+          status: result["status"],
+          errMessage: null,
+          body: body,
+        );
+      } else {
+        final result = jsonDecode(response.body);
+        return LoginResponse(
+          status: result["status"],
+          errMessage: result["errors"][0]["message"],
+          body: null,
+        );
+      }
+    } catch (e) {
+      log(e.toString());
+      return LoginResponse(
+        status: "error",
+        errMessage: "An unexpected error occured",
+        body: null,
+      );
     }
   }
 

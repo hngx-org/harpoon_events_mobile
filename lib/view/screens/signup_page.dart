@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twitter_login/entity/auth_result.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import '../../constants.dart';
@@ -134,6 +135,7 @@ class BottomCard extends ConsumerWidget {
           // Continue with twitter button
           Consumer(builder: (context, ref, child) {
             final loadingState = ref.watch(twitterLoading);
+
             ref.listen(loginTwitterResponse, (previous, next) async {
               if (next!.status == TwitterLoginStatus.loggedIn) {
                 final result = next;
@@ -152,37 +154,8 @@ class BottomCard extends ConsumerWidget {
                 String email = '${result.user!.id}@gmail.com';
                 String avatar = result.user!.thumbnailImage;
                 String source = 'twitter';
-<<<<<<< HEAD
                 final data = LoginDataModel(name: name, email: email, avatar: avatar, source: source);
                 ref.read(loginProvider(data));
-=======
-                UserModel userData = await ref.watch(authProvider).authorizeUser(name, email, avatar, source);
-
-                final SharedPreferences prefs = await SharedPreferences.getInstance();
-                ref.read(tokenProvider.notifier).state = prefs.getString(AppStrings.tokenKey);
-
-                ref.read(userDataProvider.notifier).state = userData;
-                if (kDebugMode) {
-                  print("${userData.name}, ${userData.email}, ${userData.avatar}");
-                }
-
-
-                UserModel userData = await ref
-                    .watch(authProvider)
-                    .authorizeUser(name, email, avatar, source);
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                ref.read(tokenProvider.notifier).state =
-                    prefs.getString(AppStrings.tokenKey);
-                ref.read(userDataProvider.notifier).state = userData;
-                if (kDebugMode) {
-                  print(
-                      "${userData.name}, ${userData.email}, ${userData.avatar}");
-                }
-
-             // ignore: use_build_context_synchronously
-                Navigator.of(context).pushReplacementNamed(MainPage.route);
->>>>>>> 2d93f0670c76e8731ecaca54b02c54b2eae5c558
               } else if (next.status == TwitterLoginStatus.cancelledByUser) {
                 ref.read(twitterLoading.notifier).state = false;
                 snackBar(
@@ -199,6 +172,7 @@ class BottomCard extends ConsumerWidget {
                 );
               }
             });
+
             return GestureDetector(
               onTap: loadingState
                   ? () {}
