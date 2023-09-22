@@ -62,7 +62,7 @@ class MainPage extends ConsumerWidget {
             // Page View
             Positioned(
               top: 0.0,
-              bottom: UI.height(context, 120),
+              bottom: UI.height(context, 110),
               right: 0,
               left: 0,
               child: currentTab == TabState.timeline

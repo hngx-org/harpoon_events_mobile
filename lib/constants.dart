@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class AppImages {
   static const about = "assets/SVGs/about.svg";
   static const logOut = "assets/SVGs/log_out.svg";

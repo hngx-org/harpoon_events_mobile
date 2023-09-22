@@ -7,7 +7,8 @@ import 'package:twitter_login/entity/auth_result.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import '../../constants.dart';
-import '../../controller/auth_services.dart';
+import '../../controller/services/auth_services.dart';
+import '../../controller/tab_provider.dart';
 import '../../model/user_model.dart';
 import '../../services/twitter_login_services.dart';
 import '../../util/color_lib.dart';
@@ -150,11 +151,12 @@ class BottomCard extends ConsumerWidget {
                       String name = result.user!.name;
                       // Use their unique ID as their email as not all user have email
                       String email = '${result.user!.id}';
+                      String avatar = result.user!.thumbnailImage;
                       String source = 'twitter';
 
                       UserModel userData = await ref
                           .watch(authProvider)
-                          .authorizeUser(name, email, source);
+                          .authorizeUser(name, email, avatar, source);
 
                       final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
@@ -199,14 +201,13 @@ class BottomCard extends ConsumerWidget {
           GestureDetector(
             onTap: () async {
               // GoogleAuth().signInWithGoogle();
-              String name = "Farouk";
-
-              String email = 'faroukk@gmail.com';
+              String name = "Farouk Bello";
+              String email = 'faroukbello@gmail.com';
               String source = 'google';
 
               UserModel userData = await ref
                   .watch(authProvider)
-                  .authorizeUser(name, email, source);
+                  .authorizeUser(name, email, null, source);
 
               final SharedPreferences prefs =
                   await SharedPreferences.getInstance();
@@ -219,6 +220,7 @@ class BottomCard extends ConsumerWidget {
                     "${userData.name}, ${userData.email}, ${userData.avatar}");
               }
 
+              ref.read(tabProvider.notifier).state = TabState.timeline;
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushReplacementNamed(MainPage.route);
             },
