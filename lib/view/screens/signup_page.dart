@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:event_app/services/twitterLoginServices.dart';
 import 'package:event_app/view/widgets/circularProgressIndicator.dart';
 import 'package:event_app/view/widgets/snackBar.dart';
@@ -105,7 +107,7 @@ class BottomCard extends ConsumerWidget {
               if (next!.status == TwitterLoginStatus.loggedIn) {
                 ref.read(twitterLoading.notifier).state = false;
                 snackBar(
-                  content: "You log in as ${next.user!.name}",
+                  content: "You login as ${next.user!}",
                   context: context,
                   backgroundColor: ColorLib.green,
                 );
