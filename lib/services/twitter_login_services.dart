@@ -11,11 +11,12 @@ class TwitterServices {
       final twitterLogin = TwitterLogin(
         apiKey: TwitterKeys.API_KEY,
         apiSecretKey: TwitterKeys.API_SECRET_KEY,
-        redirectURI: 'example://',
+        redirectURI: 'teamharpoon://',
       );
 
       final authResult = await twitterLogin.login(forceLogin: true);
 
+      log(authResult.status.toString());
       if (authResult.status == TwitterLoginStatus.loggedIn) {
         return AuthResult(
           status: authResult.status!,
@@ -57,8 +58,7 @@ final twitterServiceProvider = Provider.autoDispose<TwitterServices>((ref) {
   return TwitterServices();
 });
 
-final loginTwitterResponse =
-    StateProvider.autoDispose<AuthResult?>((ref) => null);
+final loginTwitterResponse = StateProvider.autoDispose<AuthResult?>((ref) => null);
 
 final getData = FutureProvider.autoDispose<AuthResult>((ref) async {
   final fetchdata = await ref.read(twitterServiceProvider).loginTwitterUser();

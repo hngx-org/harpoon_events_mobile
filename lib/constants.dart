@@ -24,7 +24,7 @@ class AppStrings {
 }
 
 class TwitterKeys {
-  static const API_KEY = "h6cjOjheh32Qnoa0QQGZEz8LX";
+  static const API_KEY = "1nU9UV8M7IvdDor6RjPefhjMA";
   static const API_SECRET_KEY =
-      "omwtqvxxhCNF3Kk3TzlphDK5nvo8inKYxx4QhDbWGLalCFLRpT";
+      "4qq7cvgT0kY7b3ADT0Wh24e4TABPhJXPudARk7Vt2DAnRyFwqn";
 }
