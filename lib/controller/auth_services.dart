@@ -51,3 +51,47 @@
 //     FirebaseAuth.instance.signOut();
 //   }
 // }
+import 'dart:convert';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/constants.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/user_model.dart';
+
+class AuthServices {
+  String userEndpoint = 'http://web-01.okoth.tech/api/v1/users';
+
+  Future<UserModel> authorizeUser(
+      String name, String email, String source) async {
+    Response response = await post(
+      Uri.parse("$userEndpoint/$source"),
+      headers: <String, String>{
+        "accept": "application/json",
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "name": name,
+        "email": email,
+        "image": AppStrings.profilePicture,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      final result = jsonDecode(response.body);
+
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString(AppStrings.tokenKey, result['token']);
+
+      return UserModel.fromJson(result['dataValues']);
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
+}
+
+final authProvider = Provider<AuthServices>((ref) => AuthServices());
+final userDataProvider = StateProvider<UserModel?>((ref) => null);
+final tokenProvider = StateProvider.autoDispose<String?>((ref) => null);

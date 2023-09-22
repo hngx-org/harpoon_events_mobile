@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../controller/tab_provider.dart';
 import '../../util/color_lib.dart';
 // import '../../util/fonts.dart';
 // import '../widgets/stroke_text.dart';
@@ -15,18 +12,6 @@ class CreateEventPage extends StatefulWidget {
   State<CreateEventPage> createState() => _CreateEventPageState();
 }
 
-class BackButton extends ConsumerWidget {
-  const BackButton({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return IconButton(
-      onPressed: () => ref.read(tabProvider.notifier).state = TabState.timeline,
-      icon: SvgPicture.asset('assets/SVGs/back-button.svg'),
-    );
-  }
-}
-
 class _CreateEventPageState extends State<CreateEventPage> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
@@ -35,12 +20,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Create Event'),
-        leading: const BackButton(),
-        forceMaterialTransparency: true,
-      ),
       backgroundColor: ColorLib.transparent,
       body: SingleChildScrollView(
         child: Padding(

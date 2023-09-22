@@ -14,23 +14,6 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorLib.transparent,
-      appBar: AppBar(
-        title: Text(
-          'Calendar',
-          style: Fonts.tropiline(
-            color: ColorLib.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            height: 0.02,
-            letterSpacing: 1.6,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: ColorLib.transparent,
-        shadowColor: ColorLib.transparent,
-        forceMaterialTransparency: true,
-      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(top: 20, right: 25, left: 25),
@@ -43,11 +26,17 @@ class CalendarPage extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Calendar container
-              Calendar(),
+              const Calendar(),
               const SizedBox(height: 30),
 
               // Saved Events
-              savedEvent(context: context, eventTitle: 'Movie Night', eventTime: '8:30 PM', eventLocation: 'Genesis cinemas, Festac', locationTime: '9:45 PM')
+              savedEvent(
+                context: context,
+                eventTitle: 'Movie Night',
+                eventTime: '8:30 PM',
+                eventLocation: 'Genesis cinemas, Festac',
+                locationTime: '9:45 PM',
+              )
             ],
           ),
         ),
@@ -66,11 +55,12 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   DateTime currentDay = DateTime.now(); // get the current day of the week
-  void _onSelected(DateTime day, DateTime focusedDay){
+  void _onSelected(DateTime day, DateTime focusedDay) {
     setState(() {
       currentDay = day;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -124,30 +114,53 @@ class _CalendarState extends State<Calendar> {
 }
 
 //! Saved events Widget
-Widget savedEvent({required BuildContext context, required String eventTitle, String? eventTime, required String eventLocation, String? locationTime}) {
+Widget savedEvent(
+    {required BuildContext context,
+    required String eventTitle,
+    String? eventTime,
+    required String eventLocation,
+    String? locationTime}) {
   return CustomContainer(
     fillColor: ColorLib.lightBlue,
     width: UI.width(context, 364),
     height: UI.height(context, 95),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
     child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Event title
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            StrokeText(text: eventTitle, strokeWidth: 1, textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-            Text(eventTime ?? '', style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),)
+            StrokeText(
+              text: eventTitle,
+              strokeWidth: 1,
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              eventTime ?? '',
+              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+            )
           ],
         ),
-        const SizedBox(height: 17),
 
         // Event Location
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(eventLocation, style: TextStyle(fontWeight: FontWeight.w500, color: ColorLib.grey, fontSize: 17),),
-            Text(locationTime ?? '', style: TextStyle(fontWeight: FontWeight.w500, color: ColorLib.grey),)
+            Text(
+              eventLocation,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: ColorLib.grey,
+                  fontSize: 17),
+            ),
+            Text(
+              locationTime ?? '',
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500, color: ColorLib.grey),
+            )
           ],
         ),
       ],

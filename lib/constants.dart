@@ -9,6 +9,7 @@ class AppImages {
 }
 
 class AppStrings {
+  static const tokenKey = "access-token";
   static const notification = "Notifications";
   static const privacy = "Privacy";
   static const appearance = "Appearance";

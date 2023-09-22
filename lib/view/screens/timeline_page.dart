@@ -23,23 +23,6 @@ class TimelinePage extends ConsumerWidget {
     final friends = ref.watch(friendsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Timeline',
-          style: Fonts.tropiline(
-            color: ColorLib.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            height: 0.02,
-            letterSpacing: 1.6,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: ColorLib.transparent,
-        shadowColor: ColorLib.transparent,
-        forceMaterialTransparency: true,
-      ),
       backgroundColor: ColorLib.transparent,
       body: Padding(
         padding: EdgeInsets.only(left: UI.width(context, 24)),

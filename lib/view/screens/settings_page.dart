@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harpoon_events_app/constants.dart';
-import '../../util/color_lib.dart';
-import '../../util/fonts.dart';
+
 import '../widgets/custom_container.dart';
 import '../widgets/stroke_text.dart';
 
@@ -33,23 +32,6 @@ class SettingsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Settings",
-          style: Fonts.tropiline(
-            color: ColorLib.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            height: 0.02,
-            letterSpacing: 1.6,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: ColorLib.transparent,
-        shadowColor: ColorLib.transparent,
-        forceMaterialTransparency: true,
-      ),
       body: Center(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
