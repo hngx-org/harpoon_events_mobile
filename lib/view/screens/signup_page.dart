@@ -1,19 +1,25 @@
-// ignore_for_file: unused_import
 
-import 'package:event_app/services/twitterLoginServices.dart';
-import 'package:event_app/view/widgets/circularProgressIndicator.dart';
-import 'package:event_app/view/widgets/snackBar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twitter_login/entity/auth_result.dart';
 import 'package:twitter_login/twitter_login.dart';
 
+import '../../constants.dart';
+import '../../controller/services/auth_services.dart';
+import '../../controller/tab_provider.dart';
+import '../../model/user_model.dart';
+import '../../services/twitter_login_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../../util/ui.dart';
 import '../widgets/app_bg.dart';
 import '../widgets/custom_container.dart';
+import '../widgets/snack_bar.dart';
 import '../widgets/stroke_text.dart';
-import 'package:flutter_svg/svg.dart';
+import 'main_page.dart';
 
 final twitterLoading = StateProvider.autoDispose<bool>((ref) => false);
 
@@ -72,7 +78,11 @@ class BottomCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: const EdgeInsets.only(right: 25, left: 25, top: 35),
+      padding: const EdgeInsets.only(
+        right: 25,
+        left: 25,
+        top: 35,
+      ),
       height: UI.height(context, 399),
       width: UI.width(context, 428),
       color: ColorLib.purple,
@@ -96,13 +106,18 @@ class BottomCard extends ConsumerWidget {
           // SubheadLine
           Text(
             'Discover, Create, and Share Memorable Moments with a Thriving Community of Event Lovers.',
-            style: Fonts.nunito(color: Colors.black54, fontSize: 17, fontWeight: FontWeight.w500, letterSpacing: 0.3),
+            style: Fonts.nunito(
+                color: Colors.black54,
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.3),
           ),
           const SizedBox(height: 20),
 
           // Continue with twitter button
           Consumer(builder: (context, ref, child) {
             final loadingState = ref.watch(twitterLoading);
+
             ref.listen(loginTwitterResponse, (previous, next) {
               if (next!.status == TwitterLoginStatus.loggedIn) {
                 ref.read(twitterLoading.notifier).state = false;
@@ -127,12 +142,37 @@ class BottomCard extends ConsumerWidget {
                 );
               }
             });
+
             return GestureDetector(
               onTap: loadingState
                   ? () {}
                   : () async {
                       ref.read(twitterLoading.notifier).state = true;
-                      ref.read(getData);
+                      final result = ref.read(getData) as AuthResult;
+                      String name = result.user!.name;
+                      // Use their unique ID as their email as not all user have email
+                      String email = '${result.user!.id}';
+                      String avatar = result.user!.thumbnailImage;
+                      String source = 'twitter';
+
+                      UserModel userData = await ref
+                          .watch(authProvider)
+                          .authorizeUser(name, email, avatar, source);
+
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      ref.read(tokenProvider.notifier).state =
+                          prefs.getString(AppStrings.tokenKey);
+
+                      ref.read(userDataProvider.notifier).state = userData;
+                      if (kDebugMode) {
+                        print(
+                            "${userData.name}, ${userData.email}, ${userData.avatar}");
+                      }
+
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context)
+                          .pushReplacementNamed(MainPage.route);
                     },
               child: CustomContainer(
                 fillColor: ColorLib.lightBlue,
@@ -160,7 +200,31 @@ class BottomCard extends ConsumerWidget {
 
           // Continue with Google button
           GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              // GoogleAuth().signInWithGoogle();
+              String name = "Farouk Bello";
+              String email = 'faroukbello@gmail.com';
+              String source = 'google';
+
+              UserModel userData = await ref
+                  .watch(authProvider)
+                  .authorizeUser(name, email, null, source);
+
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              ref.read(tokenProvider.notifier).state =
+                  prefs.getString(AppStrings.tokenKey);
+
+              ref.read(userDataProvider.notifier).state = userData;
+              if (kDebugMode) {
+                print(
+                    "${userData.name}, ${userData.email}, ${userData.avatar}");
+              }
+
+              ref.read(tabProvider.notifier).state = TabState.timeline;
+              // ignore: use_build_context_synchronously
+              Navigator.of(context).pushReplacementNamed(MainPage.route);
+            },
             child: CustomContainer(
               fillColor: ColorLib.lightBlue,
               width: UI.width(context, 375),
