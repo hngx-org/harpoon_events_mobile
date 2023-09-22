@@ -22,3 +22,4 @@ FutureProvider<GroupModel> createGroupProvider(String title) {
 
 // State variable to hold all the groups that are available in the DB
 final groupsDataProvider = StateProvider<List<GroupModel>?>((ref) => null);
+final selectedGroupProvider = StateProvider<GroupModel?>((ref) => null);

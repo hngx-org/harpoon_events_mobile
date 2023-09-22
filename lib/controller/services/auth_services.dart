@@ -46,6 +46,8 @@
 //     }
 //   }
 
+// ignore_for_file: constant_identifier_names
+
 //   // Sign Out
 //   signOut() {
 //     FirebaseAuth.instance.signOut();
@@ -65,7 +67,8 @@ import '../../model/user_model.dart';
 class AuthServices {
   String userEndpoint = 'http://web-01.okoth.tech/api/v1/users';
 
-  Future<LoginResponse> authorizeUser({required LoginDataModel loginData}) async {
+  Future<LoginResponse> authorizeUser(
+      {required LoginDataModel loginData}) async {
     try {
       Response response = await post(
         Uri.parse("$userEndpoint/${loginData.source}"),
@@ -132,7 +135,8 @@ class AuthServices {
 }
 
 final authProvider = Provider<AuthServices>((ref) => AuthServices());
-final loginResponseProvider = StateProvider.autoDispose<LoginResponse?>((ref) => null);
+final loginResponseProvider =
+    StateProvider.autoDispose<LoginResponse?>((ref) => null);
 
 final tokenProvider = StateProvider.autoDispose<String?>((ref) => null);
 final loginProvider = FutureProvider.family<bool, LoginDataModel>(
@@ -210,7 +214,8 @@ class LoginResponse {
   final String? errMessage;
   final UserDataModel? body;
 
-  LoginResponse({required this.status, required this.errMessage, required this.body});
+  LoginResponse(
+      {required this.status, required this.errMessage, required this.body});
 }
 
 class LoginDataModel {
@@ -219,5 +224,9 @@ class LoginDataModel {
   final String? avatar;
   final String? source;
 
-  LoginDataModel({required this.name, required this.email, required this.avatar, required this.source});
+  LoginDataModel(
+      {required this.name,
+      required this.email,
+      required this.avatar,
+      required this.source});
 }

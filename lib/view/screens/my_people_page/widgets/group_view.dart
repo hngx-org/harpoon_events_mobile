@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../controller/group_provider.dart';
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 import '../../../../util/ui.dart';
 import '../../../widgets/stroke_text.dart';
 import 'group_event_view.dart';
 
-class GroupView extends StatelessWidget {
+class GroupView extends ConsumerWidget {
   final String title;
 
   const GroupView({
@@ -15,12 +17,26 @@ class GroupView extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final allGroups = ref.watch(allGroupsProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () => Navigator.of(context).pushNamed(GroupEventPage.route),
+          onTap: () {
+            Navigator.of(context).pushNamed(GroupEventPage.route);
+
+            allGroups.whenData(
+              (data) => ref.read(groupsDataProvider.notifier).state =
+                  data.map((e) => e).toList(),
+            );
+
+            ref.read(selectedGroupProvider.notifier).state =
+                ref.watch(groupsDataProvider)?.firstWhere(
+                      (element) => element.title == title,
+                    );
+          },
           child: Container(
             width: UI.width(context, 177),
             height: UI.height(context, 177),
