@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:harpoon_events_app/util/color_lib.dart';
 import 'package:harpoon_events_app/util/fonts.dart';
-import 'package:harpoon_events_app/view/screens/my_people_page/widgets/techies_screen.dart';
+import 'package:harpoon_events_app/view/screens/my_people_page/widgets/techies_Screen.dart';
+
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
 class EventCardStack extends StatelessWidget {

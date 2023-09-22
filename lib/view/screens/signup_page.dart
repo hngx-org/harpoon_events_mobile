@@ -106,11 +106,7 @@ class BottomCard extends ConsumerWidget {
           // SubheadLine
           Text(
             'Discover, Create, and Share Memorable Moments with a Thriving Community of Event Lovers.',
-            style: Fonts.nunito(
-                color: Colors.black54,
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.3),
+            style: Fonts.nunito(color: Colors.black54, fontSize: 17, fontWeight: FontWeight.w500, letterSpacing: 0.3),
           ),
           const SizedBox(height: 20),
 
@@ -132,6 +128,17 @@ class BottomCard extends ConsumerWidget {
                 String email = '${result.user!.id}';
                 String avatar = result.user!.thumbnailImage;
                 String source = 'twitter';
+                UserModel userData = await ref.watch(authProvider).authorizeUser(name, email, avatar, source);
+
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                ref.read(tokenProvider.notifier).state = prefs.getString(AppStrings.tokenKey);
+
+                ref.read(userDataProvider.notifier).state = userData;
+                if (kDebugMode) {
+                  print("${userData.name}, ${userData.email}, ${userData.avatar}");
+                }
+
+
                 UserModel userData = await ref
                     .watch(authProvider)
                     .authorizeUser(name, email, avatar, source);
@@ -144,7 +151,8 @@ class BottomCard extends ConsumerWidget {
                   print(
                       "${userData.name}, ${userData.email}, ${userData.avatar}");
                 }
-                // ignore: use_build_context_synchronously
+
+             // ignore: use_build_context_synchronously
                 Navigator.of(context).pushReplacementNamed(MainPage.route);
               } else if (next.status == TwitterLoginStatus.cancelledByUser) {
                 ref.read(twitterLoading.notifier).state = false;
@@ -201,19 +209,14 @@ class BottomCard extends ConsumerWidget {
               String email = 'faroukbello@gmail.com';
               String source = 'google';
 
-              UserModel userData = await ref
-                  .watch(authProvider)
-                  .authorizeUser(name, email, null, source);
+              UserModel userData = await ref.watch(authProvider).authorizeUser(name, email, null, source);
 
-              final SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
-              ref.read(tokenProvider.notifier).state =
-                  prefs.getString(AppStrings.tokenKey);
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              ref.read(tokenProvider.notifier).state = prefs.getString(AppStrings.tokenKey);
 
               ref.read(userDataProvider.notifier).state = userData;
               if (kDebugMode) {
-                print(
-                    "${userData.name}, ${userData.email}, ${userData.avatar}");
+                print("${userData.name}, ${userData.email}, ${userData.avatar}");
               }
 
               ref.read(tabProvider.notifier).state = TabState.timeline;
