@@ -2,18 +2,12 @@
 
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:twitter_login/entity/auth_result.dart';
 import 'package:twitter_login/twitter_login.dart';
 
-import '../../constants.dart';
 import '../../controller/services/auth_services.dart';
-import '../../controller/tab_provider.dart';
-import '../../model/user_model.dart';
 import '../../services/twitter_login_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
@@ -158,9 +152,9 @@ class BottomCard extends ConsumerWidget {
                 String email = '${result.user!.id}@gmail.com';
                 String avatar = result.user!.thumbnailImage;
                 String source = 'twitter';
-                final data = LoginDataModel(name: name, email: email, avatar: avatar, source: source);
+                final data = LoginDataModel(
+                    name: name, email: email, avatar: avatar, source: source);
                 ref.read(loginProvider(data));
-
               } else if (next.status == TwitterLoginStatus.cancelledByUser) {
                 ref.read(twitterLoading.notifier).state = false;
                 snackBar(

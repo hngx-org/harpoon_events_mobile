@@ -20,16 +20,25 @@ class SettingsPage extends ConsumerWidget {
     Size size = MediaQuery.of(context).size;
     final userData = ref.watch(getUserDataProvider);
     List<SettingTabsModel> settings = [
-      SettingTabsModel(name: AppStrings.notification, svg: AppImages.notification, onTap: () {}),
-      SettingTabsModel(name: AppStrings.privacy, svg: AppImages.privacy, onTap: () {}),
-      SettingTabsModel(name: AppStrings.appearance, svg: AppImages.appearance, onTap: () {}),
-      SettingTabsModel(name: AppStrings.region, svg: AppImages.region, onTap: () {}),
-      SettingTabsModel(name: AppStrings.settings, svg: AppImages.support, onTap: () {}),
-      SettingTabsModel(name: AppStrings.about, svg: AppImages.about, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.notification,
+          svg: AppImages.notification,
+          onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.privacy, svg: AppImages.privacy, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.appearance, svg: AppImages.appearance, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.region, svg: AppImages.region, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.settings, svg: AppImages.support, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.about, svg: AppImages.about, onTap: () {}),
       SettingTabsModel(
           name: AppStrings.logOut,
           svg: AppImages.logOut,
           onTap: () async {
+
             await ref.watch(clearCredentialsProvider.future).then((value) async {
               if (value) {
                 log(value.toString());
@@ -45,6 +54,7 @@ class SettingsPage extends ConsumerWidget {
                 );
               }
             });
+
           }),
     ];
 
@@ -65,6 +75,7 @@ class SettingsPage extends ConsumerWidget {
                       "${userData.isLoading ? "" : userData.value!.user!.avatar}",
                       height: 100,
                       width: 100,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -76,7 +87,8 @@ class SettingsPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     StrokeText(
-                      text: "${userData.isLoading ? "" : userData.value!.user!.name}",
+                      text:
+                          "${userData.isLoading ? "" : userData.value!.user!.name}",
                       textStyle: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
@@ -85,7 +97,8 @@ class SettingsPage extends ConsumerWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    Text("${userData.isLoading ? "" : userData.value!.user!.email}")
+                    Text(
+                        "${userData.isLoading ? "" : userData.value!.user!.email}")
                   ],
                 )),
                 const SizedBox(
@@ -120,7 +133,8 @@ class SettingsPage extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
                                     child: SvgPicture.asset(settings[i].svg),
                                   ),
                                   Expanded(
@@ -135,7 +149,8 @@ class SettingsPage extends ConsumerWidget {
                                     ),
                                   ),
                                   const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
                                       child: Icon(
                                         Icons.arrow_forward_ios_sharp,
                                         size: 15,
@@ -166,5 +181,6 @@ class SettingTabsModel {
   String svg;
   String name;
   VoidCallback onTap;
-  SettingTabsModel({required this.name, required this.svg, required this.onTap});
+  SettingTabsModel(
+      {required this.name, required this.svg, required this.onTap});
 }

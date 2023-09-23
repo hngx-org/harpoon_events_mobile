@@ -8,6 +8,7 @@ import '../../util/fonts.dart';
 import '../../util/ui.dart';
 import '../widgets/custom_container.dart';
 import '../widgets/stroke_text.dart';
+import 'comment_page.dart';
 
 enum FeedType {
   friends,
@@ -22,7 +23,7 @@ class TimelinePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final friends = ref.watch(friendsProvider);
-    final events = ref.watch(eventsProvider);
+    final events = ref.watch(allEventsProvider);
 
     return Scaffold(
       backgroundColor: ColorLib.transparent,
@@ -387,7 +388,7 @@ class LiveEvent extends StatelessWidget {
   }
 }
 
-class EventView extends StatelessWidget {
+class EventView extends ConsumerWidget {
   final String title;
   final String location;
   final String startDate;
@@ -406,80 +407,99 @@ class EventView extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: CustomContainer(
-        height: UI.height(context, 130),
-        width: UI.width(context, 375),
-        fillColor: ColorLib.pink,
-        borderRadius: 8,
-        child: Padding(
-          padding: EdgeInsets.only(left: UI.width(context, 20)),
-          child: SizedBox(
-            width: UI.width(context, 256),
-            height: UI.height(context, 88),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'assets/images/emoji-with-glasses.png',
-                  width: UI.width(context, 84),
-                  height: UI.height(context, 75),
-                ),
-                SizedBox(
-                  width: UI.width(context, 16),
-                ),
-                SizedBox(
-                  height: UI.height(context, 80),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      StrokeText(
-                        text: title,
-                        textStyle: Fonts.tropiline(
-                          color: ColorLib.orange,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          height: 0.07,
-                          letterSpacing: 0.16,
-                        ),
-                        strokeColor: ColorLib.black,
-                        strokeWidth: 2,
-                      ),
-                      Text(
-                        location,
-                        style: Fonts.nunito(
-                          color: ColorLib.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          height: 0.07,
-                        ),
-                      ),
-                      Text(
-                        startDate,
-                        style: Fonts.nunito(
-                          color: ColorLib.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 0.07,
-                        ),
-                      ),
-                      Text(
-                        '$startTime - $endTime',
-                        style: Fonts.nunito(
-                          color: ColorLib.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 0.07,
-                        ),
-                      ),
-                    ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final allEvents = ref.watch(allEventsProvider);
+
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(CommentsPage.route);
+
+        allEvents.whenData(
+          (data) => ref.read(eventDataProvider.notifier).state =
+              data.map((e) => e).toList(),
+        );
+
+        ref.read(selectedEventProvider.notifier).state = ref
+            .watch(eventDataProvider)
+            ?.firstWhere(
+              (element) =>
+                  (element.title == title) && (element.location == location),
+            );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: CustomContainer(
+          height: UI.height(context, 130),
+          width: UI.width(context, 375),
+          fillColor: ColorLib.pink,
+          borderRadius: 8,
+          child: Padding(
+            padding: EdgeInsets.only(left: UI.width(context, 20)),
+            child: SizedBox(
+              width: UI.width(context, 256),
+              height: UI.height(context, 88),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/images/emoji-with-glasses.png',
+                    width: UI.width(context, 84),
+                    height: UI.height(context, 75),
                   ),
-                )
-              ],
+                  SizedBox(
+                    width: UI.width(context, 16),
+                  ),
+                  SizedBox(
+                    height: UI.height(context, 80),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        StrokeText(
+                          text: title,
+                          textStyle: Fonts.tropiline(
+                            color: ColorLib.orange,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            height: 0.07,
+                            letterSpacing: 0.16,
+                          ),
+                          strokeColor: ColorLib.black,
+                          strokeWidth: 2,
+                        ),
+                        Text(
+                          location,
+                          style: Fonts.nunito(
+                            color: ColorLib.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            height: 0.07,
+                          ),
+                        ),
+                        Text(
+                          startDate,
+                          style: Fonts.nunito(
+                            color: ColorLib.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 0.07,
+                          ),
+                        ),
+                        Text(
+                          '$startTime - $endTime',
+                          style: Fonts.nunito(
+                            color: ColorLib.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 0.07,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
