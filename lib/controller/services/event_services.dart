@@ -5,11 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/model/userDataModel.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../constants.dart';
 import '../../model/event_model.dart';
-import '../../model/user_model.dart';
 
 class EventServices {
   final ProviderRef ref;
@@ -71,9 +68,11 @@ class EventServices {
   }
 }
 
-final createEventResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
+final createEventResponse =
+    StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 
-final createEvent = FutureProvider.autoDispose.family<bool, Map<String, dynamic>>((ref, arg) async {
+final createEvent = FutureProvider.autoDispose
+    .family<bool, Map<String, dynamic>>((ref, arg) async {
   final fetchdata = await ref.read(eventServiceProvider).createEvent(arg);
   final isAuth = fetchdata.status == "success";
 
@@ -91,7 +90,8 @@ Future<UserDataModel> getToken(ProviderRef ref) async {
   return data;
 }
 
-final eventServiceProvider = Provider<EventServices>((ref) => EventServices(ref: ref));
+final eventServiceProvider =
+    Provider<EventServices>((ref) => EventServices(ref: ref));
 
 class CreateEventResModel {
   final String? status;

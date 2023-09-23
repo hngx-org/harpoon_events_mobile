@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/view/screens/signup_page.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../widgets/custom_container.dart';
@@ -38,8 +37,9 @@ class SettingsPage extends ConsumerWidget {
           name: AppStrings.logOut,
           svg: AppImages.logOut,
           onTap: () async {
-
-            await ref.watch(clearCredentialsProvider.future).then((value) async {
+            await ref
+                .watch(clearCredentialsProvider.future)
+                .then((value) async {
               if (value) {
                 log(value.toString());
                 Navigator.of(context).pushNamedAndRemoveUntil(
@@ -54,7 +54,6 @@ class SettingsPage extends ConsumerWidget {
                 );
               }
             });
-
           }),
     ];
 

@@ -378,7 +378,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 hintText: "Type a message"),
           ),
         ),
-        const Icon(Icons.mic_none)
+        const Icon(Icons.send)
       ]),
     );
   }

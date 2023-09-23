@@ -127,7 +127,7 @@ class AuthServices {
     if (response.statusCode == 201) {
       final result = jsonDecode(response.body);
 
-      return UserModel.fromJson(result['dataValues']);
+      return UserModel.fromJson(result['user']);
     } else {
       throw Exception(response.reasonPhrase);
     }

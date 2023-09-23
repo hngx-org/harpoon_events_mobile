@@ -1,12 +1,10 @@
 // ignore_for_file: unused_result
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/event_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
+import 'package:harpoon_events_app/util/ui.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -52,6 +50,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     final userData = ref.watch(getUserDataProvider);
+
     return Scaffold(
       backgroundColor: ColorLib.transparent,
       body: SingleChildScrollView(
@@ -206,8 +205,10 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                           children: <Widget>[
                             Container(
                               alignment: Alignment.center,
-                              margin: const EdgeInsets.symmetric(horizontal: 15),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               width: double.infinity,
                               height: 40,
                               decoration: ShapeDecoration(
@@ -273,7 +274,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                             Icon(
                               Icons.location_on,
                               size: 20.0,
-                              color: Color.fromRGBO(195, 155, 233, 1), // Set the color
+                              color: Color.fromRGBO(
+                                  195, 155, 233, 1), // Set the color
                             ),
                           ],
                         ),
@@ -303,30 +305,40 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                       builder: (BuildContext context) {
                         return SimpleDialog(
                           title: const Text(
-                            'Enter the group(s) the event belongs to',
+                            'Enter the group the event belongs to',
                             textAlign: TextAlign.center,
                           ),
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
-                              child: Wrap(
-                                direction: Axis.horizontal,
-                                spacing: 10,
-                                runAlignment: WrapAlignment.spaceAround,
-                                children: "Group1,Group2, Group 3, Group 4"
-                                    .split(',')
-                                    .map(
-                                      (e) => Chip(
-                                        label: Text(e.trim()),
-                                      ),
-                                    )
-                                    .toList(),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+
+                              // TODO: Display all availables groups
+                              child: SizedBox(
+                                height: UI.height(context, 200),
+                                child: SingleChildScrollView(
+                                  child: Wrap(
+                                    direction: Axis.horizontal,
+                                    spacing: 10,
+                                    runAlignment: WrapAlignment.spaceAround,
+                                    children: "Group1,Group2, Group 3, Group 4"
+                                        .split(',')
+                                        .map(
+                                          (e) => Chip(
+                                            label: Text(e.trim()),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
                               ),
                             ),
                             Container(
                               alignment: Alignment.center,
-                              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               width: double.infinity,
                               decoration: ShapeDecoration(
                                 color: Colors.transparent,
@@ -341,7 +353,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                               child: TextFormField(
                                 controller: groupsController,
                                 decoration: const InputDecoration(
-                                  hintText: 'Input the groups you want to create the event in',
+                                  hintText:
+                                      'Enter the group the event belongs to',
                                   border: InputBorder.none,
                                 ),
                                 autocorrect: true,
@@ -354,6 +367,9 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                             ),
                             SimpleDialogOption(
                               onPressed: () {
+                                // TODO: Check if the group already exists
+                                // TODO: Ask user if they want to create a new group if the group does not exist.
+                                // TODO: If yes, Create the new group and get it's ID.
                                 setState(() {
                                   groups = groupsController.text;
                                 });
@@ -393,7 +409,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                             Icon(
                               Icons.group,
                               size: 20.0,
-                              color: Color.fromRGBO(195, 155, 233, 1), // Set the color
+                              color: Color.fromRGBO(
+                                  195, 155, 233, 1), // Set the color
                             ),
                           ],
                         ),
@@ -401,7 +418,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                       const SizedBox(width: 2),
                       groups.isEmpty
                           ? const Text(
-                              'Select Groups',
+                              'Select Group',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
@@ -429,12 +446,14 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                 const SizedBox(
                   height: 15,
                 ),
+
+                // TODO: Send back the group_id as part of the data that is being sent to the backend
                 Consumer(builder: (context, ref, child) {
                   final loading = ref.watch(createEventLoader);
                   ref.listen(createEventResponse, (previous, next) {
                     if (next!.status == "success") {
                       ref.read(createEventLoader.notifier).state = false;
-                       ref.refresh(eventsProvider);
+                      // ref.refresh(eventsProvider);
                       titleController.clear();
                       descriptionController.clear();
                       startDate = DateTime.now();
@@ -452,19 +471,21 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                       snackBar(
                         content: next.errMessage ?? "",
                         context: context,
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.red.withOpacity(0.3),
                       );
                     }
                   });
                   return GestureDetector(
                     onTap: () async {
-                      if (_form.currentState!.validate() && location.isNotEmpty) {
-                        
+                      if (_form.currentState!.validate() &&
+                          location.isNotEmpty) {
                         ref.read(createEventLoader.notifier).state = true;
                         final timestart = DateFormat('HH:mm').format(startTime);
                         final timeend = DateFormat('HH:mm').format(endTime);
-                        final datestart = DateFormat('MM/dd/yyyy').format(startDate);
-                        final dateend = DateFormat('MM/dd/yyyy').format(endDate);
+                        final datestart =
+                            DateFormat('MM/dd/yyyy').format(startDate);
+                        final dateend =
+                            DateFormat('MM/dd/yyyy').format(endDate);
 
                         final data = {
                           "title": title,
@@ -489,7 +510,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                     child: Container(
                       width: double.infinity,
                       height: 64,
-                      padding: const EdgeInsets.symmetric(horizontal: 71, vertical: 18),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 71, vertical: 18),
                       clipBehavior: Clip.antiAlias,
                       decoration: ShapeDecoration(
                         color: const Color(0xFFDEEDF7),
@@ -657,7 +679,8 @@ class _DropdownCellState extends State<DropdownCell> {
       );
 
       setState(() {
-        _selectedTime = selectedTime; // Update the selected time for this instance
+        _selectedTime =
+            selectedTime; // Update the selected time for this instance
       });
 
       widget.onTimeChanged!(selectedTime);
