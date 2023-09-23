@@ -7,6 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/controller/event_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
+import 'package:harpoon_events_app/model/groupListModel.dart';
+import 'package:harpoon_events_app/services/groupServices.dart';
+import 'package:harpoon_events_app/view/screens/post_comments/widgets/rotateButton.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -42,7 +45,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
   String title = "";
   String description = "";
   String location = "Add Location";
-  String groups = "";
+  Group groups = Group(id: "", title: "");
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -52,6 +55,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     final userData = ref.watch(getUserDataProvider);
+    final getGroups = ref.watch(getGroup);
     return Scaffold(
       backgroundColor: ColorLib.transparent,
       body: SingleChildScrollView(
@@ -298,83 +302,108 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                 ),
                 InkWell(
                   onTap: () {
+                    ref.refresh(getGroup);
                     showDialog<void>(
                       context: context,
                       builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: const Text(
-                            'Enter the group(s) the event belongs to',
-                            textAlign: TextAlign.center,
-                          ),
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
-                              child: Wrap(
-                                direction: Axis.horizontal,
-                                spacing: 10,
-                                runAlignment: WrapAlignment.spaceAround,
-                                children: "Group1,Group2, Group 3, Group 4"
-                                    .split(',')
-                                    .map(
-                                      (e) => Chip(
-                                        label: Text(e.trim()),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              width: double.infinity,
-                              decoration: ShapeDecoration(
-                                color: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 2,
-                                    strokeAlign: BorderSide.strokeAlignCenter,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
+                        return getGroups.when(
+                            data: (data) {
+                              return SimpleDialog(
+                                title: const Text(
+                                  'Enter the group(s) the event belongs to',
+                                  textAlign: TextAlign.center,
                                 ),
-                              ),
-                              child: TextFormField(
-                                controller: groupsController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Input the groups you want to create the event in',
-                                  border: InputBorder.none,
-                                ),
-                                autocorrect: true,
-                                minLines: 2,
-                                maxLines: 5,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                setState(() {
-                                  groups = groupsController.text;
-                                });
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                    child: Wrap(
+                                      direction: Axis.horizontal,
+                                      spacing: 10,
+                                      runAlignment: WrapAlignment.spaceAround,
+                                      children: data
+                                          .map(
+                                            (e) => GestureDetector(
+                                              onTap: () {
+                                                log(e.id.toString());
+                                                setState(() {
+                                                  groups = e;
+                                                });
 
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 200,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: ColorLib.lightBrown,
-                                  borderRadius: BorderRadius.circular(15),
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Chip(
+                                                label: Text(e.title ?? ""),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    width: double.infinity,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.transparent,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          width: 2,
+                                          strokeAlign: BorderSide.strokeAlignCenter,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: TextFormField(
+                                      controller: groupsController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Input the groups you want to create the event in',
+                                        border: InputBorder.none,
+                                      ),
+                                      autocorrect: true,
+                                      minLines: 2,
+                                      maxLines: 5,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      setState(() {
+                                        //groups = groupsController.text;
+                                      });
+
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: 200,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: ColorLib.lightBrown,
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: const CustomText(
+                                        text: 'Save',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                            error: (error, stackTrace) => Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "An error occured",
+                                      style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.red),
+                                    ),
+                                  ],
                                 ),
-                                child: const CustomText(
-                                  text: 'Save',
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
+                            loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ));
                       },
                     );
                   },
@@ -398,31 +427,17 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 2),
-                      groups.isEmpty
-                          ? const Text(
-                              'Select Groups',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'Tropiline',
-                                fontWeight: FontWeight.w700,
-                                height: 0.09,
-                                letterSpacing: 0.16,
-                              ),
-                            )
-                          : Wrap(
-                              direction: Axis.horizontal,
-                              spacing: 10,
-                              children: groups
-                                  .split(',')
-                                  .map(
-                                    (e) => Chip(
-                                      label: Text(e.trim()),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+                      Text(
+                        groups.title!.isEmpty ? 'Select Groups' : groups.title.toString(),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'Tropiline',
+                          fontWeight: FontWeight.w700,
+                          height: 0.09,
+                          letterSpacing: 0.16,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -434,7 +449,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                   ref.listen(createEventResponse, (previous, next) {
                     if (next!.status == "success") {
                       ref.read(createEventLoader.notifier).state = false;
-                      
+
                       titleController.clear();
                       descriptionController.clear();
                       startDate = DateTime.now();
@@ -459,7 +474,6 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                   return GestureDetector(
                     onTap: () async {
                       if (_form.currentState!.validate() && location.isNotEmpty) {
-                        
                         ref.read(createEventLoader.notifier).state = true;
                         final timestart = DateFormat('HH:mm').format(startTime);
                         final timeend = DateFormat('HH:mm').format(endTime);
