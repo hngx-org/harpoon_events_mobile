@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/services/auth_services.dart';
+import 'package:harpoon_events_app/view/screens/signup_page.dart';
+import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../controller/tab_provider.dart';
 import '../../util/color_lib.dart';
@@ -23,7 +29,32 @@ class MainPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = ref.watch(tabProvider);
-
+    final userData = ref.watch(getUserDataProvider);
+    ref.listen(getUserDataProvider, (previous, next) async {
+      bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
+      if (hasExpired) {
+        snackBar(
+          content: "User Session terminated. Please, Re-Login",
+          context: context,
+          backgroundColor: ColorLib.purple,
+        );
+        await ref.watch(clearCredentialsProvider.future).then((value) async {
+          if (value) {
+            log(value.toString());
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              SignUpPage.route,
+              ModalRoute.withName(SignUpPage.route),
+            );
+          } else {
+            snackBar(
+              content: "Unable to sign out please try again...",
+              context: context,
+              backgroundColor: Colors.red,
+            );
+          }
+        });
+      }
+    });
     return MainBg(
       child: Scaffold(
         backgroundColor: ColorLib.transparent,
@@ -48,8 +79,7 @@ class MainPage extends ConsumerWidget {
               letterSpacing: 1.6,
             ),
           ),
-          leading:
-              currentTab == TabState.createEvent ? const GoBackButton() : null,
+          leading: currentTab == TabState.createEvent ? const GoBackButton() : null,
           centerTitle: true,
           elevation: 0,
           backgroundColor: ColorLib.transparent,
@@ -126,8 +156,7 @@ class MainPage extends ConsumerWidget {
                       width: UI.width(context, 56),
                       height: UI.height(context, 56),
                       child: InkWell(
-                        onTap: () => ref.read(tabProvider.notifier).state =
-                            TabState.createEvent,
+                        onTap: () => ref.read(tabProvider.notifier).state = TabState.createEvent,
                         child: const Icon(
                           Icons.add,
                           size: 24,

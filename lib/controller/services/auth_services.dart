@@ -207,6 +207,26 @@ final getUserDataProvider = FutureProvider.autoDispose<UserDataModel>(
     return userDatas;
   },
 );
+final clearCredentialsProvider = FutureProvider.autoDispose<bool>((ref) async {
+  final prefs = await ref.watch(sharedPrefprovider);
+
+  try {
+    if (prefs.containsKey(IS_AUTHENTICATED)) {
+      await prefs.remove(IS_AUTHENTICATED);
+    }
+
+    if (prefs.containsKey(USER_DATA)) {
+      await prefs.remove(USER_DATA);
+    }
+
+    // Credentials cleared successfully
+
+    return true;
+  } catch (e) {
+    log("Error while clearing saved credentials: $e");
+    return false; // Failed to clear credentials
+  }
+});
 final logoutstate = StateProvider<String?>((ref) => null);
 
 class LoginResponse {
