@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/view/screens/comment_page.dart';
-// import 'package:harpoon_events_app/view/screens/post_comments/post_comments.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
+import '../../../../controller/group_provider.dart';
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 
-class TechiesScreen extends StatelessWidget {
-  const TechiesScreen({super.key});
+class GroupEventPage extends ConsumerWidget {
+  static String route = '/techies';
+
+  const GroupEventPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedGroup = ref.watch(selectedGroupProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Column(
           children: [
             Text(
-              'Techies💻',
+              selectedGroup!.title,
               style: Fonts.tropiline(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
-                  color: ColorLib.black,
-                  letterSpacing: 0.7),
+                fontWeight: FontWeight.bold,
+                fontSize: 24.0,
+                color: ColorLib.black,
+                letterSpacing: 0.7,
+              ),
             ),
             Text(
               '12 members',
@@ -211,7 +217,7 @@ class Inkwell extends StatelessWidget {
                               letterSpacing: 0.56,
                             ),
                             strokeColor: ColorLib.black,
-                            strokeWidth: 6,
+                            strokeWidth: 2,
                           ),
                         ],
                       ),

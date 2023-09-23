@@ -10,20 +10,18 @@ import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
+import '../../controller/event_provider.dart';
 import '../widgets/app_bg.dart';
 
-class CommentsPage extends StatefulWidget {
+class CommentsPage extends ConsumerWidget {
   static String route = '/comment';
 
   const CommentsPage({super.key});
 
   @override
-  State<CommentsPage> createState() => _CommentsPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedEvent = ref.watch(selectedEventProvider);
 
-class _CommentsPageState extends State<CommentsPage> {
-  @override
-  Widget build(BuildContext context) {
     return AppBg(
       child: Scaffold(
         backgroundColor: ColorLib.white,
@@ -45,7 +43,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "Techies💻",
+                        selectedEvent!.title,
                         style: Fonts.tropiline(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -86,8 +84,16 @@ class _CommentsPageState extends State<CommentsPage> {
                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   child: Center(
                     child: Text(
+<<<<<<< HEAD
                       "Today, 20th May, 2023",
                       style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 13, color: ColorLib.black),
+=======
+                      selectedEvent.startDate,
+                      style: Fonts.nunito(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color: ColorLib.black),
+>>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
                     ),
                   ),
                 ),
@@ -112,13 +118,28 @@ class _CommentsPageState extends State<CommentsPage> {
                             children: [
                               Row(
                                 children: [
+<<<<<<< HEAD
                                   Image.asset("assets/images/smiley-face.png", height: 32, width: 32),
+=======
+                                  Image.asset(
+                                    "assets/images/smiley-face.png",
+                                    height: 32,
+                                    width: 32,
+                                  ),
+>>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
                                   const SizedBox(
                                     width: 4,
                                   ),
                                   const StrokeText(
                                     text: "Football Game",
+<<<<<<< HEAD
                                     textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+=======
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+>>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
                                   ),
                                 ],
                               ),
@@ -130,8 +151,17 @@ class _CommentsPageState extends State<CommentsPage> {
                                   SvgPicture.asset("assets/SVGs/location-icon.svg"),
                                   const SizedBox(width: 4),
                                   Text(
+<<<<<<< HEAD
                                     "Teslim Balogun Stadium",
                                     style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
+=======
+                                    selectedEvent.location,
+                                    style: Fonts.nunito(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: ColorLib.black,
+                                    ),
+>>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
                                   )
                                 ],
                               ),
@@ -160,8 +190,16 @@ class _CommentsPageState extends State<CommentsPage> {
                           SvgPicture.asset("assets/SVGs/clock-icon.svg"),
                           const SizedBox(width: 4),
                           Text(
+<<<<<<< HEAD
                             "Friday, 16:00 - 18:00",
                             style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
+=======
+                            "${selectedEvent.startTime} - ${selectedEvent.endTime}",
+                            style: Fonts.nunito(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: ColorLib.black),
+>>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
                           )
                         ],
                       ),
