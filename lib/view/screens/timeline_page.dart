@@ -14,8 +14,7 @@ enum FeedType {
   everyone,
 }
 
-final friendsProvider =
-    StateProvider.autoDispose<FeedType>((ref) => FeedType.friends);
+final friendsProvider = StateProvider.autoDispose<FeedType>((ref) => FeedType.friends);
 
 class TimelinePage extends ConsumerWidget {
   const TimelinePage({super.key});
@@ -45,16 +44,13 @@ class TimelinePage extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () => ref.read(friendsProvider.notifier).state =
-                          FeedType.friends,
+                      onTap: () => ref.read(friendsProvider.notifier).state = FeedType.friends,
                       child: Container(
                         alignment: Alignment.center,
                         height: UI.height(context, 63),
                         width: UI.width(context, 190),
                         decoration: BoxDecoration(
-                          color: friends == FeedType.friends
-                              ? ColorLib.blueTabColor
-                              : ColorLib.lightBlue,
+                          color: friends == FeedType.friends ? ColorLib.blueTabColor : ColorLib.lightBlue,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
                             bottomLeft: Radius.circular(10),
@@ -75,16 +71,13 @@ class TimelinePage extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () => ref.read(friendsProvider.notifier).state =
-                          FeedType.everyone,
+                      onTap: () => ref.read(friendsProvider.notifier).state = FeedType.everyone,
                       child: Container(
                         alignment: Alignment.center,
                         height: UI.height(context, 63),
                         width: UI.width(context, 190),
                         decoration: BoxDecoration(
-                          color: friends == FeedType.everyone
-                              ? ColorLib.blueTabColor
-                              : ColorLib.lightBlue,
+                          color: friends == FeedType.everyone ? ColorLib.blueTabColor : ColorLib.lightBlue,
                           border: const Border(
                             left: BorderSide(
                               color: ColorLib.black,
@@ -185,8 +178,7 @@ class TimelinePage extends ConsumerWidget {
                               // ),
                               Column(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   StrokeText(

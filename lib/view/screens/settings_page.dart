@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/view/screens/signup_page.dart';
+import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -27,14 +30,21 @@ class SettingsPage extends ConsumerWidget {
           name: AppStrings.logOut,
           svg: AppImages.logOut,
           onTap: () async {
-            final SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.remove(AppStrings.tokenKey);
-
-            // ignore: use_build_context_synchronously
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              SignUpPage.route,
-              ModalRoute.withName(SignUpPage.route),
-            );
+            await ref.watch(clearCredentialsProvider.future).then((value) async {
+              if (value) {
+                log(value.toString());
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  SignUpPage.route,
+                  ModalRoute.withName(SignUpPage.route),
+                );
+              } else {
+                snackBar(
+                  content: "Unable to sign out please try again...",
+                  context: context,
+                  backgroundColor: Colors.red,
+                );
+              }
+            });
           }),
     ];
 
