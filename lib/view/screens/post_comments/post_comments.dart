@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../util/color_lib.dart';
 import '../../../util/fonts.dart';
@@ -7,9 +10,21 @@ import '../../../view/widgets/custom_container.dart';
 import 'widgets/event_detail_card_widgets.dart';
 import 'widgets/comments_section_card.dart';
 
-class PostComments extends StatelessWidget {
+class PostComments extends ConsumerStatefulWidget {
   static String route = 'post_comments';
   const PostComments({super.key});
+
+  @override
+  ConsumerState<PostComments> createState() => _PostCommentsState();
+}
+
+class _PostCommentsState extends ConsumerState<PostComments> {
+  final messageController = TextEditingController();
+  @override
+  void dispose() {
+    messageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +48,7 @@ class PostComments extends StatelessWidget {
               children: [
                 Text(
                   'Techies💻',
-                  style: Fonts.tropiline(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24.0,
-                      color: ColorLib.darkBlue),
+                  style: Fonts.tropiline(fontWeight: FontWeight.w700, fontSize: 24.0, color: ColorLib.darkBlue),
                 ),
                 Text(
                   '12 members',
@@ -52,8 +64,7 @@ class PostComments extends StatelessWidget {
           actions: [
             // Avatar
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8.0),
               child: InkWell(
                 onTap: () {},
                 child: Image.asset(
@@ -73,22 +84,29 @@ class PostComments extends StatelessWidget {
               icon: const Icon(Icons.image_outlined),
               onPressed: () {},
             ),
-            const Expanded(
+            Expanded(
               child: CustomContainer(
                 fillColor: ColorLib.lighterBlue,
                 width: double.infinity,
                 height: 60,
                 child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Type a message',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10)),
+                  controller: messageController,
+               
+                  decoration: const InputDecoration(
+                    hintText: 'Type a message',
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                  ),
                 ),
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                log("hbjh");
+              },
               icon: const Icon(
-                Icons.mic,
+                Icons.send,
                 color: ColorLib.black,
               ),
             )
@@ -119,24 +137,15 @@ class PostComments extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(
                             text: 'Today, ',
-                            style: Fonts.nunito(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                color: ColorLib.black),
+                            style: Fonts.nunito(fontSize: 13, fontWeight: FontWeight.w700, color: ColorLib.black),
                             children: <TextSpan>[
                               TextSpan(
                                 text: '20th May, ',
-                                style: Fonts.nunito(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorLib.black),
+                                style: Fonts.nunito(fontSize: 13, fontWeight: FontWeight.w700, color: ColorLib.black),
                               ),
                               TextSpan(
                                 text: '2023',
-                                style: Fonts.nunito(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorLib.black),
+                                style: Fonts.nunito(fontSize: 13, fontWeight: FontWeight.w700, color: ColorLib.black),
                               ),
                             ]),
                       ),
@@ -159,32 +168,27 @@ class PostComments extends StatelessWidget {
                 child: Column(
                   children: [
                     CommentsSectionContainer(
-                      commenterAvatarURL:
-                          'assets/images/avatar_post_comments.png',
+                      commenterAvatarURL: 'assets/images/avatar_post_comments.png',
                       commenterUsername: 'Johnnex',
                       commentPost: 'I will be there, no matter what.',
                     ),
                     CommentsSectionContainer(
-                      commenterAvatarURL:
-                          'assets/images/avatar_post_comments.png',
+                      commenterAvatarURL: 'assets/images/avatar_post_comments.png',
                       commenterUsername: 'Jannex  Doe',
                       commentPost: ' no matter what.',
                     ),
                     CommentsSectionContainer(
-                      commenterAvatarURL:
-                          'assets/images/avatar_post_comments.png',
+                      commenterAvatarURL: 'assets/images/avatar_post_comments.png',
                       commenterUsername: 'Jannex  Doe',
                       commentPost: ' no matter what.',
                     ),
                     CommentsSectionContainer(
-                      commenterAvatarURL:
-                          'assets/images/avatar_post_comments.png',
+                      commenterAvatarURL: 'assets/images/avatar_post_comments.png',
                       commenterUsername: 'Jannex  Doe',
                       commentPost: ' no matter what.',
                     ),
                     CommentsSectionContainer(
-                      commenterAvatarURL:
-                          'assets/images/avatar_post_comments.png',
+                      commenterAvatarURL: 'assets/images/avatar_post_comments.png',
                       commenterUsername: 'Jannex  Doe',
                       commentPost: ' no matter what.',
                     ),

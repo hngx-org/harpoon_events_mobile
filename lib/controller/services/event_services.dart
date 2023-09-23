@@ -17,7 +17,7 @@ class EventServices {
 
   EventServices({required this.ref});
 
-  Future<CreateEventResModel> createEvent(
+  Future<ResModel> createEvent(
     Map<String, dynamic> resData,
   ) async {
     final token = await getToken(ref);
@@ -35,13 +35,13 @@ class EventServices {
     if (response.statusCode == 201) {
       final result = jsonDecode(response.body);
 
-      return CreateEventResModel(
+      return ResModel(
         status: result["status"],
         errMessage: null,
       );
     } else {
       final result = jsonDecode(response.body);
-      return CreateEventResModel(
+      return ResModel(
         status: result["status"],
         errMessage: result["error"]["message"],
       );
@@ -52,7 +52,7 @@ class EventServices {
     final token = await getToken(ref);
 
     Response response = await get(
-      Uri.parse("$eventEndpoint/"),
+      Uri.parse("$eventEndpoint/}"),
       headers: <String, String>{
         "accept": "application/json",
         "Content-Type": "application/json; charset=UTF-8",
@@ -69,10 +69,52 @@ class EventServices {
       throw Exception(response.reasonPhrase);
     }
   }
+
+  Future<ResModel> createComment({required String body}) async {
+    try {
+      final token = await getToken(ref);
+
+      Response response = await post(
+        Uri.parse("$eventEndpoint/${token.user!.id}/comments}"),
+        headers: <String, String>{
+          "accept": "application/json",
+          "Content-Type": "application/json; charset=UTF-8",
+          "Authorization": "Bearer ${token.token}",
+        },
+        body: jsonEncode({"body": body}),
+      );
+      log(response.body);
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        // final result = jsonDecode(response.body);
+
+        return ResModel(status: "success", errMessage: null);
+      } else {
+        final result = jsonDecode(response.body);
+        return ResModel(status: "failed", errMessage: result["message"]);
+      }
+    } catch (e) {
+      return ResModel(status: "failed", errMessage: "An error occured");
+    }
+  }
 }
 
-final createEventResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
+final eventServiceProvider = Provider<EventServices>((ref) => EventServices(ref: ref));
+final createEventResponse = StateProvider.autoDispose<ResModel?>((ref) => null);
+final createCommentResponse = StateProvider.autoDispose<ResModel?>((ref) => null);
 
+final createComment = FutureProvider.autoDispose.family<bool, String>((ref, arg) async {
+  final fetchdata = await ref.read(eventServiceProvider).createComment(body: arg);
+  final isAuth = fetchdata.status == "success";
+
+  if (isAuth) {
+    ref.read(createCommentResponse.notifier).state = fetchdata;
+  } else {
+    ref.read(createCommentResponse.notifier).state = fetchdata;
+  }
+
+  return true;
+});
 final createEvent = FutureProvider.autoDispose.family<bool, Map<String, dynamic>>((ref, arg) async {
   final fetchdata = await ref.read(eventServiceProvider).createEvent(arg);
   final isAuth = fetchdata.status == "success";
@@ -91,11 +133,9 @@ Future<UserDataModel> getToken(ProviderRef ref) async {
   return data;
 }
 
-final eventServiceProvider = Provider<EventServices>((ref) => EventServices(ref: ref));
-
-class CreateEventResModel {
+class ResModel {
   final String? status;
   final String? errMessage;
 
-  CreateEventResModel({required this.status, required this.errMessage});
+  ResModel({required this.status, required this.errMessage});
 }

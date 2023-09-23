@@ -21,40 +21,54 @@ import 'my_people_page/mypeople_screen.dart';
 import 'settings_page.dart';
 import 'timeline_page.dart';
 
-class MainPage extends ConsumerWidget {
+class MainPage extends ConsumerStatefulWidget {
   static String route = '/main';
 
   const MainPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final currentTab = ref.watch(tabProvider);
-    final userData = ref.watch(getUserDataProvider);
-    ref.listen(getUserDataProvider, (previous, next) async {
-      bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
-      if (hasExpired) {
-        snackBar(
-          content: "User Session terminated. Please, Re-Login",
-          context: context,
-          backgroundColor: ColorLib.purple,
-        );
-        await ref.watch(clearCredentialsProvider.future).then((value) async {
-          if (value) {
-            log(value.toString());
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              SignUpPage.route,
-              ModalRoute.withName(SignUpPage.route),
-            );
-          } else {
-            snackBar(
-              content: "Unable to sign out please try again...",
-              context: context,
-              backgroundColor: Colors.red,
-            );
-          }
-        });
-      }
+  ConsumerState<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends ConsumerState<MainPage> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((value) {
+      ref.listen(getUserDataProvider, (previous, next) async {
+        bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
+        if (hasExpired) {
+          snackBar(
+            content: "User Session terminated. Please, Re-Login",
+            context: context,
+            backgroundColor: ColorLib.purple,
+          );
+          await ref.watch(clearCredentialsProvider.future).then((value) async {
+            if (value) {
+              log(value.toString());
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                SignUpPage.route,
+                ModalRoute.withName(SignUpPage.route),
+              );
+            } else {
+              snackBar(
+                content: "Unable to sign out please try again...",
+                context: context,
+                backgroundColor: Colors.red,
+              );
+            }
+          });
+        }
+      });
     });
+    super.initState();
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    final currentTab = ref.watch(tabProvider);
+
     return MainBg(
       child: Scaffold(
         backgroundColor: ColorLib.transparent,
