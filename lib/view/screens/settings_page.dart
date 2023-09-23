@@ -64,7 +64,7 @@ class SettingsPage extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
 
-                      "${userData.isLoading ? "" : userData.value!.user!.avatar}",
+                      "${userData.isLoading ? "..." : userData.value!.user!.avatar}",
                       height: 100,
                       width: 100,
                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
@@ -101,22 +101,23 @@ class SettingsPage extends ConsumerWidget {
                   width: 16,
                 ),
                 Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    StrokeText(
-                      text: "${userData.isLoading ? "" : userData.value!.user!.name}",
-                      textStyle: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  StrokeText(
+                    text: "${userData.isLoading ? "..." : userData.value!.user!.name}",
+                    textStyle: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text("${userData.isLoading ? "" : userData.value!.user!.email}")
-                  ],
-                )),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text("${userData.isLoading ? "" : userData.value!.user!.email}")
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   width: 16,
                 ),

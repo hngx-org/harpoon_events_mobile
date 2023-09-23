@@ -43,7 +43,7 @@ class EventServices {
       final result = jsonDecode(response.body);
       return ResModel(
         status: result["status"],
-        errMessage: result["error"]["message"],
+        errMessage: result["message"],
       );
     }
   }
@@ -52,7 +52,7 @@ class EventServices {
     final token = await getToken(ref);
 
     Response response = await get(
-      Uri.parse("$eventEndpoint/}"),
+      Uri.parse("$eventEndpoint/52dffb19-67e4-4fdd-af01-5e94c8416ddd}"),
       headers: <String, String>{
         "accept": "application/json",
         "Content-Type": "application/json; charset=UTF-8",

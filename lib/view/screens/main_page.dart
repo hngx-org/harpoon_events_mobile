@@ -33,33 +33,7 @@ class MainPage extends ConsumerStatefulWidget {
 class _MainPageState extends ConsumerState<MainPage> {
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((value) {
-      ref.listen(getUserDataProvider, (previous, next) async {
-        bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
-        if (hasExpired) {
-          snackBar(
-            content: "User Session terminated. Please, Re-Login",
-            context: context,
-            backgroundColor: ColorLib.purple,
-          );
-          await ref.watch(clearCredentialsProvider.future).then((value) async {
-            if (value) {
-              log(value.toString());
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                SignUpPage.route,
-                ModalRoute.withName(SignUpPage.route),
-              );
-            } else {
-              snackBar(
-                content: "Unable to sign out please try again...",
-                context: context,
-                backgroundColor: Colors.red,
-              );
-            }
-          });
-        }
-      });
-    });
+   
     super.initState();
   }
 

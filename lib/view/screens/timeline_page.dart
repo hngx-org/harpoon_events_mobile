@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/services/auth_services.dart';
+import 'package:harpoon_events_app/view/screens/signup_page.dart';
+import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../controller/event_provider.dart';
 import '../../model/event_model.dart';
@@ -24,7 +30,31 @@ class TimelinePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final friends = ref.watch(friendsProvider);
     final events = ref.watch(allEventsProvider);
-
+    ref.listen(getUserDataProvider, (previous, next) async {
+      bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
+      if (hasExpired) {
+        snackBar(
+          content: "User Session terminated. Please, Re-Login",
+          context: context,
+          backgroundColor: ColorLib.purple,
+        );
+        await ref.watch(clearCredentialsProvider.future).then((value) async {
+          if (value) {
+            log(value.toString());
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              SignUpPage.route,
+              ModalRoute.withName(SignUpPage.route),
+            );
+          } else {
+            snackBar(
+              content: "Unable to sign out please try again...",
+              context: context,
+              backgroundColor: Colors.red,
+            );
+          }
+        });
+      }
+    });
     return Scaffold(
       backgroundColor: ColorLib.transparent,
       body: Padding(
@@ -268,34 +298,41 @@ class TimelinePage extends ConsumerWidget {
 
             const SizedBox(height: 20),
             Expanded(
-              child: SingleChildScrollView(
-                child: events.when(
-                  data: (data) {
-                    List<EventModel> eventsList = data.map((e) => e).toList();
+              child: RefreshIndicator(
+                onRefresh: () async => Future.sync(
+                  () => ref.refresh(allEventsProvider),
+                ),
+                backgroundColor: ColorLib.purple,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: ref.watch(allEventsProvider).when(
+                    data: (data) {
+                      List<EventModel> eventsList = data.map((e) => e).toList();
 
-                    return Column(
-                      children: eventsList
-                          .map(
-                            (event) => EventView(
-                              title: event.title,
-                              location: event.location,
-                              startDate: event.startDate,
-                              endDate: event.endDate,
-                              startTime: event.startTime,
-                              endTime: event.endTime,
-                            ),
-                          )
-                          .toList(),
-                    );
-                  },
-                  error: (error, stackTrace) => Center(
-                    child: Text(
-                      error.toString(),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      return Column(
+                        children: eventsList
+                            .map(
+                              (event) => EventView(
+                                title: event.title,
+                                location: event.location,
+                                startDate: event.startDate,
+                                endDate: event.endDate,
+                                startTime: event.startTime,
+                                endTime: event.endTime,
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
+                    error: (error, stackTrace) => Center(
+                      child: Text(
+                        error.toString(),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
-                  ),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ),
               ),
@@ -415,15 +452,11 @@ class EventView extends ConsumerWidget {
         Navigator.of(context).pushNamed(CommentsPage.route);
 
         allEvents.whenData(
-          (data) => ref.read(eventDataProvider.notifier).state =
-              data.map((e) => e).toList(),
+          (data) => ref.read(eventDataProvider.notifier).state = data.map((e) => e).toList(),
         );
 
-        ref.read(selectedEventProvider.notifier).state = ref
-            .watch(eventDataProvider)
-            ?.firstWhere(
-              (element) =>
-                  (element.title == title) && (element.location == location),
+        ref.read(selectedEventProvider.notifier).state = ref.watch(eventDataProvider)?.firstWhere(
+              (element) => (element.title == title) && (element.location == location),
             );
       },
       child: Padding(

@@ -138,7 +138,7 @@ final authProvider = Provider<AuthServices>((ref) => AuthServices());
 final loginResponseProvider =
     StateProvider.autoDispose<LoginResponse?>((ref) => null);
 
-final tokenProvider = StateProvider.autoDispose<String?>((ref) => null);
+
 final loginProvider = FutureProvider.family<bool, LoginDataModel>(
   (ref, authArgs) async {
     return Future.delayed(const Duration(seconds: 2), () async {

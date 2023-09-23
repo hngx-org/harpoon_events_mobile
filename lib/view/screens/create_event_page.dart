@@ -448,9 +448,9 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                         backgroundColor: Colors.green,
                       );
                     } else {
-                      ref.read(createEventLoader.notifier).state = true;
+                      ref.read(createEventLoader.notifier).state = false;
                       snackBar(
-                        content: next.errMessage ?? "",
+                        content: next.errMessage ?? "An error occured",
                         context: context,
                         backgroundColor: Colors.red,
                       );
