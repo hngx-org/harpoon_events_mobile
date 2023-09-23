@@ -84,16 +84,12 @@ class CommentsPage extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   child: Center(
                     child: Text(
-<<<<<<< HEAD
-                      "Today, 20th May, 2023",
-                      style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 13, color: ColorLib.black),
-=======
                       selectedEvent.startDate,
                       style: Fonts.nunito(
                           fontWeight: FontWeight.w700,
                           fontSize: 13,
                           color: ColorLib.black),
->>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
+
                     ),
                   ),
                 ),
@@ -118,28 +114,24 @@ class CommentsPage extends ConsumerWidget {
                             children: [
                               Row(
                                 children: [
-<<<<<<< HEAD
-                                  Image.asset("assets/images/smiley-face.png", height: 32, width: 32),
-=======
+
                                   Image.asset(
                                     "assets/images/smiley-face.png",
                                     height: 32,
                                     width: 32,
                                   ),
->>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
+
                                   const SizedBox(
                                     width: 4,
                                   ),
                                   const StrokeText(
                                     text: "Football Game",
-<<<<<<< HEAD
-                                    textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-=======
+
                                     textStyle: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w800,
-                                    ),
->>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
+                                  ),
+
                                   ),
                                 ],
                               ),
@@ -151,17 +143,14 @@ class CommentsPage extends ConsumerWidget {
                                   SvgPicture.asset("assets/SVGs/location-icon.svg"),
                                   const SizedBox(width: 4),
                                   Text(
-<<<<<<< HEAD
-                                    "Teslim Balogun Stadium",
-                                    style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
-=======
+
                                     selectedEvent.location,
                                     style: Fonts.nunito(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       color: ColorLib.black,
                                     ),
->>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
+
                                   )
                                 ],
                               ),
@@ -190,16 +179,13 @@ class CommentsPage extends ConsumerWidget {
                           SvgPicture.asset("assets/SVGs/clock-icon.svg"),
                           const SizedBox(width: 4),
                           Text(
-<<<<<<< HEAD
-                            "Friday, 16:00 - 18:00",
-                            style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
-=======
+
                             "${selectedEvent.startTime} - ${selectedEvent.endTime}",
                             style: Fonts.nunito(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                                 color: ColorLib.black),
->>>>>>> 21ba3072559a8e82a8413c92fef3056dfd0f610c
+
                           )
                         ],
                       ),

@@ -434,7 +434,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                   ref.listen(createEventResponse, (previous, next) {
                     if (next!.status == "success") {
                       ref.read(createEventLoader.notifier).state = false;
-                       ref.refresh(eventsProvider);
+                      
                       titleController.clear();
                       descriptionController.clear();
                       startDate = DateTime.now();
