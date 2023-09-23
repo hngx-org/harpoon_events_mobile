@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/event_provider.dart';
 import 'package:harpoon_events_app/util/ui.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -14,31 +16,57 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorLib.transparent,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.only(top: 20, right: 25, left: 25),
-          child: Column(
-            children: [
-              Text(
-                'Ready to conquer your calendar? Let\'s plan your next adventure! 🗓️',
-                style: Fonts.nunito(color: ColorLib.grey),
+      body: Container(
+        padding: const EdgeInsets.only(top: 20, right: 25, left: 25),
+        child: Column(
+          children: [
+            Text(
+              'Ready to conquer your calendar? Let\'s plan your next adventure! 🗓️',
+              style: Fonts.nunito(color: ColorLib.grey),
+            ),
+            const SizedBox(height: 20),
+
+            // Calendar container
+            const Calendar(),
+            const SizedBox(height: 30),
+
+            // Saved Events
+            Expanded(
+              child: SingleChildScrollView(
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final events = ref.watch(allEventsProvider);
+
+                    return events.when(
+                      data: (evenList) {
+                        return Column(
+                          children: evenList.map((event) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 15),
+                              child: savedEvent(
+                                  context: context,
+                                  eventTitle: event.title,
+                                  eventTime: event.startTime,
+                                  eventLocation: event.location,
+                                  locationTime: event.endTime),
+                            );
+                          }).toList(),
+                        );
+                      },
+                      error: (error, stackTrace) => Center(
+                        child: Text(
+                          error.toString(),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                    );
+                  },
+                ),
               ),
-              const SizedBox(height: 20),
-
-              // Calendar container
-              const Calendar(),
-              const SizedBox(height: 30),
-
-              // Saved Events
-              savedEvent(
-                context: context,
-                eventTitle: 'Movie Night',
-                eventTime: '8:30 PM',
-                eventLocation: 'Genesis cinemas, Festac',
-                locationTime: '9:45 PM',
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
@@ -132,11 +160,16 @@ Widget savedEvent(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            StrokeText(
-              text: eventTitle,
-              strokeWidth: 1,
-              textStyle:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            SizedBox(
+              width: 200,
+              child: StrokeText(
+                text: eventTitle,
+                strokeWidth: 1,
+                textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis),
+              ),
             ),
             Text(
               eventTime ?? '',
