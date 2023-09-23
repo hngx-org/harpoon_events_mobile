@@ -50,7 +50,7 @@ class EventServices {
 
   Future<List<EventModel>> getEvents() async {
     final token = await getToken(ref);
- 
+
     Response response = await get(
       Uri.parse("$eventEndpoint/52dffb19-67e4-4fdd-af01-5e94c8416ddd"),
       headers: <String, String>{
@@ -75,7 +75,7 @@ class EventServices {
       final token = await getToken(ref);
 
       Response response = await post(
-        Uri.parse("$eventEndpoint/${token.user!.id}/comments}"),
+        Uri.parse("$eventEndpoint/${token.user!.id}/comments"),
         headers: <String, String>{
           "accept": "application/json",
           "Content-Type": "application/json; charset=UTF-8",
