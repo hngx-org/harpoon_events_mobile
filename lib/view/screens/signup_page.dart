@@ -1,10 +1,11 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:harpoon_events_app/controller/services/google_login_services.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import '../../controller/services/auth_services.dart';
@@ -82,7 +83,7 @@ class BottomCard extends ConsumerWidget {
           context: context,
           backgroundColor: ColorLib.green,
         );
-        // ignore: use_build_context_synchronously
+
         Navigator.of(context).pushReplacementNamed(MainPage.route);
       } else {
         ref.read(twitterLoading.notifier).state = false;
@@ -206,21 +207,20 @@ class BottomCard extends ConsumerWidget {
           // Continue with Google button
           GestureDetector(
             onTap: () async {
-              // GoogleAuth().signInWithGoogle();
-              String name = "Farouk Bello";
-              String email = 'faroukbello@gmail.com';
-              String source = 'google';
+              await ref.watch(googleProvider).signInWithGoogle(ref);
 
-              final data = LoginDataModel(
-                name: name,
-                email: email,
-                avatar: null,
-                source: source,
-              );
-              ref.read(loginProvider(data));
+              final data = ref.watch(googleData);
 
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pushReplacementNamed(MainPage.route);
+              if (data!.name!.isNotEmpty &&
+                  data.email!.isNotEmpty &&
+                  data.avatar!.isNotEmpty) {
+                ref.read(loginProvider(data));
+              } else {
+                snackBar(
+                    content: data.name,
+                    context: context,
+                    backgroundColor: Colors.red);
+              }
             },
             child: CustomContainer(
               fillColor: ColorLib.lightBlue,

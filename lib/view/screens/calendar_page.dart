@@ -9,11 +9,13 @@ import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../widgets/stroke_text.dart';
 
-class CalendarPage extends StatelessWidget {
+final currentDayProvider = StateProvider<DateTime>((ref) => DateTime.now());
+
+class CalendarPage extends ConsumerWidget {
   const CalendarPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: ColorLib.transparent,
       body: Container(
@@ -27,7 +29,62 @@ class CalendarPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Calendar container
-            const Calendar(),
+            CustomContainer(
+              fillColor: ColorLib.carton,
+              width: UI.width(context, 374),
+              height: UI.height(context, 349),
+              child: TableCalendar(
+                rowHeight: 45,
+                availableGestures: AvailableGestures.all,
+                daysOfWeekStyle: DaysOfWeekStyle(
+                  weekdayStyle: Fonts.tropiline(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                  weekendStyle: Fonts.tropiline(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+                calendarStyle: const CalendarStyle(
+                  todayDecoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.yellow,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorLib.black,
+                        blurRadius: 0,
+                        offset: Offset(2.5, 2.5),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  todayTextStyle: TextStyle(color: Colors.black),
+                  defaultTextStyle: TextStyle(fontWeight: FontWeight.w500),
+                  weekendTextStyle: TextStyle(fontWeight: FontWeight.w500),
+                  selectedDecoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorLib.yellow,
+                  ),
+                ),
+                headerStyle: HeaderStyle(
+                  formatButtonVisible: false,
+                  titleCentered: true,
+                  titleTextStyle: Fonts.tropiline(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                focusedDay: ref.watch(currentDayProvider),
+                firstDay: DateTime.utc(2022),
+                lastDay: DateTime.utc(2030),
+                selectedDayPredicate: (day) =>
+                    isSameDay(day, ref.watch(currentDayProvider)),
+                onDaySelected: (DateTime day, DateTime focusedDay) {
+                  ref.read(currentDayProvider.notifier).state = day;
+                },
+              ),
+            ),
             const SizedBox(height: 30),
 
             // Saved Events
@@ -40,16 +97,21 @@ class CalendarPage extends StatelessWidget {
                     return events.when(
                       data: (evenList) {
                         return Column(
-                          children: evenList.map((event) {
+                          children: evenList.where((element) {
+                            return ref
+                                .watch(currentDayProvider)
+                                .isAfter(DateTime.now());
+                          }).map((event) {
                             return Container(
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 15),
                               child: savedEvent(
-                                  context: context,
-                                  eventTitle: event.title,
-                                  eventTime: event.startTime,
-                                  eventLocation: event.location,
-                                  locationTime: event.endTime),
+                                context: context,
+                                eventTitle: event.title,
+                                eventTime: event.startTime,
+                                eventLocation: event.location,
+                                locationTime: event.endTime,
+                              ),
                             );
                           }).toList(),
                         );
@@ -68,74 +130,6 @@ class CalendarPage extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-//! Calendar Widget
-class Calendar extends StatefulWidget {
-  const Calendar({super.key});
-
-  @override
-  State<Calendar> createState() => _CalendarState();
-}
-
-class _CalendarState extends State<Calendar> {
-  DateTime currentDay = DateTime.now(); // get the current day of the week
-  void _onSelected(DateTime day, DateTime focusedDay) {
-    setState(() {
-      currentDay = day;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomContainer(
-      fillColor: ColorLib.carton,
-      width: UI.width(context, 374),
-      height: UI.height(context, 349),
-      child: TableCalendar(
-        rowHeight: 45,
-        availableGestures: AvailableGestures.all,
-        daysOfWeekStyle: DaysOfWeekStyle(
-          weekdayStyle: Fonts.tropiline(
-              fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey),
-          weekendStyle: Fonts.tropiline(
-              fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey),
-        ),
-        calendarStyle: const CalendarStyle(
-          todayDecoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.yellow,
-            boxShadow: [
-              BoxShadow(
-                color: ColorLib.black,
-                blurRadius: 0,
-                offset: Offset(2.5, 2.5),
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          todayTextStyle: TextStyle(color: Colors.black),
-          defaultTextStyle: TextStyle(fontWeight: FontWeight.w500),
-          weekendTextStyle: TextStyle(fontWeight: FontWeight.w500),
-          selectedDecoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: ColorLib.yellow,
-          ),
-        ),
-        headerStyle: HeaderStyle(
-          formatButtonVisible: false,
-          titleCentered: true,
-          titleTextStyle: Fonts.tropiline(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        focusedDay: currentDay,
-        firstDay: DateTime.utc(2022),
-        lastDay: DateTime.utc(2030),
-        selectedDayPredicate: (day) => isSameDay(day, currentDay),
-        onDaySelected: _onSelected,
       ),
     );
   }

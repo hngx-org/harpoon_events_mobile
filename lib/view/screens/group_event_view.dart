@@ -180,145 +180,147 @@ class EventInGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: CustomContainer(
-        fillColor: ColorLib.yellow,
-        width: double.infinity,
-        height: 230,
-        child: Padding(
-          padding:
-              const EdgeInsets.only(top: 20, left: 3, right: 13, bottom: 20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/emoji.png',
-                            width: 45,
-                          ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          StrokeText(
-                            text:
-                                "${eventName[0].toUpperCase()}${eventName.substring(1)}",
-                            textStyle: Fonts.tropiline(
-                              color: ColorLib.yellow,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.56,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 30),
+        child: CustomContainer(
+          fillColor: ColorLib.yellow,
+          width: double.infinity,
+          height: 230,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20, left: 3, right: 13),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/emoji.png',
+                              width: 45,
                             ),
-                            strokeColor: ColorLib.black,
-                            strokeWidth: 2,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: UI.width(context, 5),
-                          ),
-                          Image.asset(
-                            'assets/icons/location.png',
-                            width: 40,
-                          ),
-                          SizedBox(
-                            width: UI.width(context, 7),
-                          ),
-                          Text(
-                            "${address[0].toUpperCase()}${address.substring(1)}",
-                            style: Fonts.nunito(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: ColorLib.black,
+                            const SizedBox(
+                              width: 7,
                             ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  CustomContainer(
-                    fillColor: Colors.white,
-                    width: 100,
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'I will join',
-                        style: Fonts.nunito(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 19,
-                          color: ColorLib.black,
+                            StrokeText(
+                              text:
+                                  "${eventName[0].toUpperCase()}${eventName.substring(1)}",
+                              textStyle: Fonts.tropiline(
+                                color: ColorLib.yellow,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.56,
+                              ),
+                              strokeColor: ColorLib.black,
+                              strokeWidth: 2,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: UI.width(context, 5),
+                            ),
+                            Image.asset(
+                              'assets/icons/location.png',
+                              width: 40,
+                            ),
+                            SizedBox(
+                              width: UI.width(context, 7),
+                            ),
+                            Text(
+                              "${address[0].toUpperCase()}${address.substring(1)}",
+                              style: Fonts.nunito(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: ColorLib.black,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    CustomContainer(
+                      fillColor: Colors.white,
+                      width: 100,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'I will join',
+                          style: Fonts.nunito(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 19,
+                            color: ColorLib.black,
+                          ),
                         ),
                       ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: UI.width(context, 5),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
+                    Image.asset(
+                      'assets/icons/clock.png',
+                      width: 40,
+                    ),
+                    SizedBox(
+                      width: UI.width(context, 5),
+                    ),
+                    Text(
+                      "${DateFormat("yyyy-MM-dd").parse(startDate).day}/${DateFormat("yyyy-MM-dd").parse(startDate).month}, ${DateFormat("hh:mm:ss").parse(startTime).hour}:${DateFormat("hh:mm:ss").parse(startTime).minute} - ${DateFormat("hh:mm:ss").parse(endTime).hour}:${DateFormat("hh:mm:ss").parse(endTime).minute}",
+                      style: Fonts.nunito(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: ColorLib.black,
+                        letterSpacing: 0,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Divider(
+                  color: ColorLib.black,
+                  thickness: 0,
+                ),
+                Row(children: [
                   SizedBox(
-                    width: UI.width(context, 5),
+                    width: UI.width(context, 7),
                   ),
                   Image.asset(
-                    'assets/icons/clock.png',
+                    'assets/icons/quotes.png',
                     width: 40,
                   ),
                   SizedBox(
-                    width: UI.width(context, 5),
+                    width: UI.width(context, 10),
                   ),
                   Text(
-                    "${DateFormat("yyyy-MM-dd").parse(startDate).day}/${DateFormat("yyyy-MM-dd").parse(startDate).month}, ${DateFormat("hh:mm:ss").parse(startTime).hour}:${DateFormat("hh:mm:ss").parse(startTime).minute} - ${DateFormat("hh:mm:ss").parse(endTime).hour}:${DateFormat("hh:mm:ss").parse(endTime).minute}",
+                    comments > 1
+                        ? '$comments comments'
+                        : comments == 1
+                            ? "$comments comment"
+                            : "Leave a comment",
                     style: Fonts.nunito(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                       color: ColorLib.black,
-                      letterSpacing: 0,
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              const Divider(
-                color: ColorLib.black,
-                thickness: 0,
-              ),
-              Row(children: [
-                SizedBox(
-                  width: UI.width(context, 7),
-                ),
-                Image.asset(
-                  'assets/icons/quotes.png',
-                  width: 40,
-                ),
-                SizedBox(
-                  width: UI.width(context, 10),
-                ),
-                Text(
-                  comments > 1
-                      ? '$comments comments'
-                      : comments == 1
-                          ? "$comments comment"
-                          : "Leave a comment",
-                  style: Fonts.nunito(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: ColorLib.black,
                   ),
-                ),
-                const Spacer(),
-                const Icon(
-                  Icons.keyboard_arrow_right_rounded,
-                  size: 40,
-                ),
-              ])
-            ],
+                  const Spacer(),
+                  const Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                    size: 40,
+                  ),
+                ])
+              ],
+            ),
           ),
         ),
       ),

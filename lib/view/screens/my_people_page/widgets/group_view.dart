@@ -11,7 +11,7 @@ import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 import '../../../../util/ui.dart';
 import '../../../widgets/stroke_text.dart';
-import 'group_event_view.dart';
+import '../../group_event_view.dart';
 
 class GroupView extends ConsumerWidget {
   final String title;
