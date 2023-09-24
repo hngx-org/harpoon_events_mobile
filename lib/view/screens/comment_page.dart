@@ -7,7 +7,6 @@ import 'package:harpoon_events_app/services/getCommentServices.dart';
 import 'package:harpoon_events_app/util/color_lib.dart';
 import 'package:harpoon_events_app/util/fonts.dart';
 import 'package:harpoon_events_app/util/ui.dart';
-import 'package:harpoon_events_app/view/widgets/circular_progress_indicator.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
@@ -29,7 +28,8 @@ class CommentsPage extends ConsumerWidget {
         //Added the CustomNavigationBar
         bottomNavigationBar: const CustomBottomNavigationBar(),
         body: Padding(
-          padding: EdgeInsets.only(top: UI.height(context, 49), left: 12, right: 12),
+          padding:
+              EdgeInsets.only(top: UI.height(context, 49), left: 12, right: 12),
           //Column for the layout of the entire screen
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,12 +39,14 @@ class CommentsPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(onTap: () => Navigator.pop(context), child: SvgPicture.asset('assets/SVGs/back-button.svg')),
+                  GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: SvgPicture.asset('assets/SVGs/back-button.svg')),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        selectedEvent!.title ?? "",
+                        selectedEvent!.title,
                         style: Fonts.tropiline(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -82,11 +84,15 @@ class CommentsPage extends ConsumerWidget {
                 borderRadius: 20,
                 shadowOffset: 2.0,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   child: Center(
                     child: Text(
                       selectedEvent.startDate.toString(),
-                      style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 13, color: ColorLib.black),
+                      style: Fonts.nunito(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color: ColorLib.black),
                     ),
                   ),
                 ),
@@ -120,7 +126,7 @@ class CommentsPage extends ConsumerWidget {
                                     width: 4,
                                   ),
                                   StrokeText(
-                                    text: selectedEvent.title ?? "",
+                                    text: selectedEvent.title,
                                     textStyle: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w800,
@@ -133,10 +139,11 @@ class CommentsPage extends ConsumerWidget {
                               ),
                               Row(
                                 children: [
-                                  SvgPicture.asset("assets/SVGs/location-icon.svg"),
+                                  SvgPicture.asset(
+                                      "assets/SVGs/location-icon.svg"),
                                   const SizedBox(width: 4),
                                   Text(
-                                    selectedEvent.location ?? "",
+                                    selectedEvent.location,
                                     style: Fonts.nunito(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
@@ -154,11 +161,15 @@ class CommentsPage extends ConsumerWidget {
                             height: UI.width(context, 44),
                             borderRadius: 8,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
                               child: Center(
                                 child: Text(
                                   "Share",
-                                  style: Fonts.cabinetGrotesk(fontWeight: FontWeight.w700, fontSize: 18, color: ColorLib.black),
+                                  style: Fonts.cabinetGrotesk(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                      color: ColorLib.black),
                                 ),
                               ),
                             ),
@@ -171,7 +182,10 @@ class CommentsPage extends ConsumerWidget {
                           const SizedBox(width: 4),
                           Text(
                             "${selectedEvent.startTime} - ${selectedEvent.endTime}",
-                            style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
+                            style: Fonts.nunito(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: ColorLib.black),
                           )
                         ],
                       ),
@@ -192,13 +206,17 @@ class CommentsPage extends ConsumerWidget {
                               ),
                               Text(
                                 "Check box to send invite to techie",
-                                style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 14, color: ColorLib.black),
+                                style: Fonts.nunito(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: ColorLib.black),
                               )
                             ],
                           ),
                           RotatedBox(
                             quarterTurns: 2,
-                            child: SvgPicture.asset('assets/SVGs/back-button.svg'),
+                            child:
+                                SvgPicture.asset('assets/SVGs/back-button.svg'),
                           ),
                         ],
                       )
@@ -207,15 +225,18 @@ class CommentsPage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              ref.watch(getComments(selectedEvent.id ?? "")).when(
+              ref.watch(getComments(selectedEvent.id)).when(
                     data: (data) {
-                      return data.length == []
+                      return data.isEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   "You havent made any comment on this Event",
-                                  style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 14, color: ColorLib.black),
+                                  style: Fonts.nunito(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14,
+                                      color: ColorLib.black),
                                 ),
                               ],
                             )
@@ -226,31 +247,49 @@ class CommentsPage extends ConsumerWidget {
                                   itemBuilder: (context, index) {
                                     final item = data[index];
                                     return Padding(
-                                      padding: const EdgeInsets.only(bottom: 20),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20),
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          const CustomCircleAvatar(radius: 20, imageLocation: 'assets/images/comment_image.png'),
+                                          const CustomCircleAvatar(
+                                              radius: 20,
+                                              imageLocation:
+                                                  'assets/images/comment_image.png'),
                                           const SizedBox(width: 10),
                                           Container(
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8), border: Border.all(color: ColorLib.black, width: 2)),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                    color: ColorLib.black,
+                                                    width: 2)),
                                             width: UI.width(context, 338),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(10.0),
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   const StrokeText(
                                                     text: "User",
-                                                    textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                                                    textStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w800),
                                                   ),
                                                   const SizedBox(
                                                     height: 10,
                                                   ),
                                                   Text(
                                                     item.body ?? "",
-                                                    style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
+                                                    style: Fonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 14,
+                                                        color: ColorLib.black),
                                                   ),
                                                   // if (image != null) ...[
                                                   //   const SizedBox(
@@ -302,7 +341,8 @@ class CommentsPage extends ConsumerWidget {
 
 //Custom container for the comments section
 class CommentContainer extends StatelessWidget {
-  const CommentContainer({this.image, required this.userName, required this.comment, super.key});
+  const CommentContainer(
+      {this.image, required this.userName, required this.comment, super.key});
   final String? image;
   final String userName;
   final String comment;
@@ -310,7 +350,9 @@ class CommentContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: ColorLib.black, width: 2)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: ColorLib.black, width: 2)),
       width: UI.width(context, 338),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -319,14 +361,18 @@ class CommentContainer extends StatelessWidget {
           children: [
             StrokeText(
               text: userName,
-              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+              textStyle:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
               comment,
-              style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 14, color: ColorLib.black),
+              style: Fonts.nunito(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: ColorLib.black),
             ),
             if (image != null) ...[
               const SizedBox(
@@ -356,7 +402,8 @@ class CommentContainer extends StatelessWidget {
 
 //CustomCircleAvatar for user profile and each user comment picture
 class CustomCircleAvatar extends StatelessWidget {
-  const CustomCircleAvatar({required this.radius, required this.imageLocation, super.key});
+  const CustomCircleAvatar(
+      {required this.radius, required this.imageLocation, super.key});
   final double radius;
   final String imageLocation;
 
@@ -380,10 +427,12 @@ class CustomBottomNavigationBar extends ConsumerStatefulWidget {
   const CustomBottomNavigationBar({super.key});
 
   @override
-  ConsumerState<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBarState();
+  ConsumerState<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
 }
 
-class _CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigationBar> {
+class _CustomBottomNavigationBarState
+    extends ConsumerState<CustomBottomNavigationBar> {
   final _messageController = TextEditingController();
   @override
   void dispose() {
@@ -398,7 +447,8 @@ class _CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigati
       if (next!.status == "success") {
         _messageController.clear();
         ref.read(sendLoading.notifier).state = false;
-        ref.refresh(getComments(selectedEvent!.id ?? ""));
+        // ignore: unused_result
+        ref.refresh(getComments(selectedEvent!.id));
       } else {
         ref.read(sendLoading.notifier).state = false;
         snackBarBottom(
@@ -411,7 +461,9 @@ class _CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigati
     return Container(
       width: UI.width(context, 428),
       height: UI.height(context, 115),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: ColorLib.black, width: 2)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: ColorLib.black, width: 2)),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         SvgPicture.asset('assets/SVGs/image-icon.svg'),
         Container(
@@ -435,14 +487,16 @@ class _CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigati
             onTap: () {
               if (_messageController.text.isNotEmpty) {
                 final datas = {
-                  "eventid": selectedEvent!.id ?? "",
+                  "eventid": selectedEvent!.id,
                   "body": _messageController.text.trim(),
                 };
                 ref.read(sendLoading.notifier).state = true;
                 ref.read(createComment(datas));
               }
             },
-            child: ref.watch(sendLoading) ? const CircularProgressIndicator() : const Icon(Icons.send))
+            child: ref.watch(sendLoading)
+                ? const CircularProgressIndicator()
+                : const Icon(Icons.send))
       ]),
     );
   }

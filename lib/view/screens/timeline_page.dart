@@ -178,10 +178,10 @@ class TimelinePage extends ConsumerWidget {
                     List<EventModel> eventsList = data.map((e) => e).toList();
 
                     final liveEvents = eventsList.where((element) {
-                      DateTime startTime =
-                          DateFormat("hh:mm:ss").parse(element.startTime.toString());
-                      DateTime endTime =
-                          DateFormat("hh:mm:ss").parse(element.startTime.toString());
+                      DateTime startTime = DateFormat("hh:mm:ss")
+                          .parse(element.startTime.toString());
+                      DateTime endTime = DateFormat("hh:mm:ss")
+                          .parse(element.startTime.toString());
 
                       return startTime.isAfter(DateTime.now()) &&
                           endTime.isBefore(DateTime.now());
@@ -205,8 +205,8 @@ class TimelinePage extends ConsumerWidget {
                               children: liveEvents
                                   .map(
                                     (event) => LiveEvent(
-                                      title: event.title??"",
-                                      location: event.location??"",
+                                      title: event.title,
+                                      location: event.location,
                                       startDate: event.startDate.toString(),
                                       endDate: event.endDate.toString(),
                                       startTime: event.startTime.toString(),
@@ -265,8 +265,8 @@ class TimelinePage extends ConsumerWidget {
                       List<EventModel> eventsList = data.map((e) => e).toList();
 
                       final upcomingEvents = eventsList.where((element) {
-                        DateTime startTime =
-                            DateFormat("hh:mm:ss").parse(element.startTime.toString());
+                        DateTime startTime = DateFormat("hh:mm:ss")
+                            .parse(element.startTime.toString());
 
                         return startTime.isAfter(DateTime.now());
                       });
@@ -288,8 +288,8 @@ class TimelinePage extends ConsumerWidget {
                                 children: upcomingEvents
                                     .map(
                                       (event) => UpcomingEvent(
-                                        title: event.title??"",
-                                        location: event.location??"",
+                                        title: event.title,
+                                        location: event.location,
                                         startDate: event.startDate.toString(),
                                         endDate: event.endDate.toString(),
                                         startTime: event.startTime.toString(),

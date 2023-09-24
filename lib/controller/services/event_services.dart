@@ -3,18 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:harpoon_events_app/controller/provider/event_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
-
 import 'package:harpoon_events_app/model/user_data_model.dart';
-import 'package:harpoon_events_app/view/screens/create_event_page.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../../model/event_model.dart';
-import '../../model/user_model.dart';
 
 class EventServices {
   final ProviderRef ref;
@@ -54,32 +49,34 @@ class EventServices {
   }
 
   Future<List<EventModel>> getEvents({String? eventId}) async {
-   try{
- final token = await getToken(ref);
+    try {
+      final token = await getToken(ref);
 
-    Response response = await get(
-      Uri.parse("$BASE_URL/events/$eventId"),
-      headers: <String, String>{
-        "accept": "application/json",
-        "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer ${token.token}",
-      },
-    );
-    debugPrint(eventId);
-    debugPrint(response.body);
-    debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      final List result = jsonDecode(response.body)['events'];
+      Response response = await get(
+        Uri.parse("$BASE_URL/events/$eventId"),
+        headers: <String, String>{
+          "accept": "application/json",
+          "Content-Type": "application/json; charset=UTF-8",
+          "Authorization": "Bearer ${token.token}",
+        },
+      );
+      debugPrint(eventId);
+      debugPrint(response.body);
+      debugPrint(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        final List result = jsonDecode(response.body)['events'];
 
-      return result.map((data) => EventModel.fromJson(data)).toList();
-    } else {
-      throw Exception(response.reasonPhrase);
+        return result.map((data) => EventModel.fromJson(data)).toList();
+      } else {
+        throw Exception(response.reasonPhrase);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
     }
-   }catch( e){
-    debugPrint(e.toString());
-    rethrow;
-   }
-  }Future<EventModel> getSingleEvent(String eventId) async {
+  }
+
+  Future<EventModel> getSingleEvent(String eventId) async {
     final token = await getToken(ref);
 
     Response response = await get(
@@ -101,7 +98,8 @@ class EventServices {
     }
   }
 
-  Future<CreateEventResModel> createComment({required Map<String, String> data}) async {
+  Future<CreateEventResModel> createComment(
+      {required Map<String, String> data}) async {
     try {
       final token = await getToken(ref);
 
@@ -122,20 +120,27 @@ class EventServices {
         return CreateEventResModel(status: "success", errMessage: null);
       } else {
         final result = jsonDecode(response.body);
-        return CreateEventResModel(status: "failed", errMessage: result["message"]);
+        return CreateEventResModel(
+            status: "failed", errMessage: result["message"]);
       }
     } catch (e) {
-      return CreateEventResModel(status: "failed", errMessage: "An error occured");
+      return CreateEventResModel(
+          status: "failed", errMessage: "An error occured");
     }
   }
 }
 
-final eventServiceProvider = Provider<EventServices>((ref) => EventServices(ref: ref));
-final createEventResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
-final createCommentResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
+final eventServiceProvider =
+    Provider<EventServices>((ref) => EventServices(ref: ref));
+final createEventResponse =
+    StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
+final createCommentResponse =
+    StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 
-final createComment = FutureProvider.autoDispose.family<bool, Map<String, String>>((ref, arg) async {
-  final fetchdata = await ref.read(eventServiceProvider).createComment(data: arg);
+final createComment = FutureProvider.autoDispose
+    .family<bool, Map<String, String>>((ref, arg) async {
+  final fetchdata =
+      await ref.read(eventServiceProvider).createComment(data: arg);
   final isAuth = fetchdata.status == "success";
 
   if (isAuth) {
@@ -146,7 +151,8 @@ final createComment = FutureProvider.autoDispose.family<bool, Map<String, String
 
   return true;
 });
-final createEvent = FutureProvider.autoDispose.family<bool, Map<String, dynamic>>((ref, arg) async {
+final createEvent = FutureProvider.autoDispose
+    .family<bool, Map<String, dynamic>>((ref, arg) async {
   final fetchdata = await ref.read(eventServiceProvider).createEvent(arg);
   final isAuth = fetchdata.status == "success";
 
@@ -159,9 +165,10 @@ final createEvent = FutureProvider.autoDispose.family<bool, Map<String, dynamic>
   return true;
 });
 
-final getEventProvider=FutureProvider.family<List<EventModel>, String>((ref, arg) {
- final fetchData= ref.watch(eventServiceProvider).getEvents(eventId: arg);
- return fetchData;
+final getEventProvider =
+    FutureProvider.family<List<EventModel>, String>((ref, arg) {
+  final fetchData = ref.watch(eventServiceProvider).getEvents(eventId: arg);
+  return fetchData;
 });
 Future<UserDataModel> getToken(ProviderRef ref) async {
   final data = await ref.read(getUserDataProvider.future);
