@@ -152,7 +152,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                         controller: descriptionController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Missing Field";
+                            return "Missing Field ";
                           } else {
                             return null;
                           }
