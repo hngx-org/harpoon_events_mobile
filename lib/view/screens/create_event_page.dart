@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../controller/event_provider.dart';
+import '../../controller/provider/event_provider.dart';
 import '../../controller/services/auth_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/ui.dart';

@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 
 import '../../model/event_model.dart';
 import '../../model/userDataModel.dart';
-import '../event_provider.dart';
+import '../provider/event_provider.dart';
 import 'auth_services.dart';
 
 class EventServices {

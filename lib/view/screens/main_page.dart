@@ -7,7 +7,7 @@ import 'package:harpoon_events_app/view/screens/signup_page.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../../controller/tab_provider.dart';
+import '../../controller/provider/tab_provider.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../../util/ui.dart';

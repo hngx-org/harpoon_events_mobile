@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/group_model.dart';
-import 'services/group_services.dart';
+import '../../model/group_model.dart';
+import '../services/group_services.dart';
 
 // Request to get all groups
 final allGroupsProvider = FutureProvider<List<GroupModel>>((ref) async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../controller/event_provider.dart';
+import '../../controller/provider/event_provider.dart';
 import '../../model/event_model.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';

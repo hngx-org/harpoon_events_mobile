@@ -7,7 +7,7 @@ import 'package:harpoon_events_app/util/ui.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
-import '../../controller/event_provider.dart';
+import '../../controller/provider/event_provider.dart';
 import '../widgets/app_bg.dart';
 
 class CommentsPage extends ConsumerWidget {

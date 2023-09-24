@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/event_model.dart';
-import 'services/event_services.dart';
+import '../../model/event_model.dart';
+import '../services/event_services.dart';
 
 // The provider that brings our EventsServices here.
 final eventServiceProvider =

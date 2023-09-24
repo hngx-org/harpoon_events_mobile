@@ -4,7 +4,7 @@ import 'package:harpoon_events_app/view/screens/comment_page.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 
-import '../../../../controller/group_provider.dart';
+import '../../../../controller/provider/group_provider.dart';
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 
