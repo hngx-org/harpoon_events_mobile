@@ -135,6 +135,7 @@ class AuthServices {
 }
 
 final authProvider = Provider<AuthServices>((ref) => AuthServices());
+
 final loginResponseProvider =
     StateProvider.autoDispose<LoginResponse?>((ref) => null);
 
@@ -185,6 +186,7 @@ final getIsAuthenticatedProvider = FutureProvider.autoDispose<bool>(
     return prefs.getBool(IS_AUTHENTICATED) ?? false;
   },
 );
+
 final setUserDataProvider = StateProvider.autoDispose.family<void, String>(
   (ref, userData) async {
     final prefs = await ref.watch(sharedPrefprovider);
@@ -195,6 +197,7 @@ final setUserDataProvider = StateProvider.autoDispose.family<void, String>(
     );
   },
 );
+
 final getUserDataProvider = FutureProvider.autoDispose<UserDataModel>(
   (ref) async {
     final prefs = await ref.watch(sharedPrefprovider);
@@ -207,6 +210,7 @@ final getUserDataProvider = FutureProvider.autoDispose<UserDataModel>(
     return userDatas;
   },
 );
+
 final clearCredentialsProvider = FutureProvider.autoDispose<bool>((ref) async {
   final prefs = await ref.watch(sharedPrefprovider);
 
@@ -227,6 +231,7 @@ final clearCredentialsProvider = FutureProvider.autoDispose<bool>((ref) async {
     return false; // Failed to clear credentials
   }
 });
+
 final logoutstate = StateProvider<String?>((ref) => null);
 
 class LoginResponse {

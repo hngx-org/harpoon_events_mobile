@@ -2,15 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
-import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/util/ui.dart';
-import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:intl/intl.dart';
 
+import '../../controller/event_provider.dart';
+import '../../controller/services/auth_services.dart';
+import '../../controller/services/event_services.dart';
 import '../../util/color_lib.dart';
-// import '../../util/fonts.dart';
-// import '../widgets/stroke_text.dart';
+import '../../util/ui.dart';
+import '../widgets/snack_bar.dart';
 
 final createEventLoader = StateProvider((ref) => false);
 
@@ -453,7 +452,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                   ref.listen(createEventResponse, (previous, next) {
                     if (next!.status == "success") {
                       ref.read(createEventLoader.notifier).state = false;
-                      // ref.refresh(eventsProvider);
+                      ref.refresh(allEventsProvider);
                       titleController.clear();
                       descriptionController.clear();
                       startDate = DateTime.now();

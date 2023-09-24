@@ -56,6 +56,7 @@ class MainPage extends ConsumerWidget {
         });
       }
     });
+
     return MainBg(
       child: Scaffold(
         backgroundColor: ColorLib.transparent,

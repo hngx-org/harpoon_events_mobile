@@ -5,7 +5,6 @@ import 'package:harpoon_events_app/view/screens/my_people_page/widgets/group_eve
 
 import 'view/screens/comment_page.dart';
 import 'view/screens/main_page.dart';
-import 'view/screens/post_comments/post_comments.dart';
 import 'view/screens/signup_page.dart';
 import 'view/screens/splash_page.dart';
 
@@ -42,7 +41,6 @@ class MyApp extends StatelessWidget {
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),
-        PostComments.route: (context) => const PostComments(),
         GroupEventPage.route: (context) => const GroupEventPage(),
         Loading.route: (context) => const Loading()
       },
