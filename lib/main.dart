@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),
-        GroupEventPage.route: (context) => const GroupEventPage(),
+        GroupEventPage.route: (context) => const GroupEventPage( ),
         Loading.route: (context) => const Loading()
       },
     );

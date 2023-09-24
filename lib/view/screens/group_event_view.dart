@@ -122,27 +122,21 @@ class GroupEventPage extends ConsumerWidget {
                         .map(
                           (e) => EventInGroup(
                             onTap: () async {
-                              Navigator.of(context)
-                                  .pushNamed(CommentsPage.route);
+                              Navigator.of(context).pushNamed(CommentsPage.route);
 
-                              final allEvents =
-                                  await ref.read(allEventsProvider.future);
+                              final allEvents = await ref.read(allEventsProvider.future);
 
-                              ref.read(selectedEventProvider.notifier).state =
-                                  allEvents.firstWhere(
-                                (element) =>
-                                    (element.title == e.title) &&
-                                    (element.location == e.location),
+                              ref.read(selectedEventProvider.notifier).state = allEvents.firstWhere(
+                                (element) => (element.title == e.title) && (element.location == e.location),
                               );
-                              Navigator.of(context)
-                                  .pushNamed(CommentsPage.route);
+                              Navigator.of(context).pushNamed(CommentsPage.route);
                             },
-                            eventName: e.title,
-                            address: e.location,
-                            startDate: e.startDate,
-                            startTime: e.startTime,
-                            endTime: e.endTime,
-                            comments: e.comments!.length,
+                            eventName: e.title ?? "",
+                            address: e.location ?? "",
+                            startDate: e.startDate.toString(),
+                            startTime: e.startTime.toString(),
+                            endTime: e.endTime.toString(),
+                            comments: e.comments.length,
                           ),
                         )
                         .toList(),
@@ -185,8 +179,7 @@ class EventInGroup extends StatelessWidget {
         width: double.infinity,
         height: 230,
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 20, left: 3, right: 13, bottom: 20),
+          padding: const EdgeInsets.only(top: 20, left: 3, right: 13, bottom: 20),
           child: Column(
             children: [
               Row(
@@ -204,8 +197,7 @@ class EventInGroup extends StatelessWidget {
                             width: 7,
                           ),
                           StrokeText(
-                            text:
-                                "${eventName[0].toUpperCase()}${eventName.substring(1)}",
+                            text: "${eventName[0].toUpperCase()}${eventName.substring(1)}",
                             textStyle: Fonts.tropiline(
                               color: ColorLib.yellow,
                               fontSize: 16,

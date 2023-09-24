@@ -1,18 +1,19 @@
-// ignore_for_file: use_build_context_synchronously
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/provider/group_provider.dart';
 import 'package:harpoon_events_app/model/group_model.dart';
 
-import '../../../../controller/provider/event_provider.dart';
-import '../../../../controller/provider/group_provider.dart';
-import '../../../../model/event_model.dart';
+
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 import '../../../../util/ui.dart';
 import '../../../widgets/stroke_text.dart';
 import 'group_event_view.dart';
 
+
+final groupsDataProvider= StateProvider<List<GroupModel>?>((ref) => null);
 class GroupView extends ConsumerWidget {
   final String title;
 
@@ -23,30 +24,24 @@ class GroupView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final allGroups = ref.watch(allGroupsProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () async {
-            final allGroups = await ref.read(allGroupsProvider.future);
-            final group = (allGroups.firstWhere(
-              (element) => element.title == title,
-            ));
-
-            GroupModel groupD = await ref.read(getSingleGroup(group.id).future);
-
-            List<EventModel> events = [];
-
-            if (groupD.events!.isNotEmpty) {
-              for (EventModel model in groupD.events!) {
-                events.add(await ref.read(getSingleEvent(model.id).future));
-              }
-
-              groupD.events = events;
-            }
-
-            ref.read(selectedGroupProvider.notifier).state = groupD;
-
+          onTap: () {
+            debugPrint("jbdikfsdjkbfvsd");
+            allGroups.whenData(
+              (data) => ref.read(groupsDataProvider.notifier).state = data.map((e) {
+                debugPrint(e.title.toString());
+                return e;
+              }).toList(),
+            );
+            ref.read(selectedGroupProvider.notifier).state = ref.watch(groupsDataProvider)?.firstWhere((element) {
+              return element.title == title;
+            });
+            debugPrint(ref.watch(selectedGroupProvider)!.title);
             Navigator.of(context).pushNamed(GroupEventPage.route);
           },
           child: Container(
@@ -72,6 +67,50 @@ class GroupView extends ConsumerWidget {
                   offset: Offset(4, 4),
                   spreadRadius: 0,
                 )
+              ],
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: Container(
+                    width: 75,
+                    height: 27,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFDEEDF7),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(width: 1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0xFF000000),
+                          blurRadius: 0,
+                          offset: Offset(2, 2),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '2 events',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
