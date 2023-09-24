@@ -56,6 +56,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/constants.dart';
 import 'package:harpoon_events_app/model/userDataModel.dart';
@@ -82,8 +83,8 @@ class AuthServices {
           "avatar": loginData.avatar ?? AppStrings.profilePicture,
         }),
       );
-      log(response.statusCode.toString());
-      log(response.body.toString());
+      debugPrint(response.statusCode.toString());
+      debugPrint(response.body.toString());
       if (response.statusCode == 201) {
         final result = jsonDecode(response.body);
         UserDataModel body = UserDataModel.fromJson(result);

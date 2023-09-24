@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/event_provider.dart';
 import 'package:harpoon_events_app/view/screens/comment_page.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../controller/group_provider.dart';
+import '../../../../controller/services/event_services.dart';
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 
-class GroupEventPage extends ConsumerWidget {
+class GroupEventPage extends ConsumerStatefulWidget {
   static String route = '/techies';
 
   const GroupEventPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GroupEventPage> createState() => _GroupEventPageState();
+}
+
+class _GroupEventPageState extends ConsumerState<GroupEventPage> {
+  String today = DateFormat.yMMMMd('en_US').format(DateTime.now());
+  @override
+  Widget build(BuildContext context) {
     final selectedGroup = ref.watch(selectedGroupProvider);
 
     return Scaffold(
@@ -32,11 +41,11 @@ class GroupEventPage extends ConsumerWidget {
               ),
             ),
             Text(
-              '12 members',
-              style: Fonts.nunito(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: ColorLib.black),
+              ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).isLoading ||
+                      ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).hasError
+                  ? "..."
+                  : "${ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).value!.length} Members",
+              style: Fonts.nunito(fontSize: 16, fontWeight: FontWeight.w600, color: ColorLib.black),
             ),
           ],
         ),
@@ -62,101 +71,92 @@ class GroupEventPage extends ConsumerWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 13, right: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomContainer(
-                fillColor: ColorLib.blue,
-                width: 200,
-                height: 30,
-                child: Center(
-                  child: Text(
-                    'Today, 20th May, 2023',
-                    style: Fonts.nunito(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: ColorLib.black,
-                        letterSpacing: 0.2),
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 13, right: 13),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomContainer(
+              fillColor: ColorLib.blue,
+              width: 200,
+              height: 30,
+              child: Center(
+                child: Text(
+                  'Today, $today',
+                  textAlign: TextAlign.center,
+                  style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 16, color: ColorLib.black, letterSpacing: 0.2),
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
-              Inkwell(
-                fillColor: ColorLib.pink,
-                eventName: 'Football Game',
-                address: 'Teslim Balogun Stadium',
-                date: 'Friday, 16:00-18:00',
-                onTap: () => Navigator.pushNamed(context, CommentsPage.route),
-                customWidget: [
-                  const SizedBox(
-                    width: 14,
-                  ),
-                  const AlignWidget(
-                    widthFactor: 0.5,
-                    name: 'assets/images/commentpic.png',
-                  ),
-                  const AlignWidget(
-                    widthFactor: 0.5,
-                    name: 'assets/images/commentpic2.png',
-                  ),
-                  const AlignWidget(
-                    widthFactor: 0.5,
-                    name: 'assets/images/commentpic3.png',
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    '11 comments',
-                    style: Fonts.nunito(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: ColorLib.black,
-                        letterSpacing: 0.2),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.keyboard_arrow_right_rounded,
-                    size: 40,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Inkwell(
-                fillColor: ColorLib.yellow,
-                eventName: 'Summer Music Fest',
-                address: 'Central Park Abuja',
-                date: 'Friday, 16:00-18:00',
-                customWidget: [
-                  Image.asset(
-                    'assets/icons/quotes.png',
-                    width: 35,
-                  ),
-                  Text(
-                    'Leave a Comment',
-                    style: Fonts.nunito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: ColorLib.black,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).when(
+                  data: (data) {
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: data.length,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final item = data[index];
+                            final comments = item.comments.length > 1;
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Inkwell(
+                                fillColor: ColorLib.pink,
+                                eventName: item.title ?? "",
+                                address: item.location ?? "",
+                                date: "${item.startTime} - ${item.endTime}",
+                                onTap: () {
+                                  ref.read(selectedEventProvider.notifier).state = item;
+                                  Navigator.pushNamed(context, CommentsPage.route);
+                                },
+                                customWidget: [
+                                  const SizedBox(
+                                    width: 14,
+                                  ),
+                                  const AlignWidget(
+                                    widthFactor: 0.5,
+                                    name: 'assets/images/commentpic.png',
+                                  ),
+                                  const AlignWidget(
+                                    widthFactor: 0.5,
+                                    name: 'assets/images/commentpic2.png',
+                                  ),
+                                  const AlignWidget(
+                                    widthFactor: 0.5,
+                                    name: 'assets/images/commentpic3.png',
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    comments ? "${item.comments.length} Comments" : "${item.comments.length} Comment",
+                                    style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 16, color: ColorLib.black, letterSpacing: 0.2),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(
+                                    Icons.keyboard_arrow_right_rounded,
+                                    size: 40,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    );
+                  },
+                  error: (error, stackTrace) => Center(
+                    child: Text(
+                      error.toString(),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.keyboard_arrow_right_rounded,
-                    size: 40,
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                ],
-                onTap: () => Navigator.pushNamed(context, CommentsPage.route),
-              )
-            ],
-          ),
+                ),
+          ],
         ),
       ),
     );
@@ -265,11 +265,7 @@ class Inkwell extends StatelessWidget {
                   ),
                   Text(
                     date,
-                    style: Fonts.nunito(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: ColorLib.black,
-                        letterSpacing: 0.2),
+                    style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 16, color: ColorLib.black, letterSpacing: 0.2),
                   )
                 ],
               ),

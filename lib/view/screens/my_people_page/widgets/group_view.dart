@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,17 +27,18 @@ class GroupView extends ConsumerWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(GroupEventPage.route);
-
+            debugPrint("jbdikfsdjkbfvsd");
             allGroups.whenData(
-              (data) => ref.read(groupsDataProvider.notifier).state =
-                  data.map((e) => e).toList(),
+              (data) => ref.read(groupsDataProvider.notifier).state = data.map((e) {
+                debugPrint(e.title.toString());
+                return e;
+              }).toList(),
             );
-
-            ref.read(selectedGroupProvider.notifier).state =
-                ref.watch(groupsDataProvider)?.firstWhere(
-                      (element) => element.title == title,
-                    );
+            ref.read(selectedGroupProvider.notifier).state = ref.watch(groupsDataProvider)?.firstWhere((element) {
+              return element.title == title;
+            });
+            debugPrint(ref.watch(selectedGroupProvider)!.title);
+            Navigator.of(context).pushNamed(GroupEventPage.route);
           },
           child: Container(
             width: UI.width(context, 177),
@@ -70,8 +73,7 @@ class GroupView extends ConsumerWidget {
                   child: Container(
                     width: 75,
                     height: 27,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: ShapeDecoration(
                       color: const Color(0xFFDEEDF7),
                       shape: RoundedRectangleBorder(

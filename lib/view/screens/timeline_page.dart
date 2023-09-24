@@ -279,12 +279,12 @@ class TimelinePage extends ConsumerWidget {
                         children: eventsList
                             .map(
                               (event) => EventView(
-                                title: event.title,
-                                location: event.location,
-                                startDate: event.startDate,
-                                endDate: event.endDate,
-                                startTime: event.startTime,
-                                endTime: event.endTime,
+                                title: event.title??"",
+                                location: event.location??"",
+                                startDate: event.startDate.toString(),
+                                endDate: event.endDate.toString(),
+                                startTime: event.startTime.toString(),
+                                endTime: event.endTime.toString(),
                               ),
                             )
                             .toList(),

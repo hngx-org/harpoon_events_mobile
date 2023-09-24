@@ -25,7 +25,7 @@ class MyPeople extends ConsumerWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: UI.width(context, 16)),
                 child: Text(
-                  'Keep track of events your connections are attending or hosting.',
+                  'Keep track o events your connections are attending or hosting.',
                   softWrap: true,
                   textAlign: TextAlign.justify,
                   style: Fonts.nunito(

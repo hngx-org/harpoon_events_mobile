@@ -42,13 +42,12 @@ class CalendarPage extends StatelessWidget {
                         return Column(
                           children: evenList.map((event) {
                             return Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 15),
+                              margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15),
                               child: savedEvent(
                                   context: context,
-                                  eventTitle: event.title,
+                                  eventTitle: event.title ?? "",
                                   eventTime: event.startTime,
-                                  eventLocation: event.location,
+                                  eventLocation: event.location ?? "",
                                   locationTime: event.endTime),
                             );
                           }).toList(),
@@ -99,10 +98,8 @@ class _CalendarState extends State<Calendar> {
         rowHeight: 45,
         availableGestures: AvailableGestures.all,
         daysOfWeekStyle: DaysOfWeekStyle(
-          weekdayStyle: Fonts.tropiline(
-              fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey),
-          weekendStyle: Fonts.tropiline(
-              fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey),
+          weekdayStyle: Fonts.tropiline(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey),
+          weekendStyle: Fonts.tropiline(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey),
         ),
         calendarStyle: const CalendarStyle(
           todayDecoration: BoxDecoration(
@@ -128,8 +125,7 @@ class _CalendarState extends State<Calendar> {
         headerStyle: HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
-          titleTextStyle: Fonts.tropiline(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+          titleTextStyle: Fonts.tropiline(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
         ),
         focusedDay: currentDay,
         firstDay: DateTime.utc(2022),
@@ -143,11 +139,7 @@ class _CalendarState extends State<Calendar> {
 
 //! Saved events Widget
 Widget savedEvent(
-    {required BuildContext context,
-    required String eventTitle,
-    String? eventTime,
-    required String eventLocation,
-    String? locationTime}) {
+    {required BuildContext context, required String eventTitle, String? eventTime, required String eventLocation, String? locationTime}) {
   return CustomContainer(
     fillColor: ColorLib.lightBlue,
     width: UI.width(context, 364),
@@ -165,10 +157,7 @@ Widget savedEvent(
               child: StrokeText(
                 text: eventTitle,
                 strokeWidth: 1,
-                textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis),
+                textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
               ),
             ),
             Text(
@@ -184,15 +173,11 @@ Widget savedEvent(
           children: [
             Text(
               eventLocation,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: ColorLib.grey,
-                  fontSize: 17),
+              style: const TextStyle(fontWeight: FontWeight.w500, color: ColorLib.grey, fontSize: 17),
             ),
             Text(
               locationTime ?? '',
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, color: ColorLib.grey),
+              style: const TextStyle(fontWeight: FontWeight.w500, color: ColorLib.grey),
             )
           ],
         ),

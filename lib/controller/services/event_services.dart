@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/controller/event_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
@@ -50,19 +51,21 @@ class EventServices {
     }
   }
 
-  Future<List<EventModel>> getEvents() async {
-    final token = await getToken(ref);
+  Future<List<EventModel>> getEvents({String? eventId}) async {
+   try{
+ final token = await getToken(ref);
 
     Response response = await get(
-      Uri.parse("$eventEndpoint/52dffb19-67e4-4fdd-af01-5e94c8416ddd"),
+      Uri.parse("$BASE_URL/events/$eventId"),
       headers: <String, String>{
         "accept": "application/json",
         "Content-Type": "application/json; charset=UTF-8",
         "Authorization": "Bearer ${token.token}",
       },
     );
-    log(response.body);
-    log(response.statusCode.toString());
+    debugPrint(eventId);
+    debugPrint(response.body);
+    debugPrint(response.statusCode.toString());
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body)['events'];
 
@@ -70,24 +73,28 @@ class EventServices {
     } else {
       throw Exception(response.reasonPhrase);
     }
+   }catch( e){
+    debugPrint(e.toString());
+    rethrow;
+   }
   }
 
-  Future<CreateEventResModel> createComment({required String body}) async {
+  Future<CreateEventResModel> createComment({required Map<String, String> data}) async {
     try {
       final token = await getToken(ref);
 
       Response response = await post(
-        Uri.parse("$eventEndpoint/${token.user!.id}/comments"),
+        Uri.parse("$eventEndpoint${data["eventid"]}/comments"),
         headers: <String, String>{
           "accept": "application/json",
           "Content-Type": "application/json; charset=UTF-8",
           "Authorization": "Bearer ${token.token}",
         },
-        body: jsonEncode({"body": body}),
+        body: jsonEncode({"body": data["body"]}),
       );
-      log(response.body);
-      log(response.statusCode.toString());
-      if (response.statusCode == 200) {
+      debugPrint(response.body);
+      debugPrint(response.statusCode.toString());
+      if (response.statusCode == 201) {
         // final result = jsonDecode(response.body);
 
         return CreateEventResModel(status: "success", errMessage: null);
@@ -105,8 +112,8 @@ final eventServiceProvider = Provider<EventServices>((ref) => EventServices(ref:
 final createEventResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 final createCommentResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 
-final createComment = FutureProvider.autoDispose.family<bool, String>((ref, arg) async {
-  final fetchdata = await ref.read(eventServiceProvider).createComment(body: arg);
+final createComment = FutureProvider.autoDispose.family<bool, Map<String, String>>((ref, arg) async {
+  final fetchdata = await ref.read(eventServiceProvider).createComment(data: arg);
   final isAuth = fetchdata.status == "success";
 
   if (isAuth) {
@@ -130,6 +137,10 @@ final createEvent = FutureProvider.autoDispose.family<bool, Map<String, dynamic>
   return true;
 });
 
+final getEventProvider=FutureProvider.family<List<EventModel>, String>((ref, arg) {
+ final fetchData= ref.watch(eventServiceProvider).getEvents(eventId: arg);
+ return fetchData;
+});
 Future<UserDataModel> getToken(ProviderRef ref) async {
   final data = await ref.read(getUserDataProvider.future);
   return data;
