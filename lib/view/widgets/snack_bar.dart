@@ -24,3 +24,24 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar({
 
   return ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBarBottom({
+  required String? content,
+  required BuildContext context,
+  required Color? backgroundColor,
+}) {
+  final snackbar = SnackBar(
+    backgroundColor: backgroundColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    behavior: SnackBarBehavior.floating,
+  
+    content: Text(
+      content!,
+      textAlign: TextAlign.center,
+    ),
+  );
+
+  return ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}
+
