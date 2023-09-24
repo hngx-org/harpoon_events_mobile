@@ -241,9 +241,9 @@ class CommentsPage extends ConsumerWidget {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  StrokeText(
-                                                    text: item.body ?? "",
-                                                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                                                  const StrokeText(
+                                                    text: "User",
+                                                    textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
                                                   ),
                                                   const SizedBox(
                                                     height: 10,
