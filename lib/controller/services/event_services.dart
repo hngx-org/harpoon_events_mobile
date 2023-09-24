@@ -35,6 +35,7 @@ class EventServices {
       },
       body: jsonEncode(resData),
     );
+
     log(response.body);
     log(response.statusCode.toString());
     if (response.statusCode == 201) {
@@ -70,6 +71,28 @@ class EventServices {
       final List result = jsonDecode(response.body)['events'];
 
       return result.map((data) => EventModel.fromJson(data)).toList();
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
+
+  Future<EventModel> getSingleEvent(String eventId) async {
+    final token = await getToken(ref);
+
+    Response response = await get(
+      Uri.parse("$eventEndpoint/$eventId"),
+      headers: <String, String>{
+        "accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer ${token.token}",
+      },
+    );
+    log(response.body);
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> result = jsonDecode(response.body)['event'];
+
+      return EventModel.fromJson(result);
     } else {
       throw Exception(response.reasonPhrase);
     }

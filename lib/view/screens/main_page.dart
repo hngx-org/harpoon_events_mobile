@@ -29,7 +29,6 @@ class MainPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = ref.watch(tabProvider);
-    final userData = ref.watch(getUserDataProvider);
 
     ref.listen(getUserDataProvider, (previous, next) async {
       bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
