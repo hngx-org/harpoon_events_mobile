@@ -1,4 +1,4 @@
-package harpoon.events.app.harpoon_events_app
+package com.hngix.task3_harpoon
 
 import io.flutter.embedding.android.FlutterActivity
 

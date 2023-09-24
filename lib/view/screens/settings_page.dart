@@ -7,7 +7,6 @@ import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/util/color_lib.dart';
 import 'package:harpoon_events_app/view/screens/signup_page.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../widgets/custom_container.dart';
@@ -63,37 +62,35 @@ class SettingsPage extends ConsumerWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
-
                       "${userData.isLoading ? "..." : userData.value!.user!.avatar}",
                       height: 100,
                       width: 100,
-                         frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                            return child;
-                          },
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Placeholder();
-                        },
-                          loadingBuilder: ((context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            } else {
-                              return const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(
-                                    child: SizedBox(
-                                      height: 30,
-                                      width: 30,
-                                      child: CircularProgressIndicator(
-                                        color: ColorLib.yellow,
-                                      ),
-                                    ),
+                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                        return child;
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Placeholder();
+                      },
+                      loadingBuilder: ((context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: CircularProgressIndicator(
+                                    color: ColorLib.yellow,
                                   ),
-                                ],
-                              );
-                            }
-                            
-                          }),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      }),
                     ),
                   ),
                 ),
@@ -104,17 +101,17 @@ class SettingsPage extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  StrokeText(
-                    text: "${userData.isLoading ? "..." : userData.value!.user!.name}",
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text("${userData.isLoading ? "" : userData.value!.user!.email}")
+                      StrokeText(
+                        text: "${userData.isLoading ? "..." : userData.value!.user!.name}",
+                        textStyle: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text("${userData.isLoading ? "" : userData.value!.user!.email}")
                     ],
                   ),
                 ),

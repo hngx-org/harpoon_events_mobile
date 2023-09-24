@@ -386,21 +386,7 @@ class _CustomBottomNavigationBarState extends ConsumerState<CustomBottomNavigati
                 hintText: "Type a message"),
           ),
         ),
-        GestureDetector(
-          onTap: () async {
-                  if (_messageController.text.isNotEmpty) {
-                    ref.read(sendLoading.notifier).state = true;
-                    ref.read(
-                      createComment(_messageController.text),
-                    );
-                  }
-                },
-          child: ref.watch(sendLoading)
-              ? circularProgressIndicator(color: ColorLib.black)
-              : const Icon(
-                  Icons.send,
-                ),
-        ),
+        const Icon(Icons.mic_none)
       ]),
     );
   }

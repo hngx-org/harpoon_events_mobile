@@ -4,13 +4,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/event_provider.dart';
+
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
 import 'package:harpoon_events_app/model/groupListModel.dart';
 import 'package:harpoon_events_app/services/createGroup.dart';
 import 'package:harpoon_events_app/services/groupServices.dart';
-import 'package:harpoon_events_app/view/screens/post_comments/widgets/rotateButton.dart';
+
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -502,9 +502,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                         endDate = DateTime.now();
                         startTime = DateTime.now();
                         endTime = DateTime.now();
-setState(() {
-  
-});
+                        setState(() {});
                         snackBar(
                           content: "Event created successfully",
                           context: context,

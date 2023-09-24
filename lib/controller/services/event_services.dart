@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/event_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/model/userDataModel.dart';
+import 'package:harpoon_events_app/view/screens/create_event_page.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +19,7 @@ class EventServices {
 
   EventServices({required this.ref});
 
-  Future<ResModel> createEvent(
+  Future<CreateEventResModel> createEvent(
     Map<String, dynamic> resData,
   ) async {
     final token = await getToken(ref);
@@ -35,13 +37,13 @@ class EventServices {
     if (response.statusCode == 201) {
       final result = jsonDecode(response.body);
 
-      return ResModel(
+      return CreateEventResModel(
         status: result["status"],
         errMessage: null,
       );
     } else {
       final result = jsonDecode(response.body);
-      return ResModel(
+      return CreateEventResModel(
         status: result["status"],
         errMessage: result["message"],
       );
@@ -70,7 +72,7 @@ class EventServices {
     }
   }
 
-  Future<ResModel> createComment({required String body}) async {
+  Future<CreateEventResModel> createComment({required String body}) async {
     try {
       final token = await getToken(ref);
 
@@ -88,20 +90,20 @@ class EventServices {
       if (response.statusCode == 200) {
         // final result = jsonDecode(response.body);
 
-        return ResModel(status: "success", errMessage: null);
+        return CreateEventResModel(status: "success", errMessage: null);
       } else {
         final result = jsonDecode(response.body);
-        return ResModel(status: "failed", errMessage: result["message"]);
+        return CreateEventResModel(status: "failed", errMessage: result["message"]);
       }
     } catch (e) {
-      return ResModel(status: "failed", errMessage: "An error occured");
+      return CreateEventResModel(status: "failed", errMessage: "An error occured");
     }
   }
 }
 
 final eventServiceProvider = Provider<EventServices>((ref) => EventServices(ref: ref));
-final createEventResponse = StateProvider.autoDispose<ResModel?>((ref) => null);
-final createCommentResponse = StateProvider.autoDispose<ResModel?>((ref) => null);
+final createEventResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
+final createCommentResponse = StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 
 final createComment = FutureProvider.autoDispose.family<bool, String>((ref, arg) async {
   final fetchdata = await ref.read(eventServiceProvider).createComment(body: arg);
