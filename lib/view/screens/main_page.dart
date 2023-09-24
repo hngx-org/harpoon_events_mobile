@@ -21,14 +21,27 @@ import 'my_people_page/mypeople_screen.dart';
 import 'settings_page.dart';
 import 'timeline_page.dart';
 
-class MainPage extends ConsumerWidget {
+class MainPage extends ConsumerStatefulWidget {
   static String route = '/main';
 
   const MainPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends ConsumerState<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
     final currentTab = ref.watch(tabProvider);
+
     final userData = ref.watch(getUserDataProvider);
 
     ref.listen(getUserDataProvider, (previous, next) async {
@@ -81,8 +94,7 @@ class MainPage extends ConsumerWidget {
               letterSpacing: 1.6,
             ),
           ),
-          leading:
-              currentTab == TabState.createEvent ? const GoBackButton() : null,
+          leading: currentTab == TabState.createEvent ? const GoBackButton() : null,
           centerTitle: true,
           elevation: 0,
           backgroundColor: ColorLib.transparent,
@@ -159,8 +171,7 @@ class MainPage extends ConsumerWidget {
                       width: UI.width(context, 56),
                       height: UI.height(context, 56),
                       child: InkWell(
-                        onTap: () => ref.read(tabProvider.notifier).state =
-                            TabState.createEvent,
+                        onTap: () => ref.read(tabProvider.notifier).state = TabState.createEvent,
                         child: const Icon(
                           Icons.add,
                           size: 24,

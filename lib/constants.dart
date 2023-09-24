@@ -28,3 +28,5 @@ class TwitterKeys {
   static const API_SECRET_KEY =
       "4qq7cvgT0kY7b3ADT0Wh24e4TABPhJXPudARk7Vt2DAnRyFwqn";
 }
+
+const String BASE_URL="http://web-01.okoth.tech/api/v1";
