@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/event_model.dart';
-import 'services/event_services.dart';
+import '../../model/event_model.dart';
+import '../services/event_services.dart';
 
 // The provider that brings our EventsServices here.
 final eventServiceProvider =
@@ -11,6 +11,8 @@ final eventServiceProvider =
 final selectedEventProvider = StateProvider<EventModel?>((ref) => null);
 
 // CREATE EVENT Logics under here....
+//
+//
 class CreateEventResModel {
   final String? status;
   final String? errMessage;
@@ -18,7 +20,6 @@ class CreateEventResModel {
   CreateEventResModel({required this.status, required this.errMessage});
 }
 
-// The StateProvider variable that we'll watch for event creation status
 final createEventResponse =
     StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 
@@ -38,15 +39,16 @@ final createEvent = FutureProvider.autoDispose
 });
 
 // GET EVENTS Logics under here....
-// The FutureProvider that we'll refresh to get all events
+//
+//
 final allEventsProvider = FutureProvider<List<EventModel>>((ref) async {
   return ref.watch(eventServiceProvider).getEvents();
 });
 
-// State variable to hold all the events that are available in the DB
-final eventDataProvider = StateProvider<List<EventModel>?>((ref) => null);
-
-
-// GET SINGLE EVENT LOGIC under here....
-
-
+// GET SINGLE EVENT Logic under here...
+//
+//
+final getSingleEvent =
+    FutureProvider.autoDispose.family<EventModel, String>((ref, eventId) async {
+  return ref.watch(eventServiceProvider).getSingleEvent(eventId);
+});

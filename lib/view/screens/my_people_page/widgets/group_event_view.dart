@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/view/screens/comment_page.dart';
+import 'package:harpoon_events_app/util/ui.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../controller/group_provider.dart';
+import '../../../../controller/provider/event_provider.dart';
+import '../../../../controller/provider/group_provider.dart';
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
+import '../../comment_page.dart';
 
 class GroupEventPage extends ConsumerWidget {
-  static String route = '/techies';
+  static String route = '/group_events';
 
   const GroupEventPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedGroup = ref.watch(selectedGroupProvider);
+    // Future<EventModel> getTrueEvent(event) async =>
+    // await ref.read(getSingleEvent(event.id).future);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,11 +37,16 @@ class GroupEventPage extends ConsumerWidget {
               ),
             ),
             Text(
-              '12 members',
+              selectedGroup.events!.length > 1
+                  ? "${selectedGroup.events!.length} Events"
+                  : selectedGroup.events!.length == 1
+                      ? "1 Event"
+                      : "No Event",
               style: Fonts.nunito(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: ColorLib.black),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: ColorLib.black,
+              ),
             ),
           ],
         ),
@@ -62,102 +72,79 @@ class GroupEventPage extends ConsumerWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 13, right: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomContainer(
-                fillColor: ColorLib.blue,
-                width: 200,
-                height: 30,
-                child: Center(
-                  child: Text(
-                    'Today, 20th May, 2023',
-                    style: Fonts.nunito(
-                        fontWeight: FontWeight.w600,
+      // CustomContainer(
+      //   fillColor: ColorLib.blue,
+      //   width: 200,
+      //   height: 30,
+      //   child: Center(
+      //     child: Text(
+      //       'Today, 20th May, 2023',
+      //       style: Fonts.nunito(
+      //           fontWeight: FontWeight.w600,
+      //           fontSize: 16,
+      //           color: ColorLib.black,
+      //           letterSpacing: 0.2),
+      //     ),
+      //   ),
+      // ),
+      // const SizedBox(
+      //   height: 25,
+      // ),
+      body: Container(
+        alignment: Alignment.topCenter,
+        padding: const EdgeInsets.only(top: 20, left: 13, right: 13),
+        child: selectedGroup.events!.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      "No Event in ${selectedGroup.title}\nPlease select another group :)",
+                      textAlign: TextAlign.center,
+                      style: Fonts.tropiline(
                         fontSize: 16,
-                        color: ColorLib.black,
-                        letterSpacing: 0.2),
+                        fontWeight: FontWeight.w700,
+                        height: 1.5,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: selectedGroup.events!
+                        .map(
+                          (e) => EventInGroup(
+                            onTap: () async {
+                              Navigator.of(context)
+                                  .pushNamed(CommentsPage.route);
+
+                              final allEvents =
+                                  await ref.read(allEventsProvider.future);
+
+                              ref.read(selectedEventProvider.notifier).state =
+                                  allEvents.firstWhere(
+                                (element) =>
+                                    (element.title == e.title) &&
+                                    (element.location == e.location),
+                              );
+                            },
+                            eventName: e.title,
+                            address: e.location,
+                            startDate: e.startDate,
+                            startTime: e.startTime,
+                            endTime: e.endTime,
+                            comments: e.comments!.length,
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
-              Inkwell(
-                fillColor: ColorLib.pink,
-                eventName: 'Football Game',
-                address: 'Teslim Balogun Stadium',
-                date: 'Friday, 16:00-18:00',
-                onTap: () => Navigator.pushNamed(context, CommentsPage.route),
-                customWidget: [
-                  const SizedBox(
-                    width: 14,
-                  ),
-                  const AlignWidget(
-                    widthFactor: 0.5,
-                    name: 'assets/images/commentpic.png',
-                  ),
-                  const AlignWidget(
-                    widthFactor: 0.5,
-                    name: 'assets/images/commentpic2.png',
-                  ),
-                  const AlignWidget(
-                    widthFactor: 0.5,
-                    name: 'assets/images/commentpic3.png',
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    '11 comments',
-                    style: Fonts.nunito(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: ColorLib.black,
-                        letterSpacing: 0.2),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.keyboard_arrow_right_rounded,
-                    size: 40,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Inkwell(
-                fillColor: ColorLib.yellow,
-                eventName: 'Summer Music Fest',
-                address: 'Central Park Abuja',
-                date: 'Friday, 16:00-18:00',
-                customWidget: [
-                  Image.asset(
-                    'assets/icons/quotes.png',
-                    width: 35,
-                  ),
-                  Text(
-                    'Leave a Comment',
-                    style: Fonts.nunito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: ColorLib.black,
-                    ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.keyboard_arrow_right_rounded,
-                    size: 40,
-                  ),
-                ],
-                onTap: () => Navigator.pushNamed(context, CommentsPage.route),
-              )
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -165,21 +152,24 @@ class GroupEventPage extends ConsumerWidget {
 
 // classes for techies screen
 
-class Inkwell extends StatelessWidget {
-  final List<Widget> customWidget;
+class EventInGroup extends StatelessWidget {
   final VoidCallback onTap;
   final String eventName;
   final String address;
-  final String date;
-  final Color fillColor;
-  const Inkwell({
+  final String startDate;
+  final String startTime;
+  final String endTime;
+  final int comments;
+
+  const EventInGroup({
     super.key,
-    required this.customWidget,
     required this.onTap,
     required this.eventName,
     required this.address,
-    required this.date,
-    required this.fillColor,
+    required this.startDate,
+    required this.startTime,
+    required this.endTime,
+    required this.comments,
   });
 
   @override
@@ -187,7 +177,7 @@ class Inkwell extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: CustomContainer(
-        fillColor: fillColor,
+        fillColor: ColorLib.yellow,
         width: double.infinity,
         height: 230,
         child: Padding(
@@ -209,7 +199,8 @@ class Inkwell extends StatelessWidget {
                             width: 7,
                           ),
                           StrokeText(
-                            text: eventName,
+                            text:
+                                "${eventName[0].toUpperCase()}${eventName.substring(1)}",
                             textStyle: Fonts.tropiline(
                               color: ColorLib.yellow,
                               fontSize: 16,
@@ -223,12 +214,18 @@ class Inkwell extends StatelessWidget {
                       ),
                       Row(
                         children: [
+                          SizedBox(
+                            width: UI.width(context, 5),
+                          ),
                           Image.asset(
                             'assets/icons/location.png',
-                            width: 35,
+                            width: 40,
+                          ),
+                          SizedBox(
+                            width: UI.width(context, 7),
                           ),
                           Text(
-                            address,
+                            "${address[0].toUpperCase()}${address.substring(1)}",
                             style: Fonts.nunito(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
@@ -259,17 +256,24 @@ class Inkwell extends StatelessWidget {
               ),
               Row(
                 children: [
+                  SizedBox(
+                    width: UI.width(context, 5),
+                  ),
                   Image.asset(
                     'assets/icons/clock.png',
-                    width: 35,
+                    width: 40,
+                  ),
+                  SizedBox(
+                    width: UI.width(context, 5),
                   ),
                   Text(
-                    date,
+                    "${DateFormat("yyyy-MM-dd").parse(startDate).day}/${DateFormat("yyyy-MM-dd").parse(startDate).month}, ${DateFormat("hh:mm:ss").parse(startTime).hour}:${DateFormat("hh:mm:ss").parse(startTime).minute} - ${DateFormat("hh:mm:ss").parse(endTime).hour}:${DateFormat("hh:mm:ss").parse(endTime).minute}",
                     style: Fonts.nunito(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: ColorLib.black,
-                        letterSpacing: 0.2),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      color: ColorLib.black,
+                      letterSpacing: 0,
+                    ),
                   )
                 ],
               ),
@@ -280,7 +284,35 @@ class Inkwell extends StatelessWidget {
                 color: ColorLib.black,
                 thickness: 0,
               ),
-              Row(children: customWidget)
+              Row(children: [
+                SizedBox(
+                  width: UI.width(context, 7),
+                ),
+                Image.asset(
+                  'assets/icons/quotes.png',
+                  width: 40,
+                ),
+                SizedBox(
+                  width: UI.width(context, 10),
+                ),
+                Text(
+                  comments > 1
+                      ? '$comments comments'
+                      : comments == 1
+                          ? "$comments comment"
+                          : "Leave a comment",
+                  style: Fonts.nunito(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: ColorLib.black,
+                  ),
+                ),
+                const Spacer(),
+                const Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  size: 40,
+                ),
+              ])
             ],
           ),
         ),

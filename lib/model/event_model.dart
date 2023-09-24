@@ -1,3 +1,5 @@
+import 'comment_model.dart';
+
 class EventModel {
   final String id;
   final String title;
@@ -8,6 +10,7 @@ class EventModel {
   final String endTime;
   final String startDate;
   final String endDate;
+  final List<CommentModel>? comments;
 
   EventModel({
     required this.id,
@@ -19,6 +22,7 @@ class EventModel {
     required this.endTime,
     required this.startDate,
     required this.endDate,
+    this.comments,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
@@ -31,6 +35,13 @@ class EventModel {
         endTime: json['end_time'] ?? '00:00:00',
         startDate: json['start_date'] ?? '01/01/2023',
         endDate: json['end_date'] ?? '01/01/2023',
+        comments: json['comments'] == null
+            ? []
+            : (json['comments'] as List).isEmpty
+                ? []
+                : (json['comments'] as List)
+                    .map((e) => CommentModel.fromJson(e))
+                    .toList(),
       );
 
   Map<String, dynamic> toJson() {

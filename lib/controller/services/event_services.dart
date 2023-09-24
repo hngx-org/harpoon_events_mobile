@@ -11,7 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../../model/event_model.dart';
-import '../../model/user_model.dart';
+import '../../model/userDataModel.dart';
+import '../provider/event_provider.dart';
+import 'auth_services.dart';
 
 class EventServices {
   final ProviderRef ref;
@@ -32,6 +34,7 @@ class EventServices {
       },
       body: jsonEncode(resData),
     );
+
     log(response.body);
     log(response.statusCode.toString());
     if (response.statusCode == 201) {
@@ -71,6 +74,8 @@ class EventServices {
       throw Exception(response.reasonPhrase);
     }
   }
+
+
 
   Future<CreateEventResModel> createComment({required String body}) async {
     try {
