@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import '../../controller/event_provider.dart';
 import '../../controller/services/auth_services.dart';
-import '../../controller/services/event_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/ui.dart';
 import '../widgets/snack_bar.dart';
