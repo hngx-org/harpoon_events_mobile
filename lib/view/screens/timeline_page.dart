@@ -16,7 +16,8 @@ enum FeedType {
   everyone,
 }
 
-final friendsProvider = StateProvider.autoDispose<FeedType>((ref) => FeedType.friends);
+final friendsProvider =
+    StateProvider.autoDispose<FeedType>((ref) => FeedType.friends);
 
 // To convert DateTime to String
 // startDate
@@ -38,8 +39,6 @@ class TimelinePage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: ColorLib.transparent,
-
-
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(allEventsProvider.future),
         child: Padding(
@@ -60,41 +59,46 @@ class TimelinePage extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () => ref.read(friendsProvider.notifier).state = FeedType.friends,
+                        onTap: () => ref.read(friendsProvider.notifier).state =
+                            FeedType.friends,
                         child: Container(
                           alignment: Alignment.center,
                           height: UI.height(context, 63),
                           width: UI.width(context, 190),
                           decoration: BoxDecoration(
-                            color: friends == FeedType.friends ? ColorLib.blueTabColor : ColorLib.lightBlue,
+                            color: friends == FeedType.friends
+                                ? ColorLib.blueTabColor
+                                : ColorLib.lightBlue,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),
                               bottomLeft: Radius.circular(10),
                             ),
                           ),
-                        ),
-                        child: Text(
-                          'Friends',
-                          style: Fonts.tropiline(
-                            color: ColorLib.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            height: 0.09,
-                            letterSpacing: 0.16,
+                          child: Text(
+                            'Friends',
+                            style: Fonts.tropiline(
+                              color: ColorLib.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              height: 0.09,
+                              letterSpacing: 0.16,
+                            ),
                           ),
                         ),
                       ),
                     ),
-
                     Expanded(
                       child: InkWell(
-                        onTap: () => ref.read(friendsProvider.notifier).state = FeedType.everyone,
+                        onTap: () => ref.read(friendsProvider.notifier).state =
+                            FeedType.everyone,
                         child: Container(
                           alignment: Alignment.center,
                           height: UI.height(context, 63),
                           width: UI.width(context, 190),
                           decoration: BoxDecoration(
-                            color: friends == FeedType.everyone ? ColorLib.blueTabColor : ColorLib.lightBlue,
+                            color: friends == FeedType.everyone
+                                ? ColorLib.blueTabColor
+                                : ColorLib.lightBlue,
                             border: const Border(
                               left: BorderSide(
                                 color: ColorLib.black,
@@ -113,22 +117,20 @@ class TimelinePage extends ConsumerWidget {
                                 width: 0,
                               ),
                             ),
-                            right: BorderSide(
-                              color: ColorLib.black,
-                              width: 0,
-                            ),
-                            top: BorderSide(
-                              color: ColorLib.black,
-                              width: 0,
-                            ),
-                            bottom: BorderSide(
-                              color: ColorLib.black,
-                              width: 0,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
                             ),
                           ),
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
+                          child: Text(
+                            'Eveyone',
+                            style: Fonts.tropiline(
+                              color: ColorLib.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              height: 0.09,
+                              letterSpacing: 0.16,
+                            ),
                           ),
                         ),
                       ),
@@ -169,225 +171,26 @@ class TimelinePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SizedBox(
-                  height: UI.height(context, 140),
-                  child: Row(
-                    children: [
-                      CustomContainer(
-                        height: UI.height(context, 130),
-                        width: UI.width(context, 297),
-                        fillColor: ColorLib.blue,
-                        borderRadius: 8,
-                        child: Center(
-                          child: SizedBox(
-                            width: UI.width(context, 259),
-                            height: UI.height(context, 70),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image.asset(
-                                  'assets/images/emoji-with-glasses.png',
-                                  width: UI.width(context, 84),
-                                  height: UI.height(context, 75),
-                                ),
-                                // SizedBox(
-                                //   width: UI.width(context, 16),
-                                // ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    StrokeText(
-                                      text: 'Summer Music Fest',
-                                      textStyle: Fonts.tropiline(
-                                        color: ColorLib.orange,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                        height: 0.07,
-                                        letterSpacing: 0.16,
-                                      ),
-                                      strokeColor: ColorLib.black,
-                                      strokeWidth: 2,
-                                    ),
-                                    Text(
-                                      'Central Park, Abuja',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Friday, 20th May, 2023',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                    Text(
-                                      '16:00-18:00',
-                                      style: Fonts.nunito(
-                                        color: ColorLib.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Live Events
-            CustomContainer(
-              alignment: Alignment.center,
-              height: UI.height(context, 50),
-              width: UI.width(context, 100),
-              borderRadius: 12,
-              shadowOffset: 2,
-              fillColor: const Color.fromARGB(255, 196, 237, 213),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.fiber_manual_record,
-                    color: ColorLib.green,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'LIVE',
-                    style: Fonts.tropiline(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: UI.height(context, 140),
-              child: events.when(
-                data: (data) {
-                  List<EventModel> eventsList = data.map((e) => e).toList();
-
-                  final liveEvents = eventsList.where((element) {
-                    DateTime startTime =
-                        DateFormat("hh:mm:ss").parse(element.startTime);
-                    DateTime endTime =
-                        DateFormat("hh:mm:ss").parse(element.endTime);
-
-                    return startTime.isBefore(DateTime.now()) &&
-                        endTime.isAfter(DateTime.now());
-                  });
-
-                  return liveEvents.isEmpty
-                      ? Center(
-                          child: Text(
-                            "No Live Events",
-                            style: Fonts.tropiline(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              height: 1.5,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: liveEvents
-                                .map(
-                                  (event) => LiveEvent(
-                                    title: event.title,
-                                    location: event.location,
-                                    startDate: event.startDate,
-                                    endDate: event.endDate,
-                                    startTime: event.startTime,
-                                    endTime: event.endTime,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        );
-                },
-                error: (error, stackTrace) => Center(
-                  child: Text(
-                    error.toString(),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Upcoming Events
-            CustomContainer(
-              alignment: Alignment.center,
-              height: UI.height(context, 44),
-              width: UI.width(context, 165),
-              borderRadius: 12,
-              shadowOffset: 2,
-              fillColor: const Color.fromARGB(255, 196, 237, 213),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Upcoming Events',
-                    style: Fonts.tropiline(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 10),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () => ref.refresh(allEventsProvider.future),
+              SizedBox(
+                height: UI.height(context, 140),
                 child: events.when(
                   data: (data) {
                     List<EventModel> eventsList = data.map((e) => e).toList();
 
-                    final upcomingEvents = eventsList.where((element) {
+                    final liveEvents = eventsList.where((element) {
                       DateTime startTime =
                           DateFormat("hh:mm:ss").parse(element.startTime);
+                      DateTime endTime =
+                          DateFormat("hh:mm:ss").parse(element.startTime);
 
-                      return startTime.isAfter(DateTime.now());
+                      return startTime.isAfter(DateTime.now()) &&
+                          endTime.isBefore(DateTime.now());
                     });
 
-                    return upcomingEvents.isEmpty
+                    return liveEvents.isEmpty
                         ? Center(
                             child: Text(
-                              "No Upcoming Events",
+                              "No Live Events",
                               style: Fonts.tropiline(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -397,10 +200,11 @@ class TimelinePage extends ConsumerWidget {
                             ),
                           )
                         : SingleChildScrollView(
-                            child: Column(
-                              children: upcomingEvents
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: liveEvents
                                   .map(
-                                    (event) => UpcomingEvent(
+                                    (event) => LiveEvent(
                                       title: event.title,
                                       location: event.location,
                                       startDate: event.startDate,
@@ -424,8 +228,92 @@ class TimelinePage extends ConsumerWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 30),
+
+              // Upcoming Events
+              CustomContainer(
+                alignment: Alignment.center,
+                height: UI.height(context, 44),
+                width: UI.width(context, 165),
+                borderRadius: 12,
+                shadowOffset: 2,
+                fillColor: const Color.fromARGB(255, 196, 237, 213),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Upcoming Events',
+                      style: Fonts.tropiline(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        height: 1.5,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => ref.refresh(allEventsProvider.future),
+                  child: events.when(
+                    data: (data) {
+                      List<EventModel> eventsList = data.map((e) => e).toList();
+
+                      final upcomingEvents = eventsList.where((element) {
+                        DateTime startTime =
+                            DateFormat("hh:mm:ss").parse(element.startTime);
+
+                        return startTime.isAfter(DateTime.now());
+                      });
+
+                      return upcomingEvents.isEmpty
+                          ? Center(
+                              child: Text(
+                                "No Upcoming Events",
+                                style: Fonts.tropiline(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.5,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: upcomingEvents
+                                    .map(
+                                      (event) => UpcomingEvent(
+                                        title: event.title,
+                                        location: event.location,
+                                        startDate: event.startDate,
+                                        endDate: event.endDate,
+                                        startTime: event.startTime,
+                                        endTime: event.endTime,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            );
+                    },
+                    error: (error, stackTrace) => Center(
+                      child: Text(
+                        error.toString(),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -42,8 +42,6 @@ class _MainPageState extends ConsumerState<MainPage> {
   ) {
     final currentTab = ref.watch(tabProvider);
 
-    final userData = ref.watch(getUserDataProvider);
-
     ref.listen(getUserDataProvider, (previous, next) async {
       bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
       if (hasExpired) {
@@ -94,7 +92,8 @@ class _MainPageState extends ConsumerState<MainPage> {
               letterSpacing: 1.6,
             ),
           ),
-          leading: currentTab == TabState.createEvent ? const GoBackButton() : null,
+          leading:
+              currentTab == TabState.createEvent ? const GoBackButton() : null,
           centerTitle: true,
           elevation: 0,
           backgroundColor: ColorLib.transparent,
@@ -171,7 +170,8 @@ class _MainPageState extends ConsumerState<MainPage> {
                       width: UI.width(context, 56),
                       height: UI.height(context, 56),
                       child: InkWell(
-                        onTap: () => ref.read(tabProvider.notifier).state = TabState.createEvent,
+                        onTap: () => ref.read(tabProvider.notifier).state =
+                            TabState.createEvent,
                         child: const Icon(
                           Icons.add,
                           size: 24,

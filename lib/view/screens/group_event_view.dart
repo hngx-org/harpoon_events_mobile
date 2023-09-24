@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/util/ui.dart';
@@ -5,11 +7,11 @@ import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../controller/provider/event_provider.dart';
-import '../../../../controller/provider/group_provider.dart';
-import '../../../../util/color_lib.dart';
-import '../../../../util/fonts.dart';
-import '../../comment_page.dart';
+import '../../controller/provider/event_provider.dart';
+import '../../controller/provider/group_provider.dart';
+import '../../util/color_lib.dart';
+import '../../util/fonts.dart';
+import 'comment_page.dart';
 
 class GroupEventPage extends ConsumerWidget {
   static String route = '/group_events';
@@ -132,6 +134,8 @@ class GroupEventPage extends ConsumerWidget {
                                     (element.title == e.title) &&
                                     (element.location == e.location),
                               );
+                              Navigator.of(context)
+                                  .pushNamed(CommentsPage.route);
                             },
                             eventName: e.title,
                             address: e.location,
@@ -181,7 +185,8 @@ class EventInGroup extends StatelessWidget {
         width: double.infinity,
         height: 230,
         child: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 3, right: 13),
+          padding:
+              const EdgeInsets.only(top: 20, left: 3, right: 13, bottom: 20),
           child: Column(
             children: [
               Row(

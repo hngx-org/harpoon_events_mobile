@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../../model/group_model.dart';
-import '../../model/userDataModel.dart';
+import '../../model/user_data_model.dart';
 import '../provider/group_provider.dart';
 import 'auth_services.dart';
 
