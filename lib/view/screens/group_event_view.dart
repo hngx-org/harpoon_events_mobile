@@ -137,11 +137,11 @@ class GroupEventPage extends ConsumerWidget {
                               Navigator.of(context)
                                   .pushNamed(CommentsPage.route);
                             },
-                            eventName: e.title,
-                            address: e.location,
-                            startDate: e.startDate,
-                            startTime: e.startTime,
-                            endTime: e.endTime,
+                            eventName: e.title ?? "",
+                            address: e.location ?? "",
+                            startDate: e.startDate.toString(),
+                            startTime: e.startTime.toString(),
+                            endTime: e.endTime.toString(),
                             comments: e.comments!.length,
                           ),
                         )
