@@ -205,8 +205,8 @@ class TimelinePage extends ConsumerWidget {
                               children: liveEvents
                                   .map(
                                     (event) => LiveEvent(
-                                      title: event.title,
-                                      location: event.location,
+                                      title: event.title!,
+                                      location: event.location!,
                                       startDate: event.startDate.toString(),
                                       endDate: event.endDate.toString(),
                                       startTime: event.startTime.toString(),
@@ -288,8 +288,8 @@ class TimelinePage extends ConsumerWidget {
                                 children: upcomingEvents
                                     .map(
                                       (event) => UpcomingEvent(
-                                        title: event.title,
-                                        location: event.location,
+                                        title: event.title!,
+                                        location: event.location!,
                                         startDate: event.startDate.toString(),
                                         endDate: event.endDate.toString(),
                                         startTime: event.startTime.toString(),

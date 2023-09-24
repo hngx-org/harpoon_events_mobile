@@ -1,19 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/event_provider.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/model/userDataModel.dart';
-import 'package:harpoon_events_app/view/screens/create_event_page.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../constants.dart';
 import '../../model/event_model.dart';
-import '../../model/user_model.dart';
 
 class GetCommentServices {
   final ProviderRef ref;
@@ -49,7 +41,8 @@ class GetCommentServices {
   }
 }
 
-final getCommentProvider = Provider<GetCommentServices>((ref) => GetCommentServices(ref));
+final getCommentProvider =
+    Provider<GetCommentServices>((ref) => GetCommentServices(ref));
 final getComments = FutureProvider.family<List<Comment>, String>((ref, arg) {
   final fetchData = ref.watch(getCommentProvider).getComments(eventId: arg);
   return fetchData;

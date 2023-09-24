@@ -46,7 +46,7 @@ class CommentsPage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        selectedEvent!.title,
+                        selectedEvent!.title!,
                         style: Fonts.tropiline(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -126,7 +126,7 @@ class CommentsPage extends ConsumerWidget {
                                     width: 4,
                                   ),
                                   StrokeText(
-                                    text: selectedEvent.title,
+                                    text: selectedEvent.title!,
                                     textStyle: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w800,
@@ -143,7 +143,7 @@ class CommentsPage extends ConsumerWidget {
                                       "assets/SVGs/location-icon.svg"),
                                   const SizedBox(width: 4),
                                   Text(
-                                    selectedEvent.location,
+                                    selectedEvent.location!,
                                     style: Fonts.nunito(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
@@ -225,7 +225,7 @@ class CommentsPage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              ref.watch(getComments(selectedEvent.id)).when(
+              ref.watch(getComments(selectedEvent.id!)).when(
                     data: (data) {
                       return data.isEmpty
                           ? Column(
@@ -448,7 +448,7 @@ class _CustomBottomNavigationBarState
         _messageController.clear();
         ref.read(sendLoading.notifier).state = false;
         // ignore: unused_result
-        ref.refresh(getComments(selectedEvent!.id));
+        ref.refresh(getComments(selectedEvent!.id!));
       } else {
         ref.read(sendLoading.notifier).state = false;
         snackBarBottom(
@@ -487,7 +487,7 @@ class _CustomBottomNavigationBarState
             onTap: () {
               if (_messageController.text.isNotEmpty) {
                 final datas = {
-                  "eventid": selectedEvent!.id,
+                  "eventid": selectedEvent!.id!,
                   "body": _messageController.text.trim(),
                 };
                 ref.read(sendLoading.notifier).state = true;

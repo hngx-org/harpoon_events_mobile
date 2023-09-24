@@ -142,7 +142,7 @@ class GroupEventPage extends ConsumerWidget {
                             startDate: e.startDate.toString(),
                             startTime: e.startTime.toString(),
                             endTime: e.endTime.toString(),
-                            comments: e.comments!.length,
+                            comments: e.comments.length,
                           ),
                         )
                         .toList(),
