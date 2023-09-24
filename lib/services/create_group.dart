@@ -2,15 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/model/userDataModel.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
-import '../../model/event_model.dart';
-import '../../model/user_model.dart';
 
 class CreateGroupServices {
   final ProviderRef ref;
@@ -34,7 +29,8 @@ class CreateGroupServices {
       if (response.statusCode == 201) {
         final result = jsonDecode(response.body);
 
-        return ResModel(status: "success", errMessage: result["group"]["title"]);
+        return ResModel(
+            status: "success", errMessage: result["group"]["title"]);
       } else {
         final result = jsonDecode(response.body);
         return ResModel(status: "failed", errMessage: result["message"]);
@@ -45,11 +41,12 @@ class CreateGroupServices {
   }
 }
 
-final createGroupProvider = Provider<CreateGroupServices>((ref) => CreateGroupServices(ref));
+final createGroupProvider =
+    Provider<CreateGroupServices>((ref) => CreateGroupServices(ref));
 final createGroupResponse = StateProvider.autoDispose<ResModel?>((ref) => null);
 
-
-final createGroup = FutureProvider.autoDispose.family<bool, String>((ref, arg) async {
+final createGroup =
+    FutureProvider.autoDispose.family<bool, String>((ref, arg) async {
   final fetchdata = await ref.read(createGroupProvider).createGroup(title: arg);
   final isAuth = fetchdata.status == "success";
   if (isAuth) {

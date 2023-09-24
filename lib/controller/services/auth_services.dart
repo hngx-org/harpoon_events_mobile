@@ -59,7 +59,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/constants.dart';
-import 'package:harpoon_events_app/model/userDataModel.dart';
+import 'package:harpoon_events_app/model/user_data_model.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -139,7 +139,6 @@ final authProvider = Provider<AuthServices>((ref) => AuthServices());
 
 final loginResponseProvider =
     StateProvider.autoDispose<LoginResponse?>((ref) => null);
-
 
 final loginProvider = FutureProvider.family<bool, LoginDataModel>(
   (ref, authArgs) async {

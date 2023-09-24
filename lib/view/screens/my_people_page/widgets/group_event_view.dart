@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/event_provider.dart';
+
+import 'package:harpoon_events_app/controller/provider/event_provider.dart';
+import 'package:harpoon_events_app/controller/provider/group_provider.dart';
 import 'package:harpoon_events_app/view/screens/comment_page.dart';
 import 'package:harpoon_events_app/view/widgets/custom_container.dart';
 import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../controller/group_provider.dart';
 import '../../../../controller/services/event_services.dart';
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';

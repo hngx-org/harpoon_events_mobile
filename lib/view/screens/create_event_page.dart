@@ -4,13 +4,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:harpoon_events_app/controller/provider/tab_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/model/groupListModel.dart';
-import 'package:harpoon_events_app/services/createGroup.dart';
-import 'package:harpoon_events_app/services/groupServices.dart';
-
+import 'package:harpoon_events_app/model/group_list_model.dart';
+import 'package:harpoon_events_app/services/create_group.dart';
+import 'package:harpoon_events_app/services/group_services.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -182,12 +181,14 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                     children: [
                       DropdownCell(
                         selectedDate: startDate,
-                        onDateChanged: (date) => setState(() => startDate = date),
+                        onDateChanged: (date) =>
+                            setState(() => startDate = date),
                       ),
                       const SizedBox(width: 24),
                       DropdownCell(
                         selectedTime: startTime,
-                        onTimeChanged: (time) => setState(() => startTime = time),
+                        onTimeChanged: (time) =>
+                            setState(() => startTime = time),
                       )
                     ],
                   ),
@@ -222,8 +223,10 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                margin: const EdgeInsets.symmetric(horizontal: 15),
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 width: double.infinity,
                                 height: 40,
                                 decoration: ShapeDecoration(
@@ -289,7 +292,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                               Icon(
                                 Icons.location_on,
                                 size: 20.0,
-                                color: Color.fromRGBO(195, 155, 233, 1), // Set the color
+                                color: Color.fromRGBO(
+                                    195, 155, 233, 1), // Set the color
                               ),
                             ],
                           ),
@@ -327,125 +331,165 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                                 Column(
                                   children: [
                                     getGroups.when(
-                                        data: (data) {
-                                          return Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 15),
-                                                child: Wrap(
-                                                  direction: Axis.horizontal,
-                                                  spacing: 10,
-                                                  runAlignment: WrapAlignment.spaceAround,
-                                                  children: data
-                                                      .map(
-                                                        (e) => GestureDetector(
-                                                          onTap: () {
-                                                            log(e.id.toString());
-                                                            setState(() {
-                                                              groups = e;
-                                                            });
+                                      data: (data) {
+                                        return Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
+                                              child: Wrap(
+                                                direction: Axis.horizontal,
+                                                spacing: 10,
+                                                runAlignment:
+                                                    WrapAlignment.spaceAround,
+                                                children: data
+                                                    .map(
+                                                      (e) => GestureDetector(
+                                                        onTap: () {
+                                                          log(e.id.toString());
+                                                          setState(() {
+                                                            groups = e;
+                                                          });
 
-                                                            Navigator.of(context).pop();
-                                                          },
-                                                          child: Chip(
-                                                            label: Text(e.title ?? ""),
-                                                          ),
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Chip(
+                                                          label: Text(
+                                                              e.title ?? ""),
                                                         ),
-                                                      )
-                                                      .toList(),
-                                                ),
+                                                      ),
+                                                    )
+                                                    .toList(),
                                               ),
-                                              Container(
-                                                alignment: Alignment.center,
-                                                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                                width: double.infinity,
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.transparent,
-                                                  shape: RoundedRectangleBorder(
-                                                    side: const BorderSide(
-                                                      width: 2,
-                                                      strokeAlign: BorderSide.strokeAlignCenter,
-                                                    ),
-                                                    borderRadius: BorderRadius.circular(8),
-                                                  ),
-                                                ),
-                                                child: TextFormField(
-                                                  controller: groupsController,
-                                                  decoration: const InputDecoration(
-                                                    hintText: 'Input the groups you want to create the event in',
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  autocorrect: true,
-                                                  minLines: 2,
-                                                  maxLines: 5,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Consumer(builder: (context, ref, child) {
-                                                ref.listen(createGroupResponse, (previous, next) {
-                                                  if (next!.status == "success") {
-                                                    ref.read(createGroupLoader.notifier).state = false;
-                                                    groupsController.clear();
-                                                    Navigator.pop(context);
-                                                    snackBar(
-                                                      content: "Successfully created ${next.errMessage} Group",
-                                                      context: context,
-                                                      backgroundColor: ColorLib.green,
-                                                    );
-                                                  } else {
-                                                    ref.read(createGroupLoader.notifier).state = false;
-                                                    snackBar(
-                                                      content: next.errMessage ?? "An error occured",
-                                                      context: context,
-                                                      backgroundColor: Colors.red,
-                                                    );
-                                                  }
-                                                });
-                                                return SimpleDialogOption(
-                                                  onPressed: () async {
-                                                    if (groupsController.text.isNotEmpty) {
-                                                      ref.read(createGroupLoader.notifier).state = true;
-                                                      ref.read(createGroup(groupsController.text.trim()));
-                                                    } else {}
-                                                  },
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    width: 200,
-                                                    height: 50,
-                                                    decoration: BoxDecoration(
-                                                      color: ColorLib.lightBrown,
-                                                      borderRadius: BorderRadius.circular(15),
-                                                    ),
-                                                    child: ref.watch(createGroupLoader)
-                                                        ? const CircularProgressIndicator()
-                                                        : const CustomText(
-                                                            text: 'Save',
-                                                          ),
-                                                  ),
-                                                );
-                                              }),
-                                            ],
-                                          );
-                                        },
-                                        error: (error, stackTrace) => Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Center(
-                                                  child: Text(
-                                                    "An error occured",
-                                                    textAlign: TextAlign.center,
-                                                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.red),
-                                                  ),
-                                                ),
-                                              ],
                                             ),
-                                        loading: () => const Center(
-                                              child: CircularProgressIndicator(),
-                                            ))
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              width: double.infinity,
+                                              decoration: ShapeDecoration(
+                                                color: Colors.transparent,
+                                                shape: RoundedRectangleBorder(
+                                                  side: const BorderSide(
+                                                    width: 2,
+                                                    strokeAlign: BorderSide
+                                                        .strokeAlignCenter,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              child: TextFormField(
+                                                controller: groupsController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  hintText:
+                                                      'Input the groups you want to create the event in',
+                                                  border: InputBorder.none,
+                                                ),
+                                                autocorrect: true,
+                                                minLines: 2,
+                                                maxLines: 5,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Consumer(
+                                                builder: (context, ref, child) {
+                                              ref.listen(createGroupResponse,
+                                                  (previous, next) {
+                                                if (next!.status == "success") {
+                                                  ref
+                                                      .read(createGroupLoader
+                                                          .notifier)
+                                                      .state = false;
+                                                  groupsController.clear();
+                                                  Navigator.pop(context);
+                                                  snackBar(
+                                                    content:
+                                                        "Successfully created ${next.errMessage} Group",
+                                                    context: context,
+                                                    backgroundColor:
+                                                        ColorLib.green,
+                                                  );
+                                                } else {
+                                                  ref
+                                                      .read(createGroupLoader
+                                                          .notifier)
+                                                      .state = false;
+                                                  snackBar(
+                                                    content: next.errMessage ??
+                                                        "An error occured",
+                                                    context: context,
+                                                    backgroundColor: Colors.red,
+                                                  );
+                                                }
+                                              });
+                                              return SimpleDialogOption(
+                                                onPressed: () async {
+                                                  if (groupsController
+                                                      .text.isNotEmpty) {
+                                                    ref
+                                                        .read(createGroupLoader
+                                                            .notifier)
+                                                        .state = true;
+                                                    ref.read(createGroup(
+                                                        groupsController.text
+                                                            .trim()));
+                                                  } else {}
+                                                },
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  width: 200,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    color: ColorLib.lightBrown,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  child: ref.watch(
+                                                          createGroupLoader)
+                                                      ? const CircularProgressIndicator()
+                                                      : const CustomText(
+                                                          text: 'Save',
+                                                        ),
+                                                ),
+                                              );
+                                            }),
+                                          ],
+                                        );
+                                      },
+                                      error: (error, stackTrace) => Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                              "An error occured",
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineLarge!
+                                                  .copyWith(color: Colors.red),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      loading: () => const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    )
                                   ],
                                 )
                               ]);
@@ -467,13 +511,16 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                               Icon(
                                 Icons.group,
                                 size: 20.0,
-                                color: Color.fromRGBO(195, 155, 233, 1), // Set the color
+                                color: Color.fromRGBO(
+                                    195, 155, 233, 1), // Set the color
                               ),
                             ],
                           ),
                         ),
                         Text(
-                          groups.title!.isEmpty ? 'Select Groups' : groups.title.toString(),
+                          groups.title!.isEmpty
+                              ? 'Select Groups'
+                              : groups.title.toString(),
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -498,11 +545,14 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                         location = "Add Location";
                         titleController.clear();
                         descriptionController.clear();
+                        locationController.clear();
+                        groupsController.clear();
                         startDate = DateTime.now();
                         endDate = DateTime.now();
                         startTime = DateTime.now();
                         endTime = DateTime.now();
-                        setState(() {});
+                        ref.read(tabProvider.notifier).state =
+                            TabState.timeline;
                         snackBar(
                           content: "Event created successfully",
                           context: context,
@@ -519,12 +569,17 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                     });
                     return GestureDetector(
                       onTap: () async {
-                        if (_form.currentState!.validate() && location.isNotEmpty && groups.id!.isNotEmpty) {
+                        if (_form.currentState!.validate() &&
+                            location.isNotEmpty &&
+                            groups.id!.isNotEmpty) {
                           ref.read(createEventLoader.notifier).state = true;
-                          final timestart = DateFormat('HH:mm').format(startTime);
+                          final timestart =
+                              DateFormat('HH:mm').format(startTime);
                           final timeend = DateFormat('HH:mm').format(endTime);
-                          final datestart = DateFormat('MM/dd/yyyy').format(startDate);
-                          final dateend = DateFormat('MM/dd/yyyy').format(endDate);
+                          final datestart =
+                              DateFormat('MM/dd/yyyy').format(startDate);
+                          final dateend =
+                              DateFormat('MM/dd/yyyy').format(endDate);
 
                           final data = {
                             "title": title,
@@ -550,7 +605,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                       child: Container(
                         width: double.infinity,
                         height: 64,
-                        padding: const EdgeInsets.symmetric(horizontal: 71, vertical: 18),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 71, vertical: 18),
                         clipBehavior: Clip.antiAlias,
                         decoration: ShapeDecoration(
                           color: const Color(0xFFDEEDF7),
@@ -719,7 +775,8 @@ class _DropdownCellState extends State<DropdownCell> {
       );
 
       setState(() {
-        _selectedTime = selectedTime; // Update the selected time for this instance
+        _selectedTime =
+            selectedTime; // Update the selected time for this instance
       });
 
       widget.onTimeChanged!(selectedTime);

@@ -7,7 +7,7 @@ import 'package:harpoon_events_app/view/screens/signup_page.dart';
 import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../../controller/tab_provider.dart';
+import '../../controller/provider/tab_provider.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../../util/ui.dart';
@@ -41,8 +41,6 @@ class _MainPageState extends ConsumerState<MainPage> {
     BuildContext context,
   ) {
     final currentTab = ref.watch(tabProvider);
-
-    final userData = ref.watch(getUserDataProvider);
 
     ref.listen(getUserDataProvider, (previous, next) async {
       bool hasExpired = JwtDecoder.isExpired(next.value!.token ?? "");
@@ -94,7 +92,8 @@ class _MainPageState extends ConsumerState<MainPage> {
               letterSpacing: 1.6,
             ),
           ),
-          leading: currentTab == TabState.createEvent ? const GoBackButton() : null,
+          leading:
+              currentTab == TabState.createEvent ? const GoBackButton() : null,
           centerTitle: true,
           elevation: 0,
           backgroundColor: ColorLib.transparent,
@@ -171,7 +170,8 @@ class _MainPageState extends ConsumerState<MainPage> {
                       width: UI.width(context, 56),
                       height: UI.height(context, 56),
                       child: InkWell(
-                        onTap: () => ref.read(tabProvider.notifier).state = TabState.createEvent,
+                        onTap: () => ref.read(tabProvider.notifier).state =
+                            TabState.createEvent,
                         child: const Icon(
                           Icons.add,
                           size: 24,

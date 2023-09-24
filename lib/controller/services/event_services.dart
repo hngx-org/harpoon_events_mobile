@@ -3,9 +3,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/event_provider.dart';
+
+import 'package:harpoon_events_app/controller/provider/event_provider.dart';
 import 'package:harpoon_events_app/controller/services/auth_services.dart';
-import 'package:harpoon_events_app/model/userDataModel.dart';
+
+import 'package:harpoon_events_app/model/user_data_model.dart';
 import 'package:harpoon_events_app/view/screens/create_event_page.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,6 +79,26 @@ class EventServices {
     debugPrint(e.toString());
     rethrow;
    }
+  }Future<EventModel> getSingleEvent(String eventId) async {
+    final token = await getToken(ref);
+
+    Response response = await get(
+      Uri.parse("$eventEndpoint/$eventId"),
+      headers: <String, String>{
+        "accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer ${token.token}",
+      },
+    );
+    log(response.body);
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> result = jsonDecode(response.body)['event'];
+
+      return EventModel.fromJson(result);
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
   }
 
   Future<CreateEventResModel> createComment({required Map<String, String> data}) async {

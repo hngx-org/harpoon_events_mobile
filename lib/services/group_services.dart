@@ -4,10 +4,8 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:harpoon_events_app/constants.dart';
 import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/model/groupListModel.dart';
+import 'package:harpoon_events_app/model/group_list_model.dart';
 import 'package:http/http.dart';
-import 'package:twitter_login/entity/auth_result.dart';
-import 'package:twitter_login/twitter_login.dart';
 
 class GroupServices {
   final ProviderRef ref;
@@ -41,7 +39,8 @@ class GroupServices {
   }
 }
 
-final getGroupListProvider = Provider<GroupServices>((ref) => GroupServices(ref: ref));
+final getGroupListProvider =
+    Provider<GroupServices>((ref) => GroupServices(ref: ref));
 
 final getGroup = FutureProvider<List<Group>>((ref) async {
   return ref.watch(getGroupListProvider).getGroup();

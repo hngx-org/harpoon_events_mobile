@@ -2,14 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:harpoon_events_app/controller/provider/group_provider.dart';
+import 'package:harpoon_events_app/model/group_model.dart';
 
-import '../../../../controller/group_provider.dart';
+
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';
 import '../../../../util/ui.dart';
 import '../../../widgets/stroke_text.dart';
 import 'group_event_view.dart';
 
+
+final groupsDataProvider= StateProvider<List<GroupModel>?>((ref) => null);
 class GroupView extends ConsumerWidget {
   final String title;
 

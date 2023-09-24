@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import '../../controller/services/auth_services.dart';
-import '../../services/twitter_login_services.dart';
+import '../../controller/services/twitter_login_services.dart';
 import '../../util/color_lib.dart';
 import '../../util/fonts.dart';
 import '../../util/ui.dart';

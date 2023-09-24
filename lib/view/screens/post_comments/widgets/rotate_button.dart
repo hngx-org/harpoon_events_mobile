@@ -7,10 +7,12 @@ class RotatingRefreshButton extends StatefulWidget {
   const RotatingRefreshButton({super.key, required this.onPressed});
 
   @override
+  // ignore: library_private_types_in_public_api
   _RotatingRefreshButtonState createState() => _RotatingRefreshButtonState();
 }
 
-class _RotatingRefreshButtonState extends State<RotatingRefreshButton> with SingleTickerProviderStateMixin {
+class _RotatingRefreshButtonState extends State<RotatingRefreshButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _rotationController;
   late Animation<double> _rotationAnimation;
 
@@ -21,7 +23,8 @@ class _RotatingRefreshButtonState extends State<RotatingRefreshButton> with Sing
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _rotationAnimation = Tween(begin: 0.0, end: 1.0).animate(_rotationController);
+    _rotationAnimation =
+        Tween(begin: 0.0, end: 1.0).animate(_rotationController);
   }
 
   @override
