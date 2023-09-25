@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../model/comment_model.dart';
 import '../../model/event_model.dart';
 import '../services/event_services.dart';
 
@@ -51,4 +52,9 @@ final allEventsProvider = FutureProvider<List<EventModel>>((ref) async {
 final getSingleEvent =
     FutureProvider.autoDispose.family<EventModel, String>((ref, eventId) async {
   return ref.watch(eventServiceProvider).getSingleEvent(eventId);
+});
+
+// GET COMMENTS Logics under here......
+final allCommentsProvider = FutureProvider<List<CommentModel>>((ref) async {
+  return ref.watch(eventServiceProvider).getComments();
 });

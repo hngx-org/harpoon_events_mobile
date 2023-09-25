@@ -11,9 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../../model/user_data_model.dart';
 import '../../model/user_model.dart';
+import 'event_services.dart';
 
 class AuthServices {
+  final ProviderRef ref;
+
   String userEndpoint = 'http://web-01.okoth.tech/api/v1/users';
+
+  AuthServices({required this.ref});
 
   Future<LoginResponse> authorizeUser(
       {required LoginDataModel loginData}) async {
@@ -62,17 +67,21 @@ class AuthServices {
     }
   }
 
-  Future<UserModel> getUser(String userId, String token) async {
+  Future<UserModel> getSingleUser(String userId) async {
+    final token = await getToken(ref);
+
     Response response = await get(
       Uri.parse("$userEndpoint/$userId"),
       headers: <String, String>{
         "accept": "application/json",
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer $token",
+        "Authorization": "Bearer ${token.token}",
       },
     );
+    log(response.body);
+    log(response.statusCode.toString());
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       final result = jsonDecode(response.body);
 
       return UserModel.fromJson(result['user']);
@@ -82,7 +91,7 @@ class AuthServices {
   }
 }
 
-final authProvider = Provider<AuthServices>((ref) => AuthServices());
+final authProvider = Provider<AuthServices>((ref) => AuthServices(ref: ref));
 
 final loginResponseProvider =
     StateProvider.autoDispose<LoginResponse?>((ref) => null);

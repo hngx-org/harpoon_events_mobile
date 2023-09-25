@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_events_app/controller/provider/group_provider.dart';
@@ -27,10 +29,18 @@ class GroupView extends ConsumerWidget {
           onTap: () async {
             final allGroups = await ref.read(allGroupsProvider.future);
 
-            ref.read(selectedGroupProvider.notifier).state =
-                allGroups.firstWhere((element) => (element.title == title));
+            ref.read(selectedGroupProvider.notifier).state = await ref.read(
+                getSingleGroup(allGroups
+                        .firstWhere((element) => (element.title == title))
+                        .id)
+                    .future);
 
-            Navigator.of(context).pushNamed(GroupEventPage.route);
+            Timer(
+              const Duration(milliseconds: 500),
+              () async {
+                Navigator.of(context).pushNamed(GroupEventPage.route);
+              },
+            );
           },
           child: Container(
             width: UI.width(context, 177),

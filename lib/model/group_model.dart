@@ -12,7 +12,7 @@ class GroupModel {
   });
 
   GroupModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+      : id = json['id'] ?? "",
         title = json['title'] ?? 'Title',
         events = json['events'] == null
             ? []

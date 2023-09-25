@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 
+import '../../model/comment_model.dart';
 import '../../model/event_model.dart';
 import '../../model/user_data_model.dart';
 import '../provider/event_provider.dart';
@@ -88,6 +89,63 @@ class EventServices {
       throw Exception(response.reasonPhrase);
     }
   }
+
+  Future<ResModel> createComment(
+    String body,
+  ) async {
+    final token = await getToken(ref);
+    final eventId = ref.watch(selectedEventProvider)!.id;
+
+    Response response = await post(
+      Uri.parse("$eventEndpoint/$eventId/comments"),
+      headers: <String, String>{
+        "accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer ${token.token}",
+      },
+      body: jsonEncode(<String, String>{
+        "body": body,
+      }),
+    );
+    log(response.body);
+    log(response.statusCode.toString());
+    if (response.statusCode == 201) {
+      final result = jsonDecode(response.body);
+
+      return ResModel(
+        status: result["status"],
+        errMessage: null,
+      );
+    } else {
+      final result = jsonDecode(response.body);
+      return ResModel(
+        status: result["status"],
+        errMessage: result["message"],
+      );
+    }
+  }
+
+  Future<List<CommentModel>> getComments() async {
+    final token = await getToken(ref);
+    final eventId = ref.watch(selectedEventProvider)!.id;
+
+    Response response = await get(
+      Uri.parse("$eventEndpoint/$eventId/comments"),
+      headers: <String, String>{
+        "accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer ${token.token}",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List result = jsonDecode(response.body)['comments'];
+
+      return result.map((data) => CommentModel.fromJson(data)).toList();
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
 }
 
 final eventServiceProvider =
@@ -95,7 +153,7 @@ final eventServiceProvider =
 final createEventResponse =
     StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 final createCommentResponse =
-    StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
+    StateProvider.autoDispose<ResModel?>((ref) => null);
 
 final createEvent = FutureProvider.autoDispose
     .family<bool, Map<String, dynamic>>((ref, arg) async {
@@ -106,6 +164,20 @@ final createEvent = FutureProvider.autoDispose
     ref.read(createEventResponse.notifier).state = fetchdata;
   } else {
     ref.read(createEventResponse.notifier).state = fetchdata;
+  }
+
+  return true;
+});
+
+final createComment =
+    FutureProvider.autoDispose.family<bool, String>((ref, body) async {
+  final fetchdata = await ref.read(eventServiceProvider).createComment(body);
+  final isAuth = fetchdata.status == "success";
+
+  if (isAuth) {
+    ref.read(createCommentResponse.notifier).state = fetchdata;
+  } else {
+    ref.read(createCommentResponse.notifier).state = fetchdata;
   }
 
   return true;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -178,13 +180,33 @@ class TimelinePage extends ConsumerWidget {
                     List<EventModel> eventsList = data.map((e) => e).toList();
 
                     final liveEvents = eventsList.where((element) {
-                      DateTime startTime =
-                          DateFormat("hh:mm:ss").parse(element.startTime);
-                      DateTime endTime =
-                          DateFormat("hh:mm:ss").parse(element.startTime);
+                      DateTime start;
+                      DateTime end;
 
-                      return startTime.isAfter(DateTime.now()) &&
-                          endTime.isBefore(DateTime.now());
+                      if (element.startDate.contains('/')) {
+                        start = DateFormat("dd/MM/yyyy hh:mm:ss")
+                            .parse("${element.startDate} ${element.startTime}");
+                      } else if (element.startDate.contains("-")) {
+                        start = DateFormat("yyyy-MM-dd hh:mm:ss")
+                            .parse("${element.startDate} ${element.startTime}");
+                      } else {
+                        start = DateFormat("hh:mm:ss")
+                            .parse("${element.startDate} ${element.startTime}");
+                      }
+
+                      if (element.endDate.contains('/')) {
+                        end = DateFormat("dd/MM/yyyy hh:mm:ss")
+                            .parse("${element.endDate} ${element.endTime}");
+                      } else if (element.endDate.contains("-")) {
+                        end = DateFormat("yyyy-MM-dd hh:mm:ss")
+                            .parse("${element.endDate} ${element.endTime}");
+                      } else {
+                        end = DateFormat("hh:mm:ss")
+                            .parse("${element.endDate} ${element.endTime}");
+                      }
+
+                      return start.isAfter(DateTime.now()) &&
+                          end.isBefore(DateTime.now());
                     });
 
                     return liveEvents.isEmpty
@@ -264,7 +286,27 @@ class TimelinePage extends ConsumerWidget {
                     data: (data) {
                       List<EventModel> eventsList = data.map((e) => e).toList();
 
-                      return eventsList.isEmpty
+                      final upcomingEvents = eventsList.where((element) {
+                        DateTime startTime;
+
+                        if (element.startDate.contains('/')) {
+                          startTime = DateFormat("dd/MM/yyyy hh:mm:ss").parse(
+                              "${element.startDate} ${element.startTime}");
+                        } else if (element.startDate.contains("-")) {
+                          startTime = DateFormat("yyyy-MM-dd hh:mm:ss").parse(
+                              "${element.startDate} ${element.startTime}");
+                        } else {
+                          startTime = DateFormat("hh:mm:ss").parse(
+                              "${element.startDate} ${element.startTime}");
+                        }
+
+                        log(startTime.toString());
+                        log(DateTime.now().toString());
+
+                        return startTime.isAfter(DateTime.now());
+                      });
+
+                      return upcomingEvents.isEmpty
                           ? Center(
                               child: Text(
                                 "No Upcoming Events",
@@ -278,7 +320,7 @@ class TimelinePage extends ConsumerWidget {
                             )
                           : SingleChildScrollView(
                               child: Column(
-                                children: eventsList
+                                children: upcomingEvents
                                     .map(
                                       (event) => UpcomingEvent(
                                         title: event.title,

@@ -1,6 +1,10 @@
+// ignore_for_file: unused_result
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_events_app/controller/provider/event_provider.dart';
+import 'package:mobile_events_app/controller/provider/group_provider.dart';
 
 import '../../controller/provider/tab_provider.dart';
 import '../../util/color_lib.dart';
@@ -27,7 +31,15 @@ class TabButton extends ConsumerWidget {
     final currentTab = ref.watch(tabProvider);
 
     return InkWell(
-      onTap: () => ref.read(tabProvider.notifier).state = tabState,
+      onTap: () async {
+        ref.read(tabProvider.notifier).state = tabState;
+
+        if (ref.read(tabProvider.notifier).state == TabState.timeline) {
+          ref.refresh(allEventsProvider);
+        } else if (ref.read(tabProvider.notifier).state == TabState.myPeople) {
+          ref.refresh(allGroupsProvider);
+        }
+      },
       child: CustomContainer(
         fillColor:
             currentTab == tabState ? ColorLib.black : ColorLib.transparent,

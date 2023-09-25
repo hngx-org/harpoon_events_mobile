@@ -613,7 +613,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                             "start_date": datestart,
                             "end_date": dateend,
                             "image": "anything.jpg",
-                            "group_id": groupsController.text
+                            "group_id": groupModel.id,
                           };
                           ref.read(createEvent(data));
                         } else {
