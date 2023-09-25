@@ -441,7 +441,6 @@ class _CustomBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-    final selectedEvent = ref.watch(selectedEventProvider);
     ref.listen(createCommentResponse, (previous, next) {
       if (next!.status == "success") {
         _messageController.clear();
@@ -485,10 +484,6 @@ class _CustomBottomNavigationBarState
         GestureDetector(
             onTap: () {
               if (_messageController.text.isNotEmpty) {
-                final datas = {
-                  "eventid": selectedEvent!.id,
-                  "body": _messageController.text.trim(),
-                };
                 ref.read(sendLoading.notifier).state = true;
                 // ref.read(createComment(datas));
               }
