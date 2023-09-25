@@ -199,25 +199,25 @@ class BottomCard extends ConsumerWidget {
           GestureDetector(
             onTap: () async {
               // GoogleAuth().signInWithGoogle();
-              String name = "Farouk";
+              // String name = "Farouk";
 
-              String email = 'faroukk@gmail.com';
-              String source = 'google';
+              // String email = 'faroukk@gmail.com';
+              // String source = 'google';
 
-              UserModel userData = await ref
-                  .watch(authProvider)
-                  .authorizeUser(name, email, source);
+              // UserModel userData = await ref
+              //     .watch(authProvider)
+              //     .authorizeUser(name, email, source);
 
-              final SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
-              ref.read(tokenProvider.notifier).state =
-                  prefs.getString(AppStrings.tokenKey);
+              // final SharedPreferences prefs =
+              //     await SharedPreferences.getInstance();
+              // ref.read(tokenProvider.notifier).state =
+              //     prefs.getString(AppStrings.tokenKey);
 
-              ref.read(userDataProvider.notifier).state = userData;
-              if (kDebugMode) {
-                print(
-                    "${userData.name}, ${userData.email}, ${userData.avatar}");
-              }
+              // ref.read(userDataProvider.notifier).state = userData;
+              // if (kDebugMode) {
+              //   print(
+              //       "${userData.name}, ${userData.email}, ${userData.avatar}");
+              // }
 
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushReplacementNamed(MainPage.route);
