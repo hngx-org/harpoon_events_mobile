@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 
@@ -47,31 +46,24 @@ class EventServices {
     }
   }
 
-  Future<List<EventModel>> getEvents({String? eventId}) async {
-    try {
-      final token = await getToken(ref);
+  Future<List<EventModel>> getEvents() async {
+    final token = await getToken(ref);
 
-      Response response = await get(
-        Uri.parse("$eventEndpoint/"),
-        headers: <String, String>{
-          "accept": "application/json",
-          "Content-Type": "application/json; charset=UTF-8",
-          "Authorization": "Bearer ${token.token}",
-        },
-      );
-      debugPrint(eventId);
-      debugPrint(response.body);
-      debugPrint(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        final List result = jsonDecode(response.body)['events'];
+    Response response = await get(
+      Uri.parse("$eventEndpoint/"),
+      headers: <String, String>{
+        "accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer ${token.token}",
+      },
+    );
 
-        return result.map((data) => EventModel.fromJson(data)).toList();
-      } else {
-        throw Exception(response.reasonPhrase);
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
+    if (response.statusCode == 200) {
+      final List result = jsonDecode(response.body)['events'];
+
+      return result.map((data) => EventModel.fromJson(data)).toList();
+    } else {
+      throw Exception(response.reasonPhrase);
     }
   }
 
@@ -96,37 +88,6 @@ class EventServices {
       throw Exception(response.reasonPhrase);
     }
   }
-
-  Future<CreateEventResModel> createComment(
-      {required Map<String, String> data}) async {
-    try {
-      final token = await getToken(ref);
-
-      Response response = await post(
-        Uri.parse("$eventEndpoint${data["eventid"]}/comments"),
-        headers: <String, String>{
-          "accept": "application/json",
-          "Content-Type": "application/json; charset=UTF-8",
-          "Authorization": "Bearer ${token.token}",
-        },
-        body: jsonEncode({"body": data["body"]}),
-      );
-      debugPrint(response.body);
-      debugPrint(response.statusCode.toString());
-      if (response.statusCode == 201) {
-        // final result = jsonDecode(response.body);
-
-        return CreateEventResModel(status: "success", errMessage: null);
-      } else {
-        final result = jsonDecode(response.body);
-        return CreateEventResModel(
-            status: "failed", errMessage: result["message"]);
-      }
-    } catch (e) {
-      return CreateEventResModel(
-          status: "failed", errMessage: "An error occured");
-    }
-  }
 }
 
 final eventServiceProvider =
@@ -136,20 +97,6 @@ final createEventResponse =
 final createCommentResponse =
     StateProvider.autoDispose<CreateEventResModel?>((ref) => null);
 
-final createComment = FutureProvider.autoDispose
-    .family<bool, Map<String, String>>((ref, arg) async {
-  final fetchdata =
-      await ref.read(eventServiceProvider).createComment(data: arg);
-  final isAuth = fetchdata.status == "success";
-
-  if (isAuth) {
-    ref.read(createCommentResponse.notifier).state = fetchdata;
-  } else {
-    ref.read(createCommentResponse.notifier).state = fetchdata;
-  }
-
-  return true;
-});
 final createEvent = FutureProvider.autoDispose
     .family<bool, Map<String, dynamic>>((ref, arg) async {
   final fetchdata = await ref.read(eventServiceProvider).createEvent(arg);
@@ -164,11 +111,6 @@ final createEvent = FutureProvider.autoDispose
   return true;
 });
 
-final getEventProvider =
-    FutureProvider.family<List<EventModel>, String>((ref, arg) {
-  final fetchData = ref.watch(eventServiceProvider).getEvents(eventId: arg);
-  return fetchData;
-});
 Future<UserDataModel> getToken(ProviderRef ref) async {
   final data = await ref.read(getUserDataProvider.future);
   return data;

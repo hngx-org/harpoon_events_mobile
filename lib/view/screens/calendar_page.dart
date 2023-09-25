@@ -107,9 +107,9 @@ class CalendarPage extends ConsumerWidget {
                                   horizontal: 8.0, vertical: 15),
                               child: savedEvent(
                                 context: context,
-                                eventTitle: event.title!,
+                                eventTitle: event.title,
                                 eventTime: event.startTime,
-                                eventLocation: event.location!,
+                                eventLocation: event.location,
                                 locationTime: event.endTime,
                               ),
                             );

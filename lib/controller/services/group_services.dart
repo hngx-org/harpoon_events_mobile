@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../../model/group_model.dart';
 import '../../model/user_data_model.dart';
-import '../provider/group_provider.dart';
 import 'auth_services.dart';
+import 'event_services.dart';
 
 class GroupServices {
   final ProviderRef ref;
@@ -69,14 +69,14 @@ class GroupServices {
     if (response.statusCode == 200) {
       final Map<String, dynamic> result = jsonDecode(response.body)['group'];
 
-      return GroupModel.singleFromJson(result);
+      return GroupModel.fromJson(result);
     } else {
       throw Exception(response.reasonPhrase);
     }
   }
 
   // Create a group
-  Future<CreateGroupResModel> createGroup(Map<String, dynamic> resData) async {
+  Future<ResModel> createGroup(Map<String, dynamic> resData) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(AppStrings.tokenKey);
 
@@ -95,16 +95,20 @@ class GroupServices {
     if (response.statusCode == 201) {
       final result = jsonDecode(response.body);
 
-      return CreateGroupResModel(
+      return ResModel(
         status: result["status"],
         errMessage: null,
       );
     } else {
       final result = jsonDecode(response.body);
-      return CreateGroupResModel(
+      return ResModel(
         status: result["status"],
         errMessage: result["error"]["message"],
       );
     }
   }
 }
+
+final getGroupListProvider =
+    Provider<GroupServices>((ref) => GroupServices(ref: ref));
+final createEventResponse = StateProvider.autoDispose<ResModel?>((ref) => null);

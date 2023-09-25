@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,14 +33,13 @@ class UpcomingEvent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
-        Navigator.of(context).pushNamed(CommentsPage.route);
-
         final allEvents = await ref.read(allEventsProvider.future);
 
         ref.read(selectedEventProvider.notifier).state = allEvents.firstWhere(
-          (element) =>
-              (element.title == title) && (element.location == location),
-        );
+            (element) =>
+                (element.title == title) && (element.location == location));
+
+        Navigator.of(context).pushNamed(CommentsPage.route);
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20),

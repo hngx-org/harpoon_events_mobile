@@ -11,9 +11,9 @@ class GroupModel {
     this.events,
   });
 
-  GroupModel.singleFromJson(Map<String, dynamic> json)
-      : id = json['group']['id'],
-        title = json['group']['title'] ?? 'Title',
+  GroupModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        title = json['title'] ?? 'Title',
         events = json['events'] == null
             ? []
             : (json['events'] as List).isEmpty
@@ -22,11 +22,6 @@ class GroupModel {
                     .map((event) =>
                         EventModel.fromJson(event as Map<String, dynamic>))
                     .toList();
-
-  factory GroupModel.fromJson(Map<String, dynamic> json) => GroupModel(
-        id: json['id'],
-        title: json['title'] ?? 'Title',
-      );
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

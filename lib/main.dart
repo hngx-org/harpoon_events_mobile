@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         // Be sure to declare the route name as static String variable.
         // For readability sake.
         SplashPage.route: (context) => const SplashPage(),
+        Loading.route: (context) => const Loading(),
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),

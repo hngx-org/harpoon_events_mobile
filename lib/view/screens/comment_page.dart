@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_events_app/controller/provider/event_provider.dart';
 import 'package:mobile_events_app/controller/services/event_services.dart';
-import 'package:mobile_events_app/services/get_comment_services.dart';
 import 'package:mobile_events_app/util/color_lib.dart';
 import 'package:mobile_events_app/util/fonts.dart';
 import 'package:mobile_events_app/util/ui.dart';
@@ -46,7 +45,7 @@ class CommentsPage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        selectedEvent!.title!,
+                        selectedEvent!.title,
                         style: Fonts.tropiline(
                           fontWeight: FontWeight.w700,
                           fontSize: 24,
@@ -126,7 +125,7 @@ class CommentsPage extends ConsumerWidget {
                                     width: 4,
                                   ),
                                   StrokeText(
-                                    text: selectedEvent.title!,
+                                    text: selectedEvent.title,
                                     textStyle: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w800,
@@ -143,7 +142,7 @@ class CommentsPage extends ConsumerWidget {
                                       "assets/SVGs/location-icon.svg"),
                                   const SizedBox(width: 4),
                                   Text(
-                                    selectedEvent.location!,
+                                    selectedEvent.location,
                                     style: Fonts.nunito(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
@@ -225,111 +224,111 @@ class CommentsPage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              ref.watch(getComments(selectedEvent.id!)).when(
-                    data: (data) {
-                      return data.isEmpty
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "You havent made any comment on this Event",
-                                  style: Fonts.nunito(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14,
-                                      color: ColorLib.black),
-                                ),
-                              ],
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    final item = data[index];
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 20),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const CustomCircleAvatar(
-                                              radius: 20,
-                                              imageLocation:
-                                                  'assets/images/comment_image.png'),
-                                          const SizedBox(width: 10),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                    color: ColorLib.black,
-                                                    width: 2)),
-                                            width: UI.width(context, 338),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const StrokeText(
-                                                    text: "User",
-                                                    textStyle: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w800),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    item.body ?? "",
-                                                    style: Fonts.nunito(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14,
-                                                        color: ColorLib.black),
-                                                  ),
-                                                  // if (image != null) ...[
-                                                  //   const SizedBox(
-                                                  //     height: 10,
-                                                  //   ),
-                                                  //   Container(
-                                                  //     constraints: const BoxConstraints.expand(
-                                                  //       width: 308,
-                                                  //       height: 180,
-                                                  //     ),
-                                                  //     decoration: BoxDecoration(
-                                                  //       border: Border.all(color: ColorLib.black, width: 2),
-                                                  //       image: DecorationImage(
-                                                  //         image: AssetImage("'assets/images/comment_image.png'"),
-                                                  //         fit: BoxFit.cover,
-                                                  //       ),
-                                                  //       borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                                                  //     ),
-                                                  //   )
-                                                  // ]
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            );
-                    },
-                    error: (error, stackTrace) => Center(
-                      child: Text(
-                        error.toString(),
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
+              // ref.watch(getComments(selectedEvent.id!)).when(
+              //       data: (data) {
+              //         return data.isEmpty
+              //             ? Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "You havent made any comment on this Event",
+              //                     style: Fonts.nunito(
+              //                         fontWeight: FontWeight.w700,
+              //                         fontSize: 14,
+              //                         color: ColorLib.black),
+              //                   ),
+              //                 ],
+              //               )
+              //             : Expanded(
+              //                 child: ListView.builder(
+              //                     shrinkWrap: true,
+              //                     itemCount: data.length,
+              //                     itemBuilder: (context, index) {
+              //                       final item = data[index];
+              //                       return Padding(
+              //                         padding:
+              //                             const EdgeInsets.only(bottom: 20),
+              //                         child: Row(
+              //                           crossAxisAlignment:
+              //                               CrossAxisAlignment.start,
+              //                           children: [
+              //                             const CustomCircleAvatar(
+              //                                 radius: 20,
+              //                                 imageLocation:
+              //                                     'assets/images/comment_image.png'),
+              //                             const SizedBox(width: 10),
+              //                             Container(
+              //                               decoration: BoxDecoration(
+              //                                   borderRadius:
+              //                                       BorderRadius.circular(8),
+              //                                   border: Border.all(
+              //                                       color: ColorLib.black,
+              //                                       width: 2)),
+              //                               width: UI.width(context, 338),
+              //                               child: Padding(
+              //                                 padding:
+              //                                     const EdgeInsets.all(10.0),
+              //                                 child: Column(
+              //                                   crossAxisAlignment:
+              //                                       CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     const StrokeText(
+              //                                       text: "User",
+              //                                       textStyle: TextStyle(
+              //                                           fontSize: 16,
+              //                                           fontWeight:
+              //                                               FontWeight.w800),
+              //                                     ),
+              //                                     const SizedBox(
+              //                                       height: 10,
+              //                                     ),
+              //                                     Text(
+              //                                       item.body ?? "",
+              //                                       style: Fonts.nunito(
+              //                                           fontWeight:
+              //                                               FontWeight.w600,
+              //                                           fontSize: 14,
+              //                                           color: ColorLib.black),
+              //                                     ),
+              //                                     // if (image != null) ...[
+              //                                     //   const SizedBox(
+              //                                     //     height: 10,
+              //                                     //   ),
+              //                                     //   Container(
+              //                                     //     constraints: const BoxConstraints.expand(
+              //                                     //       width: 308,
+              //                                     //       height: 180,
+              //                                     //     ),
+              //                                     //     decoration: BoxDecoration(
+              //                                     //       border: Border.all(color: ColorLib.black, width: 2),
+              //                                     //       image: DecorationImage(
+              //                                     //         image: AssetImage("'assets/images/comment_image.png'"),
+              //                                     //         fit: BoxFit.cover,
+              //                                     //       ),
+              //                                     //       borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+              //                                     //     ),
+              //                                     //   )
+              //                                     // ]
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             )
+              //                           ],
+              //                         ),
+              //                       );
+              //                     }),
+              //               );
+              //       },
+              //       error: (error, stackTrace) => Center(
+              //         child: Text(
+              //           error.toString(),
+              //           style: Theme.of(context).textTheme.bodyLarge,
+              //         ),
+              //       ),
+              //       loading: () => const Center(
+              //         child: CircularProgressIndicator(),
+              //       ),
+              //     ),
               //The comments section/view
             ],
           ),
@@ -448,7 +447,7 @@ class _CustomBottomNavigationBarState
         _messageController.clear();
         ref.read(sendLoading.notifier).state = false;
         // ignore: unused_result
-        ref.refresh(getComments(selectedEvent!.id!));
+        // ref.refresh(getComments(selectedEvent!.id!));
       } else {
         ref.read(sendLoading.notifier).state = false;
         snackBarBottom(
@@ -487,11 +486,11 @@ class _CustomBottomNavigationBarState
             onTap: () {
               if (_messageController.text.isNotEmpty) {
                 final datas = {
-                  "eventid": selectedEvent!.id!,
+                  "eventid": selectedEvent!.id,
                   "body": _messageController.text.trim(),
                 };
                 ref.read(sendLoading.notifier).state = true;
-                ref.read(createComment(datas));
+                // ref.read(createComment(datas));
               }
             },
             child: ref.watch(sendLoading)

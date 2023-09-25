@@ -5,12 +5,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_events_app/controller/provider/group_provider.dart';
 import 'package:mobile_events_app/controller/provider/tab_provider.dart';
 import 'package:mobile_events_app/controller/services/auth_services.dart';
 import 'package:mobile_events_app/controller/services/event_services.dart';
-import 'package:mobile_events_app/model/group_list_model.dart';
-import 'package:mobile_events_app/services/create_group.dart';
-import 'package:mobile_events_app/services/group_services.dart';
+import 'package:mobile_events_app/model/group_model.dart';
 import 'package:mobile_events_app/view/widgets/snack_bar.dart';
 
 import '../../util/color_lib.dart';
@@ -44,7 +43,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
   String title = "";
   String description = "";
   String location = "Add Location";
-  Group groups = Group(id: "", title: "");
+  GroupModel groupModel = GroupModel(id: "", title: "");
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -60,7 +59,8 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     final userData = ref.watch(getUserDataProvider);
-    final getGroups = ref.watch(getGroup);
+    final groups = ref.watch(allGroupsProvider);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -316,7 +316,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      ref.refresh(getGroup);
+                      ref.refresh(allGroupsProvider);
                       showDialog<void>(
                         context: context,
                         builder: (BuildContext context) {
@@ -328,7 +328,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                               children: [
                                 Column(
                                   children: [
-                                    getGroups.when(
+                                    groups.when(
                                       data: (data) {
                                         return Column(
                                           children: [
@@ -343,19 +343,29 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                                                     WrapAlignment.spaceAround,
                                                 children: data
                                                     .map(
-                                                      (e) => GestureDetector(
+                                                      (group) =>
+                                                          GestureDetector(
                                                         onTap: () {
-                                                          log(e.id.toString());
+                                                          log(group.id
+                                                              .toString());
                                                           setState(() {
-                                                            groups = e;
+                                                            groupsController
+                                                                    .text =
+                                                                group.title;
+                                                            groupModel =
+                                                                GroupModel(
+                                                                    id: group
+                                                                        .id,
+                                                                    title: group
+                                                                        .title);
                                                           });
 
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
                                                         child: Chip(
-                                                          label: Text(
-                                                              e.title ?? ""),
+                                                          label:
+                                                              Text(group.title),
                                                         ),
                                                       ),
                                                     )
@@ -409,11 +419,12 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                                                       .read(createGroupLoader
                                                           .notifier)
                                                       .state = false;
+
                                                   groupsController.clear();
                                                   Navigator.pop(context);
                                                   snackBar(
                                                     content:
-                                                        "Successfully created ${next.errMessage} Group",
+                                                        "Successfully created ${groupsController.text} Group",
                                                     context: context,
                                                     backgroundColor:
                                                         ColorLib.green,
@@ -516,9 +527,9 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                           ),
                         ),
                         Text(
-                          groups.title!.isEmpty
+                          groupModel.title.isEmpty
                               ? 'Select Groups'
-                              : groups.title.toString(),
+                              : groupModel.title,
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -539,7 +550,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                     ref.listen(createEventResponse, (previous, next) {
                       if (next!.status == "success") {
                         ref.read(createEventLoader.notifier).state = false;
-                        groups = Group(id: "", title: "");
+                        groupModel = GroupModel(id: "", title: "");
                         location = "Add Location";
                         titleController.clear();
                         descriptionController.clear();
@@ -569,15 +580,28 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                       onTap: () async {
                         if (_form.currentState!.validate() &&
                             location.isNotEmpty &&
-                            groups.id!.isNotEmpty) {
+                            groupsController.text.isNotEmpty) {
                           ref.read(createEventLoader.notifier).state = true;
-                          final timestart =
-                              DateFormat('HH:mm').format(startTime);
-                          final timeend = DateFormat('HH:mm').format(endTime);
-                          final datestart =
-                              DateFormat('MM/dd/yyyy').format(startDate);
-                          final dateend =
-                              DateFormat('MM/dd/yyyy').format(endDate);
+                          final timestart = startTime
+                              .toUtc()
+                              .toIso8601String()
+                              .replaceAll(r'T', ' ')
+                              .split('.')[0];
+                          final timeend = endTime
+                              .toUtc()
+                              .toIso8601String()
+                              .replaceAll(r'T', ' ')
+                              .split('.')[0];
+                          final datestart = startDate
+                              .toUtc()
+                              .toIso8601String()
+                              .replaceAll(r'T', ' ')
+                              .split('.')[1];
+                          final dateend = endDate
+                              .toUtc()
+                              .toIso8601String()
+                              .replaceAll(r'T', ' ')
+                              .split('.')[0];
 
                           final data = {
                             "title": title,
@@ -589,7 +613,7 @@ class _CreateEventPageState extends ConsumerState<CreateEventPage> {
                             "start_date": datestart,
                             "end_date": dateend,
                             "image": "anything.jpg",
-                            "group_id": groups.id ?? ""
+                            "group_id": groupsController.text
                           };
                           ref.read(createEvent(data));
                         } else {

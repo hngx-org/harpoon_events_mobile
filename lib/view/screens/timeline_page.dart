@@ -205,8 +205,8 @@ class TimelinePage extends ConsumerWidget {
                               children: liveEvents
                                   .map(
                                     (event) => LiveEvent(
-                                      title: event.title!,
-                                      location: event.location!,
+                                      title: event.title,
+                                      location: event.location,
                                       startDate: event.startDate.toString(),
                                       endDate: event.endDate.toString(),
                                       startTime: event.startTime.toString(),
@@ -264,14 +264,7 @@ class TimelinePage extends ConsumerWidget {
                     data: (data) {
                       List<EventModel> eventsList = data.map((e) => e).toList();
 
-                      final upcomingEvents = eventsList.where((element) {
-                        DateTime startTime = DateFormat("hh:mm:ss")
-                            .parse(element.startTime.toString());
-
-                        return startTime.isAfter(DateTime.now());
-                      });
-
-                      return upcomingEvents.isEmpty
+                      return eventsList.isEmpty
                           ? Center(
                               child: Text(
                                 "No Upcoming Events",
@@ -285,15 +278,15 @@ class TimelinePage extends ConsumerWidget {
                             )
                           : SingleChildScrollView(
                               child: Column(
-                                children: upcomingEvents
+                                children: eventsList
                                     .map(
                                       (event) => UpcomingEvent(
-                                        title: event.title!,
-                                        location: event.location!,
-                                        startDate: event.startDate.toString(),
-                                        endDate: event.endDate.toString(),
-                                        startTime: event.startTime.toString(),
-                                        endTime: event.endTime.toString(),
+                                        title: event.title,
+                                        location: event.location,
+                                        startDate: event.startDate,
+                                        endDate: event.endDate,
+                                        startTime: event.startTime,
+                                        endTime: event.endTime,
                                       ),
                                     )
                                     .toList(),

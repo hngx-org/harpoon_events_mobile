@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../model/group_model.dart';
+import '../services/event_services.dart';
 import '../services/group_services.dart';
 
 final groupServiceProvider =
@@ -20,30 +21,23 @@ final allGroupsProvider = FutureProvider<List<GroupModel>>((ref) async {
 //
 //
 final getSingleGroup =
-    FutureProvider.autoDispose.family<GroupModel, String>((ref, groupId) async {
+    FutureProvider.family<GroupModel, String>((ref, groupId) async {
   return ref.watch(groupServiceProvider).getSingleGroup(groupId);
 });
 
 // CREATE GROUP Logics under here....
 //
 //
-class CreateGroupResModel {
-  final String? status;
-  final String? errMessage;
-
-  CreateGroupResModel({required this.status, required this.errMessage});
-}
 
 // The StateProvider variable that we'll watch for group creation status
-final createGroupResponse =
-    StateProvider.autoDispose<CreateGroupResModel?>((ref) => null);
+final createGroupResponse = StateProvider.autoDispose<ResModel?>((ref) => null);
 
 // A function that call creates groups on call
 // Returns a FutureProvider so we can track it's status.
 final createGroup = FutureProvider.autoDispose.family<bool, String>(
-  (ref, arg) async {
+  (ref, title) async {
     final resData = <String, String>{
-      "title": arg,
+      "title": title,
     };
 
     final fetchdata = await ref.read(groupServiceProvider).createGroup(resData);

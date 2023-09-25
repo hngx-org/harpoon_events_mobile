@@ -125,12 +125,12 @@ class GroupEventPage extends ConsumerWidget {
                               Navigator.of(context)
                                   .pushNamed(CommentsPage.route);
                             },
-                            eventName: e.title ?? "",
-                            address: e.location ?? "",
+                            eventName: e.title,
+                            address: e.location,
                             startDate: e.startDate.toString(),
                             startTime: e.startTime.toString(),
                             endTime: e.endTime.toString(),
-                            comments: e.comments.length,
+                            comments: e.comments!.length,
                           ),
                         )
                         .toList(),
