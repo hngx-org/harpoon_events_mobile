@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_events_app/controller/provider/event_provider.dart';
 import 'package:mobile_events_app/util/ui.dart';
 import 'package:mobile_events_app/view/widgets/custom_container.dart';
@@ -92,15 +95,32 @@ class CalendarPage extends ConsumerWidget {
               child: SingleChildScrollView(
                 child: Consumer(
                   builder: (context, ref, child) {
-                    final events = ref.watch(allEventsProvider);
+                    final eventsList = ref.watch(allEventsProvider);
+                    final currentDay = ref.watch(currentDayProvider);
 
-                    return events.when(
+                    return eventsList.when(
                       data: (evenList) {
                         return Column(
                           children: evenList.where((element) {
-                            return ref
-                                .watch(currentDayProvider)
-                                .isAfter(DateTime.now());
+                            DateTime start;
+
+                            if (element.startDate.contains('/')) {
+                              start = DateFormat("dd/MM/yyyy hh:mm:ss").parse(
+                                  "${element.startDate} ${element.startTime}");
+                            } else if (element.startDate.contains("-")) {
+                              start = DateFormat("yyyy-MM-dd hh:mm:ss").parse(
+                                  "${element.startDate} ${element.startTime}");
+                            } else {
+                              start = DateFormat("hh:mm:ss").parse(
+                                  "${element.startDate} ${element.startTime}");
+                            }
+
+                            log(start.toString());
+                            log(DateTime.now().toString());
+
+                            return (start.month == currentDay.month &&
+                                start.day == currentDay.day &&
+                                start.year == currentDay.year);
                           }).map((event) {
                             return Container(
                               margin: const EdgeInsets.symmetric(
