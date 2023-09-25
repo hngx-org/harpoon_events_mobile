@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harpoon_events_app/util/color_lib.dart';
+import 'package:mobile_events_app/util/color_lib.dart';
 
 class RotatingRefreshButton extends StatefulWidget {
   final VoidCallback onPressed;

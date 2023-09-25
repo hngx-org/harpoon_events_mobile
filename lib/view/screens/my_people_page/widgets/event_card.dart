@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:harpoon_events_app/util/color_lib.dart';
-import 'package:harpoon_events_app/util/fonts.dart';
-import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
+import 'package:mobile_events_app/util/color_lib.dart';
+import 'package:mobile_events_app/util/fonts.dart';
+import 'package:mobile_events_app/view/widgets/stroke_text.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({

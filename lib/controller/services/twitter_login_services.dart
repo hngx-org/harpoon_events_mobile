@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/constants.dart';
+import 'package:mobile_events_app/constants.dart';
 import 'package:twitter_login/entity/auth_result.dart';
 import 'package:twitter_login/twitter_login.dart';
 
@@ -58,7 +58,8 @@ final twitterServiceProvider = Provider.autoDispose<TwitterServices>((ref) {
   return TwitterServices();
 });
 
-final loginTwitterResponse = StateProvider.autoDispose<AuthResult?>((ref) => null);
+final loginTwitterResponse =
+    StateProvider.autoDispose<AuthResult?>((ref) => null);
 
 final getData = FutureProvider.autoDispose<AuthResult>((ref) async {
   final fetchdata = await ref.read(twitterServiceProvider).loginTwitterUser();

@@ -1,68 +1,15 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:harpoon_events_app/view/screens/main_page.dart';
-// import 'package:harpoon_events_app/view/screens/signup_page.dart';
-
-// class GoogleAuth {
-//   // Auth state checks if user is logged in
-//   handleAuthState() {
-//     return StreamBuilder(
-//       stream: FirebaseAuth.instance.authStateChanges(),
-//       builder: (BuildContext context, snapshot) {
-//         if (snapshot.hasData) {
-//           return const MainPage();
-//         } else {
-//           return const SignUpPage();
-//         }
-//       },
-//     );
-//   }
-
-//   // Signing with google
-//   signInWithGoogle() async {
-//     try {
-//       // Authentication flow is triggered
-//       final GoogleSignInAccount? googleUser =
-//           await GoogleSignIn(scopes: <String>["email"]).signIn();
-
-//       // Obtaining the auth details from the request
-//       final GoogleSignInAuthentication googleAuth =
-//           await googleUser!.authentication;
-
-//       // Creating a new user credentials
-//       final userCredentials = GoogleAuthProvider.credential(
-//         accessToken: googleAuth.accessToken,
-//         idToken: googleAuth.idToken,
-//       );
-
-//       // Returning users credentials
-//       return await FirebaseAuth.instance.signInWithCredential(userCredentials);
-//     } on FirebaseAuthException catch (e) {
-//       if (kDebugMode) {
-//         print('Error during Google Sign-In: $e');
-//       }
-//     }
-//   }
-
 // ignore_for_file: constant_identifier_names
 
-//   // Sign Out
-//   signOut() {
-//     FirebaseAuth.instance.signOut();
-//   }
-// }
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/constants.dart';
-import 'package:harpoon_events_app/model/user_data_model.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants.dart';
+import '../../model/user_data_model.dart';
 import '../../model/user_model.dart';
 
 class AuthServices {

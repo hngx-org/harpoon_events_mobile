@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/constants.dart';
-import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/model/group_list_model.dart';
 import 'package:http/http.dart';
+import 'package:mobile_events_app/constants.dart';
+import 'package:mobile_events_app/controller/services/event_services.dart';
+import 'package:mobile_events_app/model/group_list_model.dart';
 
 class GroupServices {
   final ProviderRef ref;

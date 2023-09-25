@@ -1,7 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/view/screens/group_event_view.dart';
+import 'package:mobile_events_app/view/screens/group_event_view.dart';
 
 import 'view/screens/comment_page.dart';
 import 'view/screens/main_page.dart';
@@ -41,8 +41,7 @@ class MyApp extends StatelessWidget {
         SignUpPage.route: (context) => const SignUpPage(),
         MainPage.route: (context) => const MainPage(),
         CommentsPage.route: (context) => const CommentsPage(),
-        GroupEventPage.route: (context) => const GroupEventPage( ),
-        Loading.route: (context) => const Loading()
+        GroupEventPage.route: (context) => const GroupEventPage(),
       },
     );
   }

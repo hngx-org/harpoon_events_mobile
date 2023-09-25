@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:harpoon_events_app/controller/services/google_login_services.dart';
+import 'package:mobile_events_app/controller/services/google_login_services.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import '../../controller/services/auth_services.dart';

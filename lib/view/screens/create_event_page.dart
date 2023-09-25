@@ -4,18 +4,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/provider/tab_provider.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
-import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/model/group_list_model.dart';
-import 'package:harpoon_events_app/services/create_group.dart';
-import 'package:harpoon_events_app/services/group_services.dart';
-import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_events_app/controller/provider/tab_provider.dart';
+import 'package:mobile_events_app/controller/services/auth_services.dart';
+import 'package:mobile_events_app/controller/services/event_services.dart';
+import 'package:mobile_events_app/model/group_list_model.dart';
+import 'package:mobile_events_app/services/create_group.dart';
+import 'package:mobile_events_app/services/group_services.dart';
+import 'package:mobile_events_app/view/widgets/snack_bar.dart';
 
 import '../../util/color_lib.dart';
-// import '../../util/fonts.dart';
-// import '../widgets/stroke_text.dart';
 
 final createEventLoader = StateProvider((ref) => false);
 final createGroupLoader = StateProvider((ref) => false);

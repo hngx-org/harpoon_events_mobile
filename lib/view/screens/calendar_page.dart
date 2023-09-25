@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/provider/event_provider.dart';
-import 'package:harpoon_events_app/util/ui.dart';
-import 'package:harpoon_events_app/view/widgets/custom_container.dart';
+import 'package:mobile_events_app/controller/provider/event_provider.dart';
+import 'package:mobile_events_app/util/ui.dart';
+import 'package:mobile_events_app/view/widgets/custom_container.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../util/color_lib.dart';

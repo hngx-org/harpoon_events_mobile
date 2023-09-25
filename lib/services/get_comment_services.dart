@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/services/event_services.dart';
 import 'package:http/http.dart';
+import 'package:mobile_events_app/controller/services/event_services.dart';
 
 import '../../model/event_model.dart';
 

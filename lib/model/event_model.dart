@@ -19,10 +19,10 @@ class EventModel {
   final String? description;
   final String? creatorId;
   final String? location;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final String? startTime;
-  final String? endTime;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String startTime;
+  final String endTime;
   final List<Comment> comments;
   final List<dynamic> likes;
   final Thumbnail? thumbnail;
@@ -64,13 +64,20 @@ class EventModel {
       description: json["description"],
       creatorId: json["creator_id"],
       location: json["location"],
-      startDate: DateTime.tryParse(json["start_date"] ?? ""),
-      endDate: DateTime.tryParse(json["end_date"] ?? ""),
+      startDate: DateTime.tryParse(json["start_date"]) ?? DateTime.now(),
+      endDate: DateTime.tryParse(json["end_date"]) ?? DateTime.now(),
       startTime: json["start_time"],
       endTime: json["end_time"],
-      comments: json["comments"] == null ? [] : List<Comment>.from(json["comments"]!.map((x) => Comment.fromJson(x))),
-      likes: json["likes"] == null ? [] : List<dynamic>.from(json["likes"]!.map((x) => x)),
-      thumbnail: json["thumbnail"] == null ? null : Thumbnail.fromJson(json["thumbnail"]),
+      comments: json["comments"] == null
+          ? []
+          : List<Comment>.from(
+              json["comments"]!.map((x) => Comment.fromJson(x))),
+      likes: json["likes"] == null
+          ? []
+          : List<dynamic>.from(json["likes"]!.map((x) => x)),
+      thumbnail: json["thumbnail"] == null
+          ? null
+          : Thumbnail.fromJson(json["thumbnail"]),
     );
   }
 

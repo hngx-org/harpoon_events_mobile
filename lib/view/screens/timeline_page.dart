@@ -178,10 +178,10 @@ class TimelinePage extends ConsumerWidget {
                     List<EventModel> eventsList = data.map((e) => e).toList();
 
                     final liveEvents = eventsList.where((element) {
-                      DateTime startTime = DateFormat("hh:mm:ss")
-                          .parse(element.startTime.toString());
-                      DateTime endTime = DateFormat("hh:mm:ss")
-                          .parse(element.startTime.toString());
+                      DateTime startTime =
+                          DateFormat("hh:mm:ss").parse(element.startTime);
+                      DateTime endTime =
+                          DateFormat("hh:mm:ss").parse(element.startTime);
 
                       return startTime.isAfter(DateTime.now()) &&
                           endTime.isBefore(DateTime.now());

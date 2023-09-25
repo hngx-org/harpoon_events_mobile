@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
-import 'package:harpoon_events_app/view/screens/signup_page.dart';
-import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mobile_events_app/controller/services/auth_services.dart';
+import 'package:mobile_events_app/view/screens/signup_page.dart';
+import 'package:mobile_events_app/view/widgets/snack_bar.dart';
 
 import '../../controller/provider/tab_provider.dart';
 import '../../util/color_lib.dart';

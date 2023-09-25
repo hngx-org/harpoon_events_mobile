@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
-import 'package:harpoon_events_app/util/color_lib.dart';
-import 'package:harpoon_events_app/view/screens/signup_page.dart';
-import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
+import 'package:mobile_events_app/controller/services/auth_services.dart';
+import 'package:mobile_events_app/util/color_lib.dart';
+import 'package:mobile_events_app/view/screens/signup_page.dart';
+import 'package:mobile_events_app/view/widgets/snack_bar.dart';
 
 import '../../constants.dart';
 import '../widgets/custom_container.dart';
@@ -20,17 +20,27 @@ class SettingsPage extends ConsumerWidget {
     Size size = MediaQuery.of(context).size;
     final userData = ref.watch(getUserDataProvider);
     List<SettingTabsModel> settings = [
-      SettingTabsModel(name: AppStrings.notification, svg: AppImages.notification, onTap: () {}),
-      SettingTabsModel(name: AppStrings.privacy, svg: AppImages.privacy, onTap: () {}),
-      SettingTabsModel(name: AppStrings.appearance, svg: AppImages.appearance, onTap: () {}),
-      SettingTabsModel(name: AppStrings.region, svg: AppImages.region, onTap: () {}),
-      SettingTabsModel(name: AppStrings.settings, svg: AppImages.support, onTap: () {}),
-      SettingTabsModel(name: AppStrings.about, svg: AppImages.about, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.notification,
+          svg: AppImages.notification,
+          onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.privacy, svg: AppImages.privacy, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.appearance, svg: AppImages.appearance, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.region, svg: AppImages.region, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.settings, svg: AppImages.support, onTap: () {}),
+      SettingTabsModel(
+          name: AppStrings.about, svg: AppImages.about, onTap: () {}),
       SettingTabsModel(
           name: AppStrings.logOut,
           svg: AppImages.logOut,
           onTap: () async {
-            await ref.watch(clearCredentialsProvider.future).then((value) async {
+            await ref
+                .watch(clearCredentialsProvider.future)
+                .then((value) async {
               if (value) {
                 log(value.toString());
                 Navigator.of(context).pushNamedAndRemoveUntil(
@@ -65,7 +75,8 @@ class SettingsPage extends ConsumerWidget {
                       "${userData.isLoading ? "..." : userData.value!.user!.avatar}",
                       height: 100,
                       width: 100,
-                      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                      frameBuilder:
+                          (context, child, frame, wasSynchronouslyLoaded) {
                         return child;
                       },
                       errorBuilder: (context, error, stackTrace) {
@@ -102,7 +113,8 @@ class SettingsPage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       StrokeText(
-                        text: "${userData.isLoading ? "..." : userData.value!.user!.name}",
+                        text:
+                            "${userData.isLoading ? "..." : userData.value!.user!.name}",
                         textStyle: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
@@ -111,7 +123,8 @@ class SettingsPage extends ConsumerWidget {
                       const SizedBox(
                         height: 8,
                       ),
-                      Text("${userData.isLoading ? "" : userData.value!.user!.email}")
+                      Text(
+                          "${userData.isLoading ? "" : userData.value!.user!.email}")
                     ],
                   ),
                 ),
@@ -147,7 +160,8 @@ class SettingsPage extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
                                     child: SvgPicture.asset(settings[i].svg),
                                   ),
                                   Expanded(
@@ -162,7 +176,8 @@ class SettingsPage extends ConsumerWidget {
                                     ),
                                   ),
                                   const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
                                       child: Icon(
                                         Icons.arrow_forward_ios_sharp,
                                         size: 15,
@@ -193,5 +208,6 @@ class SettingTabsModel {
   String svg;
   String name;
   VoidCallback onTap;
-  SettingTabsModel({required this.name, required this.svg, required this.onTap});
+  SettingTabsModel(
+      {required this.name, required this.svg, required this.onTap});
 }

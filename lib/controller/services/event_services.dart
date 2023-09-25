@@ -3,13 +3,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/provider/event_provider.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
-import 'package:harpoon_events_app/model/user_data_model.dart';
 import 'package:http/http.dart';
 
-import '../../constants.dart';
 import '../../model/event_model.dart';
+import '../../model/user_data_model.dart';
+import '../provider/event_provider.dart';
+import 'auth_services.dart';
 
 class EventServices {
   final ProviderRef ref;
@@ -53,7 +52,7 @@ class EventServices {
       final token = await getToken(ref);
 
       Response response = await get(
-        Uri.parse("$BASE_URL/events/$eventId"),
+        Uri.parse("$eventEndpoint/"),
         headers: <String, String>{
           "accept": "application/json",
           "Content-Type": "application/json; charset=UTF-8",

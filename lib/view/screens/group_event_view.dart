@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/util/ui.dart';
-import 'package:harpoon_events_app/view/widgets/custom_container.dart';
-import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_events_app/util/ui.dart';
+import 'package:mobile_events_app/view/widgets/custom_container.dart';
+import 'package:mobile_events_app/view/widgets/stroke_text.dart';
 
 import '../../controller/provider/event_provider.dart';
 import '../../controller/provider/group_provider.dart';
@@ -36,18 +36,6 @@ class GroupEventPage extends ConsumerWidget {
                 fontSize: 24.0,
                 color: ColorLib.black,
                 letterSpacing: 0.7,
-              ),
-            ),
-            Text(
-              selectedGroup.events!.length > 1
-                  ? "${selectedGroup.events!.length} Events"
-                  : selectedGroup.events!.length == 1
-                      ? "1 Event"
-                      : "No Event",
-              style: Fonts.nunito(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: ColorLib.black,
               ),
             ),
           ],

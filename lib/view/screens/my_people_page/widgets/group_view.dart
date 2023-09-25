@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:harpoon_events_app/controller/provider/group_provider.dart';
-import 'package:harpoon_events_app/model/group_model.dart';
+import 'package:mobile_events_app/controller/provider/group_provider.dart';
+import 'package:mobile_events_app/model/group_model.dart';
 
 import '../../../../util/color_lib.dart';
 import '../../../../util/fonts.dart';

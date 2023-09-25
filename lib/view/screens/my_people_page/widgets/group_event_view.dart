@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:harpoon_events_app/controller/provider/event_provider.dart';
-import 'package:harpoon_events_app/controller/provider/group_provider.dart';
-import 'package:harpoon_events_app/view/screens/comment_page.dart';
-import 'package:harpoon_events_app/view/widgets/custom_container.dart';
-import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_events_app/controller/provider/event_provider.dart';
+import 'package:mobile_events_app/controller/provider/group_provider.dart';
+import 'package:mobile_events_app/view/screens/comment_page.dart';
+import 'package:mobile_events_app/view/widgets/custom_container.dart';
+import 'package:mobile_events_app/view/widgets/stroke_text.dart';
 
 import '../../../../controller/services/event_services.dart';
 import '../../../../util/color_lib.dart';
@@ -42,11 +41,20 @@ class _GroupEventPageState extends ConsumerState<GroupEventPage> {
               ),
             ),
             Text(
-              ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).isLoading ||
-                      ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).hasError
+              ref
+                          .watch(getEventProvider(
+                              ref.watch(selectedGroupProvider)!.id))
+                          .isLoading ||
+                      ref
+                          .watch(getEventProvider(
+                              ref.watch(selectedGroupProvider)!.id))
+                          .hasError
                   ? "..."
                   : "${ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).value!.length} Members",
-              style: Fonts.nunito(fontSize: 16, fontWeight: FontWeight.w600, color: ColorLib.black),
+              style: Fonts.nunito(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: ColorLib.black),
             ),
           ],
         ),
@@ -85,14 +93,20 @@ class _GroupEventPageState extends ConsumerState<GroupEventPage> {
                 child: Text(
                   'Today, $today',
                   textAlign: TextAlign.center,
-                  style: Fonts.nunito(fontWeight: FontWeight.w600, fontSize: 16, color: ColorLib.black, letterSpacing: 0.2),
+                  style: Fonts.nunito(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: ColorLib.black,
+                      letterSpacing: 0.2),
                 ),
               ),
             ),
             const SizedBox(
               height: 25,
             ),
-            ref.watch(getEventProvider(ref.watch(selectedGroupProvider)!.id)).when(
+            ref
+                .watch(getEventProvider(ref.watch(selectedGroupProvider)!.id))
+                .when(
                   data: (data) {
                     return Expanded(
                       child: ListView.builder(
@@ -110,8 +124,11 @@ class _GroupEventPageState extends ConsumerState<GroupEventPage> {
                                 address: item.location ?? "",
                                 date: "${item.startTime} - ${item.endTime}",
                                 onTap: () {
-                                  ref.read(selectedEventProvider.notifier).state = item;
-                                  Navigator.pushNamed(context, CommentsPage.route);
+                                  ref
+                                      .read(selectedEventProvider.notifier)
+                                      .state = item;
+                                  Navigator.pushNamed(
+                                      context, CommentsPage.route);
                                 },
                                 customWidget: [
                                   const SizedBox(
@@ -133,8 +150,14 @@ class _GroupEventPageState extends ConsumerState<GroupEventPage> {
                                     width: 15,
                                   ),
                                   Text(
-                                    comments ? "${item.comments.length} Comments" : "${item.comments.length} Comment",
-                                    style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 16, color: ColorLib.black, letterSpacing: 0.2),
+                                    comments
+                                        ? "${item.comments.length} Comments"
+                                        : "${item.comments.length} Comment",
+                                    style: Fonts.nunito(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: ColorLib.black,
+                                        letterSpacing: 0.2),
                                   ),
                                   const Spacer(),
                                   const Icon(
@@ -266,7 +289,11 @@ class Inkwell extends StatelessWidget {
                   ),
                   Text(
                     date,
-                    style: Fonts.nunito(fontWeight: FontWeight.w700, fontSize: 16, color: ColorLib.black, letterSpacing: 0.2),
+                    style: Fonts.nunito(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: ColorLib.black,
+                        letterSpacing: 0.2),
                   )
                 ],
               ),

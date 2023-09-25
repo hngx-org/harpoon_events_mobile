@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:harpoon_events_app/controller/services/auth_services.dart';
+import 'package:mobile_events_app/controller/services/auth_services.dart';
 
 final googleProvider = Provider<GoogleService>(
   (ref) => GoogleService(googleSignIn: GoogleSignIn()),

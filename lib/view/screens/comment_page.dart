@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:harpoon_events_app/controller/provider/event_provider.dart';
-import 'package:harpoon_events_app/controller/services/event_services.dart';
-import 'package:harpoon_events_app/services/getCommentServices.dart';
-import 'package:harpoon_events_app/util/color_lib.dart';
-import 'package:harpoon_events_app/util/fonts.dart';
-import 'package:harpoon_events_app/util/ui.dart';
-import 'package:harpoon_events_app/view/widgets/custom_container.dart';
-import 'package:harpoon_events_app/view/widgets/snack_bar.dart';
-import 'package:harpoon_events_app/view/widgets/stroke_text.dart';
+import 'package:mobile_events_app/controller/provider/event_provider.dart';
+import 'package:mobile_events_app/controller/services/event_services.dart';
+import 'package:mobile_events_app/services/get_comment_services.dart';
+import 'package:mobile_events_app/util/color_lib.dart';
+import 'package:mobile_events_app/util/fonts.dart';
+import 'package:mobile_events_app/util/ui.dart';
+import 'package:mobile_events_app/view/widgets/custom_container.dart';
+import 'package:mobile_events_app/view/widgets/snack_bar.dart';
+import 'package:mobile_events_app/view/widgets/stroke_text.dart';
 
 import '../widgets/app_bg.dart';
 
